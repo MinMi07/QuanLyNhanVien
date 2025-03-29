@@ -1,51 +1,30 @@
 const video = document.getElementById('videoItem');
+
 let faceMatcher = null;
+const recognizedFaces = new Set();
 
 function toastify(type, message) {
-    switch (type) {
-        case 'notify':
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                // backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
-            }).showToast();
-            break;
-        case 'warning':
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                // backgroundColor: "linear-gradient(to right, #ff9800, #ff5722)"
-            }).showToast();
-            break;
-        case 'error':
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                // backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
-            }).showToast();
-            break;
-        default:
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: "top",
-                position: "right",
-                // backgroundColor: "linear-gradient(to right, #757575, #424242)"
-            }).showToast();
-            break
-    }
+    const colors = {
+        notify: "linear-gradient(to right, #00b09b, #96c93d)",
+        warning: "linear-gradient(to right, #ff9800, #ff5722)",
+        error: "linear-gradient(to right, #FF7043, #E64A19)",
+        default: "linear-gradient(to right, #757575, #424242)"
+    };
+
+    Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: colors[type] || colors.default
+    }).showToast();
 }
 
 async function loadTrainingData() {
     let response = await fetch('./getLabels.php');
     let labels = await response.json();
     const faceDescriptors = [];
+
     for (const label of labels) {
         const descriptors = [];
         for (let i = 1; i <= 4; i++) {
@@ -55,73 +34,141 @@ async function loadTrainingData() {
                 if (detection) {
                     descriptors.push(detection.descriptor);
                 } else {
-                    toastify('warning', `Không tìm thấy khuân mặt: ${label}/${i}.jpg`);
+                    toastify('warning', `Không tìm thấy khuôn mặt: ${label}/${i}.jpg`);
                 }
             } catch (error) {
-                toastify('error', `Lỗi thực hiên ${label}/${i}.jpg:`, error);
+                toastify('error', `Lỗi xử lý ${label}/${i}.jpg: ${error.message}`);
             }
         }
         if (descriptors.length > 0) {
             faceDescriptors.push(new faceapi.LabeledFaceDescriptors(label, descriptors));
-            toastify('notify', `Nhận diện thành công: ${label}`);
+            toastify('notify', `Huấn luyện thành công: ${label}`);
         } else {
-            toastify('warning', `Đang thực hiện cho ${label}`);
+            toastify('warning', `Huấn luyện thất bại: ${label}`);
         }
     }
     return faceDescriptors;
 }
 
-const loadFaceAPI = async () => {
-    await Promise.all([faceapi.nets.faceLandmark68Net.loadFromUri('./models'), faceapi.nets.faceExpressionNet.loadFromUri('./models'), faceapi.nets.tinyFaceDetector.loadFromUri('./models'), faceapi.nets.ssdMobilenetv1.loadFromUri('./models'), faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models'), faceapi.nets.faceRecognitionNet.loadFromUri('./models')]);
-    toastify('notify', "xxx!");
+async function loadFaceAPI() {
+    await Promise.all([
+        faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
+        faceapi.nets.faceExpressionNet.loadFromUri('./models'),
+        faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
+        faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
+        faceapi.nets.faceLandmark68TinyNet.loadFromUri('./models'),
+        faceapi.nets.faceRecognitionNet.loadFromUri('./models')
+    ]);
+
+    toastify('notify', "Tải xong model nhận diện!");
     const labeledDescriptors = await loadTrainingData();
+
     if (labeledDescriptors.length > 0) {
         faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
         toastify('notify', "Huấn luyện xong!");
     } else {
         toastify('warning', "Đang thực hiện...!");
     }
-};
+}
 
 function getCameraStream() {
-    if (navigator.mediaDevices?.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-            video.srcObject = stream;
-        }).catch(error => {
-            toastify('error', `lỗi quyền truy cập camera: ${error}`);
-        });
-    } else {
-        toastify('warning', "Đang thực hiện kết nối camera");
+    navigator.mediaDevices?.getUserMedia({ video: true })
+        .then(stream => { video.srcObject = stream; })
+        .catch(error => { toastify('error', `Lỗi truy cập camera: ${error.message}`); });
+}
+
+function drawFrameNotiCheckin(video, type) {
+    switch (type) {
+        case 'red':
+            video.style.border = "10px solid red";
+            video.style.borderRadius = "5px"; 
+        break;
+
+        case 'green':
+            video.style.border = "10px solid green";
+            video.style.borderRadius = "5px"; 
+        break;
     }
 }
 
-video.addEventListener('playing', () => {
+video.addEventListener('playing', async () => {
     const canvas = faceapi.createCanvasFromMedia(video);
     document.body.append(canvas);
+
     const displaySize = { width: video.videoWidth, height: video.videoHeight };
     faceapi.matchDimensions(canvas, displaySize);
+
     setInterval(async () => {
         if (!faceMatcher) {
             toastify('warning', "Đang thực hiện...");
             return;
         }
-        const detects = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors().withFaceExpressions();
+
+        const detects = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+            .withFaceLandmarks()
+            .withFaceDescriptors()
+            .withFaceExpressions();
+
         const resizedDetects = faceapi.resizeResults(detects, displaySize);
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, displaySize.width, displaySize.height);
-        resizedDetects.forEach(detection => {
+
+        for (const detection of resizedDetects) {
             const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
             const box = detection.detection.box;
             const nameFace = bestMatch.label !== "unknown" ? bestMatch.label : "Không xác định";
-            const drawBox = new faceapi.draw.DrawBox(box);
-            drawBox.draw(canvas);
-            const textField = new faceapi.draw.DrawTextField([`${nameFace}`], box.bottomRight);
-            textField.draw(canvas);
-        });
+
+            drawFrameNotiCheckin(video, 'red');
+
+            if (bestMatch.distance < 0.4 && nameFace !== "Không xác định") {
+                if (!recognizedFaces.has(nameFace)) {
+                    recognizedFaces.add(nameFace);
+
+                    try {
+                        let checkResponse = await fetch('./kiemTraChamCong.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name: nameFace })
+                        });
+
+                        let responseText = await checkResponse.text();
+                        let checkResult = JSON.parse(responseText);
+
+                        if (checkResult.is_checkin) {
+                            drawFrameNotiCheckin(video, 'green');
+                            toastify('notify', `Người dùng ${nameFace} đã chấm công hôm nay!`);
+                            setTimeout(() => { }, 8000);
+                        } else {
+                            let response = await fetch('./chamCong.php', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ manhanvien: checkResult.ma_nhan_vien})
+                            });
+
+                            let result = await response.json();
+                            if (result.success) {
+                                drawFrameNotiCheckin(video, 'green');
+                                toastify('notify', `Chấm công thành công: ${nameFace}`);
+                                setTimeout(() => {}, 8000);
+                            } else {
+                                toastify('error', `Chấm công thất bại: ${result.message}`);
+                            }
+                        }
+                    } catch (error) {
+                        toastify('error', `Lỗi kiểm tra chấm công: ${error.message}`);
+                    }
+
+                    setTimeout(() => recognizedFaces.delete(nameFace), 5000);
+                }
+            }
+
+            new faceapi.draw.DrawBox(box).draw(canvas);
+            new faceapi.draw.DrawTextField([nameFace], box.bottomRight).draw(canvas);
+        }
+
         faceapi.draw.drawDetections(canvas, resizedDetects);
         faceapi.draw.drawFaceExpressions(canvas, resizedDetects);
-    }, 300);
+    }, 500);
 });
-
 
 loadFaceAPI().then(getCameraStream);
