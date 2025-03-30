@@ -9,7 +9,7 @@ $sql = new SQL();
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['name']) || empty($data['name'])) {
-    echo json_encode(["error" => "Không có dữ liệu xx"]);
+    echo json_encode(["error" => "Không có dữ liệu"]);
     exit();
 }
 
@@ -48,3 +48,20 @@ if ($chamCong["count(*)"] > 0) {
         "message" => "Chưa chấm công"
     ]);
 }
+
+
+// try {
+//     // Xuất file Excel
+//     $writer = new Xlsx($spreadsheet);
+//     $writer->save('php://output');
+
+//     echo json_encode([
+//         "success" => true,
+//         "message" => "Tải thành công"
+//     ]);
+// } catch (Exception $e) {
+//     echo json_encode([
+//         "success" => true,
+//         "message" => "Tải thất bại: '$e'"
+//     ]);
+// }

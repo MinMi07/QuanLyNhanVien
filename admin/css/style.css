@@ -751,7 +751,7 @@ tr {
 .box_content {
     display: flex;
     flex-wrap: wrap;
-    width: 650px;
+    width: 1000px;
     justify-content: space-between;
 }
 
@@ -769,7 +769,7 @@ tr {
 
 .box_content div {
     margin: 15px 0;
-    width: 50%;
+    width: calc(100% / 3 - 10px);
     display: flex;
     align-items: center;
 }

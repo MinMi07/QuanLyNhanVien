@@ -20,7 +20,7 @@ inputs.forEach((input) => {
     input.addEventListener("blur", remcl);
 });
 
-// Add class css cho Menu ch├¡nh
+// Add class css cho Menu chính
 const limenus = document.querySelectorAll(".taga");
 
 function add_taga_i() {
@@ -92,7 +92,6 @@ function radioCheck(list) {
     return "";
 }
 
-//b├┤i ─æen h├áng khi ─æã░ß╗úc click
 var todam = document.getElementsByClassName("class");
 for (var i = 0; i < todam.length; i++) {
     todam[i].onclick = function () {
@@ -132,7 +131,7 @@ function get_ma(ma, chucnang, infor) {
     var ii = 0;
     for (var i = 0; i < todam.length; i++) {
         if (todam[i].className.search("todam") >= 0) {
-            ma[ii] = todam[i].children[1].innerHTML;
+            ma[ii] = todam[i].children[0].innerHTML;
             ii++;
             check = true;
         }
@@ -145,7 +144,7 @@ function get_ma(ma, chucnang, infor) {
 
     if (!check) {
         document.getElementById("thongbao_chucnang_1").innerHTML = `
-            <h2 style=\"color: rgb(1, 82, 233);\">Th├┤ng b├ío</h2>
+            <h2 style=\"color: rgb(1, 82, 233);\">Thông báo</h2>
             <p style=\"font-size: 15px; margin-top: 20px;\">Vui long ${infor} xxx ${infor}</p>
         `;
         document.getElementById("thongbao_chucnang").style.display = "block";
@@ -237,7 +236,6 @@ function del(delete_php, infor) {
     document.getElementById("thongbao_chucnang").style.display = "block";
 }
 
-// Add ph├ón c├┤ng
 function getListMonHoc(data) {
     var request = new XMLHttpRequest();
 
