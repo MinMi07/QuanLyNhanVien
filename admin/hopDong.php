@@ -15,7 +15,7 @@ $sql = new SQL(); ?>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="./css/style.css">
-    <title>Khen thưởng kỷ luật</title>
+    <title>Hợp đồng</title>
     <script> </script>
 </head>
 
@@ -51,7 +51,7 @@ $sql = new SQL(); ?>
     <div class="hidden" id="add">
         <div class="bk_mo ">
             <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
-                <h2>Thêm</h2>
+                <h2>Thêm hợp đồng</h2>
                 <form class="" action="" method="post">
                     <div class="box_content">
                         <div class="add_ma" style="width: 100%">
@@ -66,17 +66,17 @@ $sql = new SQL(); ?>
                                 ?>
                             </select>
                         </div>
-                        <div class="add_pass"> <label for="ThoiGianKhenThuongKyLuat">Thời gian khen thưởng kỷ luật<span>*</span></label> <input type="date" id="ThoiGianKhenThuongKyLuat"> </div>
-                        <div class="add_pass"> <label for="Loai">Loại<span>*</span></label> <input type="text" id="Loai"> </div>
-                        <div class="add_pass"> <label for="NoiDung">Nội dung<span>*</span></label> <input type="text" id="NoiDung"> </div>
-                        <div class="add_pass"> <label for="SoQuyetDinh">Số quyết định<span>*</span></label> <input type="text" id="SoQuyetDinh"> </div>
-                        <div class="add_pass"> <label for="CoQuanQuyetDinh">Cơ quan quyết định<span>*</span></label> <input type="text" id="CoQuanQuyetDinh"> </div>
-                        <div class="add_pass"> <label for="HinhThuc">Hình thức<span>*</span></label> <input type="text" id="HinhThuc"> </div>
-                        <div class="add_pass"> <label for="SoTien">Số Tiền<span>*</span></label> <input type="text" id="SoTien"> </div>
+                        <div class="add_pass"> <label for="LoaiHopDong">Loại hợp đồng<span>*</span></label> <input type="text" id="LoaiHopDong"> </div>
+                        <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau"> </div>
+                        <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span>*</span></label> <input type="date" id="NgayHetHan"> </div>
+                        <div class="add_pass"> <label for="BacLuong">Bậc lương<span>*</span></label> <input type="text" id="BacLuong"> </div>
+                        <div class="add_pass"> <label for="HeSoLuong">Hệ số lương<span>*</span></label> <input type="text" id="HeSoLuong"> </div>
+                        <div class="add_pass"> <label for="PhuCap">Phụ cấp<span>*</span></label> <input type="text" id="PhuCap"> </div>
+                        <div class="add_pass"> <label for="BaoHiem">Bảo hiểm<span>*</span></label> <input type="text" id="BaoHiem"> </div>
+                        <div class="add_pass"> <label for="LuongThoaThuan">Lương thảo thuận<span>*</span></label> <input type="text" id="LuongThoaThuan"> </div>
                         <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai"> </div>
-                        <div class="add_pass"> <label for="GhiChu">Ghi chú<span>*</span></label> <input type="text" id="GhiChu"> </div>
                     </div>
-                    <div class="button"> <button type="button" id="add_khenThuongKyLuat">Thêm</button> </div>
+                    <div class="button"> <button type="button" id="add_hopDong">Thêm</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền</p>
                 </form>
             </div>
@@ -85,7 +85,7 @@ $sql = new SQL(); ?>
     <div class="hidden" id="update">
         <div class="bk_mo ">
             <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
-                <h2>Sửa thông tin hợp đồng</h2>
+                <h2>Sửa thông tin nhân viên</h2>
                 <form class="" action="" method="post">
                     <div class="box_content">
                         <div class="add_ma" style="width: 100%">
@@ -100,17 +100,17 @@ $sql = new SQL(); ?>
                                 ?>
                             </select>
                         </div>
-                        <div class="add_pass"> <label for="ThoiGianKhenThuongKyLuat">Thời gian khen thưởng kỷ luật<span>*</span></label> <input type="date" id="ThoiGianKhenThuongKyLuat_update"> </div>
-                        <div class="add_pass"> <label for="Loai">Loại<span>*</span></label> <input type="text" id="Loai_update"> </div>
-                        <div class="add_pass"> <label for="NoiDung">Nội dung<span>*</span></label> <input type="text" id="NoiDung_update"> </div>
-                        <div class="add_pass"> <label for="SoQuyetDinh">Số quyết định<span>*</span></label> <input type="text" id="SoQuyetDinh_update"> </div>
-                        <div class="add_pass"> <label for="CoQuanQuyetDinh">Cơ quan quyết định<span>*</span></label> <input type="text" id="CoQuanQuyetDinh_update"> </div>
-                        <div class="add_pass"> <label for="HinhThuc">Hình thức<span>*</span></label> <input type="text" id="HinhThuc_update"> </div>
-                        <div class="add_pass"> <label for="SoTien">Số Tiền<span>*</span></label> <input type="text" id="SoTien_update"> </div>
+                        <div class="add_pass"> <label for="LoaiHopDong">Loại hợp đồng<span>*</span></label> <input type="text" id="LoaiHopDong_update"> </div>
+                        <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau_update"> </div>
+                        <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span>*</span></label> <input type="date" id="NgayHetHan_update"> </div>
+                        <div class="add_pass"> <label for="BacLuong">Bậc lương<span>*</span></label> <input type="text" id="BacLuong_update"> </div>
+                        <div class="add_pass"> <label for="HeSoLuong">Hệ số lương<span>*</span></label> <input type="text" id="HeSoLuong_update"> </div>
+                        <div class="add_pass"> <label for="PhuCap">Phụ cấp<span>*</span></label> <input type="text" id="PhuCap_update"> </div>
+                        <div class="add_pass"> <label for="BaoHiem">Bảo hiểm<span>*</span></label> <input type="text" id="BaoHiem_update"> </div>
+                        <div class="add_pass"> <label for="LuongThoaThuan">Lương thảo thuận<span>*</span></label> <input type="text" id="LuongThoaThuan_update"> </div>
                         <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai_update"> </div>
-                        <div class="add_pass"> <label for="GhiChu">Ghi chú<span>*</span></label> <input type="text" id="GhiChu_update"> </div>
                     </div>
-                    <div class="button"> <button type="button" id="update_khenThuongKyLuat">Sửa</button> </div>
+                    <div class="button"> <button type="button" id="update_hopDong">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
                 </form>
             </div>
@@ -144,16 +144,16 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
                         <p>Chấm công</p>
                     </a></li>
-                <li class="li1"><a href="./SoQuyetDinh.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
                         <p>Bậc lương</p>
                     </a></li>
-                <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
-                        <p">Hợp đồng</p>
+                <li class="li1 test"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal i_to"></i>
+                        <p class="to">Hợp đồng</p>
                     </a></li>
-                <li class=" li1 test"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal i_to"></i>
-                        <p class="to">Khen thưởng kỷ luật</p>
+                <li class=" li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                        <p>Khen thưởng kỷ luật</p>
                     </a></li>
-                <li class=" li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
+                <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
                         <p>Lương</p>
                     </a></li>
                 <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
@@ -189,51 +189,52 @@ $sql = new SQL(); ?>
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
-                            <option value="MaKhenThuongKyLuat">Mã khen thưởng kỷ luật</option>
+                            <option value="MaHopDong">Mã hợp đồng</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="ThoiGianKhenThuongKyLuat">Thời gian khen thưởng kỷ luật</option>
-                            <option value="Loai">Loại</option>
-                            <option value="NoiDung">Nội dung</option>
-                            <option value="SoQuyetDinh">Số quyết định</option>
-                            <option value="CoQuanQuyetDinh">Cơ quan quyết định</option>
-                            <option value="HinhThuc">Hình thức</option>
-                            <option value="SoTien">Số tiền</option>
+                            <option value="LoaiHopDong">Loại hợp đồng</option>
+                            <option value="NgayBatDau">Ngày bắt đầu</option>
+                            <option value="NgayHetHan">Ngày hết hạn</option>
+                            <option value="BacLuong">Bậc lương</option>
+                            <option value="HeSoLuong">Hệ số lương</option>
+                            <option value="PhuCap">Phụ cấp</option>
+                            <option value="BaoHiem">Bảo hiểm</option>
+                            <option value="LuongThoaThuan">Lương thỏa thuận</option>
                             <option value="TrangThai">Trạng thái</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
-                            <th width="4.34%">Mã khen thưởng kỷ luật</th>
+                            <th width="4.34%">Mã hợp đồng</th>
                             <th width="4.34%">Mã nhân viên</th>
-                            <th width="4.34%">Thời gian</th>
-                            <th width="4.34%">Loại</th>
-                            <th width="4.34%">Nội dung</th>
-                            <th width="4.34%">Số quyết định</th>
-                            <th width="4.34%">Cơ quan quyết định</th>
-                            <th width="4.34%">Hình thức</th>
-                            <th width="4.34%">Số tiền</th>
+                            <th width="4.34%">Loại hợp đồng</th>
+                            <th width="4.34%">Ngày bắt đầu</th>
+                            <th width="4.34%">Ngày hết hạn</th>
+                            <th width="4.34%">Bậc lương</th>
+                            <th width="4.34%">Hệ số lương</th>
+                            <th width="4.34%">Phụ cấp</th>
+                            <th width="4.34%">Bảo hiểm</th>
+                            <th width="4.34%">Lương thỏa thuận</th>
                             <th width="4.34%">Trạng thái</th>
-                            <th width="4.34%">Ghi chú</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
                         <table id="table_class" class="bangnd" border="1" cellspacing="0" width="100%">
-                            <?php $query = "SELECT * from khenthuongkyluat";
+                            <?php $query = "SELECT * from hopdong";
                             $data_hopdong = $sql->getdata($query);
                             while ($hopDong = $data_hopdong->fetch_assoc()) {
                                 echo " <tr class=\"class noidungbang\"> 
-                                <td align=\"center\" width=\"4.34%\" >" . $hopDong['MaKhenThuongKyLuat'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" >" . $hopDong['MaHopDong'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['ThoiGianKhenThuongKyLuat'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['Loai'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['NoiDung'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['SoQuyetDinh'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['CoQuanQuyetDinh'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['HinhThuc'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['SoTien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['GhiChu'] . "</td> </tr> ";
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['LoaiHopDong'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['NgayBatDau'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['NgayHetHan'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['BacLuong'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['HeSoLuong'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['PhuCap'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['BaoHiem'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['LuongThoaThuan'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td> </tr> ";
                             } ?> </table>
                     </div>
                 </div>
@@ -243,29 +244,29 @@ $sql = new SQL(); ?>
     <script src="./js/main.js"></script>
     <script>
         // Chức năng thêm thông tin
-        document.getElementById('add_khenThuongKyLuat').onclick = async function() {
+        document.getElementById('add_hopDong').onclick = async function() {
             var MaNhanVien = document.getElementById('MaNhanVien');
-            var ThoiGianKhenThuongKyLuat = document.getElementById('ThoiGianKhenThuongKyLuat');
-            var Loai = document.getElementById('Loai');
-            var NoiDung = document.getElementById('NoiDung');
-            var SoQuyetDinh = document.getElementById('SoQuyetDinh');
-            var CoQuanQuyetDinh = document.getElementById('CoQuanQuyetDinh');
-            var HinhThuc = document.getElementById('HinhThuc');
-            var SoTien = document.getElementById('SoTien');
+            var LoaiHopDong = document.getElementById('LoaiHopDong');
+            var NgayBatDau = document.getElementById('NgayBatDau');
+            var NgayHetHan = document.getElementById('NgayHetHan');
+            var BacLuong = document.getElementById('BacLuong');
+            var HeSoLuong = document.getElementById('HeSoLuong');
+            var PhuCap = document.getElementById('PhuCap');
+            var BaoHiem = document.getElementById('BaoHiem');
+            var LuongThoaThuan = document.getElementById('LuongThoaThuan');
             var TrangThai = document.getElementById('TrangThai');
-            var GhiChu = document.getElementById('GhiChu');
 
             if (
                 MaNhanVien.value == '' ||
-                ThoiGianKhenThuongKyLuat.value == '' ||
-                Loai.value == '' ||
-                NoiDung.value == '' ||
-                SoQuyetDinh.value == '' ||
-                CoQuanQuyetDinh.value == '' ||
-                HinhThuc.value == '' ||
-                SoTien.value == '' ||
-                TrangThai.value == '' ||
-                GhiChu.value == ''
+                LoaiHopDong.value == '' ||
+                NgayBatDau.value == '' ||
+                NgayHetHan.value == '' ||
+                BacLuong.value == '' ||
+                HeSoLuong.value == '' ||
+                PhuCap.value == '' ||
+                BaoHiem.value == '' ||
+                LuongThoaThuan.value == '' ||
+                TrangThai.value == ''
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -275,21 +276,21 @@ $sql = new SQL(); ?>
             } else {
                 let data = {
                     MaNhanVien: MaNhanVien.value,
-                    ThoiGianKhenThuongKyLuat: ThoiGianKhenThuongKyLuat.value,
-                    Loai: Loai.value,
-                    NoiDung: NoiDung.value,
-                    SoQuyetDinh: SoQuyetDinh.value,
-                    CoQuanQuyetDinh: CoQuanQuyetDinh.value,
-                    HinhThuc: HinhThuc.value,
-                    SoTien: SoTien.value,
-                    TrangThai: TrangThai.value,
-                    GhiChu: GhiChu.value
+                    LoaiHopDong: LoaiHopDong.value,
+                    NgayBatDau: NgayBatDau.value,
+                    NgayHetHan: NgayHetHan.value,
+                    BacLuong: BacLuong.value,
+                    HeSoLuong: HeSoLuong.value,
+                    PhuCap: PhuCap.value,
+                    BaoHiem: BaoHiem.value,
+                    LuongThoaThuan: LuongThoaThuan.value,
+                    TrangThai: TrangThai.value
                 };
 
                 console.log(data);
 
                 try {
-                    let checkResponse = await fetch('./add_khenThuongKyLuat.php', {
+                    let checkResponse = await fetch('./add_hopDong.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -310,7 +311,7 @@ $sql = new SQL(); ?>
                         }).showToast();
 
                         setTimeout(() => {
-                            window.location.href = "khenThuongKyLuat.php";
+                            window.location.href = "hopDong.php";
                         }, 3000);
                     } else {
                         Toastify({
@@ -337,22 +338,22 @@ $sql = new SQL(); ?>
         // Cập nhật hồ sơ nhân viên
 
         document.getElementById('update_btn').onclick = async function() {
-            var maKhenThuongKyLuats = [];
-            get_ma(maKhenThuongKyLuats, update_box, 'sửa');
+            var maHopDongs = [];
+            get_ma(maHopDongs, update_box, 'sửa');
 
-            document.getElementById('update_khenThuongKyLuat').onclick = async function() {
+            document.getElementById('update_hopDong').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
-                var ThoiGianKhenThuongKyLuat = document.getElementById('ThoiGianKhenThuongKyLuat_update');
-                var Loai = document.getElementById('Loai_update');
-                var NoiDung = document.getElementById('NoiDung_update');
-                var SoQuyetDinh = document.getElementById('SoQuyetDinh_update');
-                var CoQuanQuyetDinh = document.getElementById('CoQuanQuyetDinh_update');
-                var HinhThuc = document.getElementById('HinhThuc_update');
-                var SoTien = document.getElementById('SoTien_update');
+                var LoaiHopDong = document.getElementById('LoaiHopDong_update');
+                var NgayBatDau = document.getElementById('NgayBatDau_update');
+                var NgayHetHan = document.getElementById('NgayHetHan_update');
+                var BacLuong = document.getElementById('BacLuong_update');
+                var HeSoLuong = document.getElementById('HeSoLuong_update');
+                var PhuCap = document.getElementById('PhuCap_update');
+                var BaoHiem = document.getElementById('BaoHiem_update');
+                var LuongThoaThuan = document.getElementById('LuongThoaThuan_update');
                 var TrangThai = document.getElementById('TrangThai_update');
-                var GhiChu = document.getElementById('GhiChu_update');
 
-                if (maKhenThuongKyLuats.length == 0) {
+                if (maHopDongs.length == 0) {
                     Toastify({
                         text: "Không tìm thấy mã nhân viên",
                         duration: 3000,
@@ -365,15 +366,15 @@ $sql = new SQL(); ?>
 
                 if (
                     MaNhanVien.value == '' ||
-                    ThoiGianKhenThuongKyLuat.value == '' ||
-                    Loai.value == '' ||
-                    NoiDung.value == '' ||
-                    SoQuyetDinh.value == '' ||
-                    CoQuanQuyetDinh.value == '' ||
-                    HinhThuc.value == '' ||
-                    SoTien.value == '' ||
-                    TrangThai.value == '' ||
-                    GhiChu.value == ''
+                    LoaiHopDong.value == '' ||
+                    NgayBatDau.value == '' ||
+                    NgayHetHan.value == '' ||
+                    BacLuong.value == '' ||
+                    HeSoLuong.value == '' ||
+                    PhuCap.value == '' ||
+                    BaoHiem.value == '' ||
+                    LuongThoaThuan.value == '' ||
+                    TrangThai.value == ''
                 ) {
                     document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -382,21 +383,21 @@ $sql = new SQL(); ?>
                     document.getElementById('thongbao_chucnang').style.display = 'block';
                 } else {
                     let data = {
-                        MaKhenThuongKyLuat: maKhenThuongKyLuats[0],
+                        MaHopDong: maHopDongs[0],
                         MaNhanVien: MaNhanVien.value,
-                        ThoiGianKhenThuongKyLuat: ThoiGianKhenThuongKyLuat.value,
-                        Loai: Loai.value,
-                        NoiDung: NoiDung.value,
-                        SoQuyetDinh: SoQuyetDinh.value,
-                        CoQuanQuyetDinh: CoQuanQuyetDinh.value,
-                        HinhThuc: HinhThuc.value,
-                        SoTien: SoTien.value,
-                        TrangThai: TrangThai.value,
-                        GhiChu: GhiChu.value
+                        LoaiHopDong: LoaiHopDong.value,
+                        NgayBatDau: NgayBatDau.value,
+                        NgayHetHan: NgayHetHan.value,
+                        BacLuong: BacLuong.value,
+                        HeSoLuong: HeSoLuong.value,
+                        PhuCap: PhuCap.value,
+                        BaoHiem: BaoHiem.value,
+                        LuongThoaThuan: LuongThoaThuan.value,
+                        TrangThai: TrangThai.value
                     };
 
                     try {
-                        let checkResponse = await fetch('./update_khenThuongKyLuat.php', {
+                        let checkResponse = await fetch('./update_hopDong.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -417,7 +418,7 @@ $sql = new SQL(); ?>
                             }).showToast();
 
                             setTimeout(() => {
-                                window.location.href = "khenThuongKyLuat.php";
+                                window.location.href = "hopDong.php";
                             }, 3000);
                         } else {
                             Toastify({
@@ -466,26 +467,25 @@ $sql = new SQL(); ?>
                 });
             });
 
-
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Trạng Thái", "Ghi Chú"], // Tiêu đề
+                ["Mã Hợp Đồng", "Mã Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận", "Trạng Thái"], // Tiêu đề
                 ...tableData
             ]);
 
             // Thêm sheet vào workbook
-            XLSX.utils.book_append_sheet(wb, ws, "KhenThuongKyLuat");
+            XLSX.utils.book_append_sheet(wb, ws, "HopDong");
 
             // Xuất file Excel
-            XLSX.writeFile(wb, "KhenThuongKyLuat.xlsx");
+            XLSX.writeFile(wb, "HopDong.xlsx");
         });
 
 
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
-            search('timKiem_khenThuongKyLuat.php', sel_search.value, this.value);
+            search('timKiem_hopDong.php', sel_search.value, this.value);
         }
     </script>
 </body>
