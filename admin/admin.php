@@ -9,7 +9,7 @@ $sql = new SQL(); ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://kit.fontawesome.com;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="./css/style.css">
     <title>Quản lý</title>
@@ -38,8 +38,32 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
                         <p>Chấm công khuân mặt</p>
                     </a></li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
                         <p>Hồ sơ nhân viên</p>
+                    </a></li>
+                <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                        <p>Chấm công</p>
+                    </a></li>
+                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                        <p>Bậc lương</p>
+                    </a></li>
+                <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
+                        <p>Hợp đồng</p>
+                    </a></li>
+                <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                        <p>Khen thưởng kỷ luật</p>
+                    </a></li>
+                <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
+                        <p>Lương</p>
+                    </a></li>
+                <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
+                        <p>Phân công công việc</p>
+                    </a></li>
+                <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
+                        <p>Phòng ban</p>
+                    </a></li>
+                <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
+                        <p>Quá trình công tác</p>
                     </a></li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
@@ -61,41 +85,41 @@ $sql = new SQL(); ?>
                 <div class="infor_main infor_class"> <img src="Img/class.svg" alt="">
                     <div class="infor_content">
                         <h1>Nhân Viên</h1>
-                        <p> <?php echo $solop ?? 0; ?> </p>
+                        <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien")->fetch_assoc()['So'] ?? 0; ?> </p>
                     </div>
                 </div>
                 <div class="infor_main infor_teacher"> <img src="Img/teacher.svg" alt="">
                     <div class="infor_content">
                         <h1>Phòng ban</h1>
-                        <p> <?php echo $sogv ?? 0; ?> </p>
+                        <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from phongban")->fetch_assoc()['So'] ?? 0; ?> </p>
                     </div>
                 </div>
                 <div class="infor_main infor_student"> <img src="Img/student.svg" alt="">
                     <div class="infor_content">
                         <h1>Công việc</h1>
-                        <p> <?php echo $sohs ?? 0; ?> </p>
+                        <p> <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec")->fetch_assoc()['So'] ?? 0); ?> </p>
                     </div>
                 </div>
             </div>
             <div class="content">
                 <div class="content_home">
-                    <div class="content_tieude"> <a href="./lophoc.php">
+                    <div class="content_tieude"> <a href="#">
                             <h1>Nhân viên</h1>
                         </a> <a href="">
-                            <p>Số nhân viên: <?php echo $solop ?? 0 ?></p>
+                            <p>Số nhân viên: <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien")->fetch_assoc()['So'] ?? 0; ?></p>
                         </a> </div>
-                    <div class="class_infor"> <a href="./lophoc.php?Khoi=A">
+                    <div class="class_infor"> <a href="#">
                             <div class="khoi khoia"> <b>Công chức</b>
                                 <div class="khoi_infor">
                                     <h3>Công chức</h3>
-                                    <p> <!--                                        <i class="fas fa-users lop_icon"></i>--> <?php echo $solopA ?? 0 ?> </p>
+                                    <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien where LoaiNhanVien like '%công chức%'")->fetch_assoc()['So'] ?? 0 ?> </p>
                                 </div>
                             </div>
-                        </a> <a href="./lophoc.php?Khoi=B">
+                        </a> <a href="#">
                             <div class="khoi khoib"> <b>Hợp đồng</b>
                                 <div class="khoi_infor">
                                     <h3>Hợp đồng</h3>
-                                    <p> <!--                                        <i class="fas fa-users lop_icon"></i>--> <?php echo $solopB ?? 0 ?> </p>
+                                    <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien where LoaiNhanVien like '%hợp đồng%'")->fetch_assoc()['So'] ?? 0 ?> </p>
                                 </div>
                             </div>
                         </a> </div>
@@ -104,16 +128,16 @@ $sql = new SQL(); ?>
                     <div class="content_tieude"> <a href="./giaovien.php">
                             <h1>Phòng </h1>
                         </a> <a href="#">
-                            <p>Số phòng ban: <?php echo $sogv ?? 0 ?> </p>
+                            <p>Số phòng ban: <?php echo $sql->getdata("SELECT count(*) as 'So' from phongban")->fetch_assoc()['So'] ?? 0; ?> </p>
                         </a> </div>
-                    <div class="class_infor"> <a href="./giaovien.php?BoMon=TuNhien">
+                    <div class="class_infor"> <a href="#">
                             <div class="khoi khoitunhien"> <b>A</b>
                                 <div class="khoi_infor">
                                     <h3>Phòng ban A</h3>
                                     <p><i class="fas fa-chalkboard-teacher gv_icon"></i> </p>
                                 </div>
                             </div>
-                        </a> <a href="./giaovien.php?BoMon=XaHoi">
+                        </a> <a href="#">
                             <div class="khoi khoixahoi"> <b>B</b>
                                 <div class="khoi_infor">
                                     <h3>Phòng ban B</h3>
@@ -123,16 +147,16 @@ $sql = new SQL(); ?>
                         </a> </div>
                 </div>
                 <div class="content_home">
-                    <div class="content_tieude"> <a href="./hocsinh.php">
+                    <div class="content_tieude"> <a href="./#">
                             <h1>Công việc</h1>
                         </a> <a href="">
-                            <p>Số công việc: <?php echo $sohs ?? 0 ?></p>
+                            <p>Số công việc: <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec")->fetch_assoc()['So'] ?? 0); ?></p>
                         </a> </div>
-                    <div class="class_infor"> <a href="./hocsinh.php?Lop=6">
+                    <div class="class_infor"> <a href="#">
                             <div class="khoi khoi6"> <b>QL</b>
                                 <div class="khoi_infor">
                                     <h3>Quản lý</h3>
-                                    <p><i class="fas fa-users hs_icon"></i> <?php echo $sohs6 ?? 0 ?> </p>
+                                    <p><i class="fas fa-users hs_icon"></i> <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec where TenCongViec like '%quản lý%'")->fetch_assoc()['So'] ?? 0); ?> </p>
                                 </div>
                             </div>
                         </a> </div>

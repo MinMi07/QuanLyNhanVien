@@ -52,13 +52,13 @@ nav {
     color: #4c4bfe;
 }
 
-/* Menu ch├¡nh */
+/* Menu chính */
 .menu_mid {
     display: flex;
     justify-content: center;
     padding: 0 35px;
     margin-bottom: 100px;
-    margin-top: 70px;
+    /* margin-top: 70px; */
 }
 
 .menu_main {
@@ -772,6 +772,10 @@ tr {
     width: calc(100% / 3 - 10px);
     display: flex;
     align-items: center;
+}
+
+.onceColumn {
+    width: 400px !important;
 }
 
 .box_content1 div {
