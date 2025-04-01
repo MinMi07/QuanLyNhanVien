@@ -123,8 +123,8 @@ $sql = new SQL(); ?>
                 <li class="li1 "><a href="./admin.php" class="taga"><i class="fas fa-home i_normal "></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Chấm công khuân mặt</p>
+                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                        <p>Mở rộng tính năng</p>
                     </a></li>
                 <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
                         <p">Hồ sơ nhân viên</p>
@@ -187,6 +187,7 @@ $sql = new SQL(); ?>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
+                            <th width="4.34%">Mã quá trình</th>
                             <th width="4.34%">Mã nhân viên</th>
                             <th width="4.34%">Loại</th>
                             <th width="4.34%">Thời gian</th>
@@ -199,6 +200,7 @@ $sql = new SQL(); ?>
                             $data_quatrinhcongtac = $sql->getdata($query);
                             while ($quatrinhcongtac = $data_quatrinhcongtac->fetch_assoc()) {
                                 echo " <tr class=\"class noidungbang\"> 
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaQuaTrinh'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaNhanVien'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['Loai'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGian'] . "</td> 

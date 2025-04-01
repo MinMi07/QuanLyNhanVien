@@ -109,11 +109,19 @@ const hidden_box_fun = document.querySelectorAll(".hidden");
 const logout = document.getElementById("logout");
 const add_box = document.getElementById("add");
 const update_box = document.getElementById("update");
+const dataDetecFace = document.getElementById("DataDetecFace");
 
 var add_btn = document.getElementById("add_btn");
 
 var update_btn = document.getElementById("update_btn");
 var logout_btn = document.getElementById("logout_btn");
+var data_to_detect_btn = document.getElementById("data_to_detect_btn");
+
+if (data_to_detect_btn != null) {
+    data_to_detect_btn.onclick = function () {
+        dataDetecFace.style.display = "block";
+    };
+}
 
 if (logout != null) {
     logout_btn.onclick = function () {

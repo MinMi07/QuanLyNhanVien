@@ -126,6 +126,7 @@ video.addEventListener('playing', async () => {
 
                     try {
                         let checkResponse = await fetch('./kiemTraChamCong.php', {
+                            
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ name: nameFace })

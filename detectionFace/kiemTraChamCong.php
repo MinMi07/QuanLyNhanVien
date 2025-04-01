@@ -48,20 +48,3 @@ if ($chamCong["count(*)"] > 0) {
         "message" => "Chưa chấm công"
     ]);
 }
-
-
-// try {
-//     // Xuất file Excel
-//     $writer = new Xlsx($spreadsheet);
-//     $writer->save('php://output');
-
-//     echo json_encode([
-//         "success" => true,
-//         "message" => "Tải thành công"
-//     ]);
-// } catch (Exception $e) {
-//     echo json_encode([
-//         "success" => true,
-//         "message" => "Tải thất bại: '$e'"
-//     ]);
-// }

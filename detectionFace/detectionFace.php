@@ -47,6 +47,15 @@
                 <li class="li1 test"><a href="./detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal i_to"></i>
                         <p class="to">Chấm công khuân mặt</p>
                     </a></li>
+                <li class="li1"><a href="../admin/taiKhoan.php" class="taga"><i class="fa-solid fa-circle-user i_normal"></i>
+                        <p>Tài khoản</p>
+                    </a></li>
+                <li class="li1"><a href="../admin/cauHinhThongSo.php" class="taga"><i class="fa-solid fa-gear i_normal"></i>
+                        <p>Cấu hình thông số</p>
+                    </a></li>
+                <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
+                        <p>Đăng xuất</p>
+                    </a></li>
             </ul>
         </div>
     </nav>

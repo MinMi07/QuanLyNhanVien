@@ -843,34 +843,10 @@ tr {
     text-align: center;
 }
 
-.thongtingiaovien {
-    display: flex;
-    flex-direction: column;
-}
-
-.thongtingiaovien table {
-    height: 200px;
-    width: 600px;
-    table-layout: fixed;
-    margin: 0 auto;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
 .infor_detail_table table {
     max-height: 300px;
     margin-bottom: 10px;
     width: 1218px;
-}
-
-.thongtingiaovien thead {
-    display: table;
-    width: 582px;
-    font-size: 16px;
-    color: #ffffff;
-    height: 25px;
-    background-color: #4c4bfe;
-    border-radius: 5px;
 }
 
 .infor_detail_table thead {
@@ -880,27 +856,10 @@ tr {
     width: 1200px;
 }
 
-.thongtingiaovien tbody {
-    height: 200px;
-    overflow: auto;
-    display: block;
-    width: 600px;
-}
-
 .infor_detail_table tbody {
     width: 1218px;
     max-height: 410px;
     min-height: 350px;
-}
-
-.thongtingiaovien tbody tr {
-    font-size: 14px;
-    height: 25px;
-    display: table;
-    width: 582px;
-    text-align: center;
-    table-layout: fixed;
-    color: #474747;
 }
 
 .infor_detail_table tbody tr {
@@ -1003,14 +962,6 @@ button:hover {
     padding: 10px 20px;
 }
 
-#MonHoc_tkb_add,
-#MonHoc_tkb_update {
-    padding: 5px 15px;
-    border: 1px solid;
-    border-radius: 7px;
-    outline: none;
-}
-
 .tkb_header select {
     background-color: white;
     height: 25px;
@@ -1034,21 +985,6 @@ button:hover {
 #data_tkb span {
     font-size: 13px;
     color: rgb(255, 0, 0);
-}
-
-.giaovienchunhiem {
-    display: flex;
-    justify-content: space-between;
-}
-
-.giaovienchunhiem select,
-.giaovienchunhiem input {
-    border-radius: 5px;
-    height: 25px;
-    padding-left: 5px;
-    border: 1px solid #555;
-    background-color: white;
-    outline: none;
 }
 
 video {

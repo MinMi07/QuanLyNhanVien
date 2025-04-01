@@ -19,6 +19,10 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
                 $query = "SELECT * FROM nhanvien WHERE NgayVaoDang IS NULL";
             }
             break;
+        case 'ThangSinhNhat':
+            $month = (int)$_GET['inf'];
+            $query = "SELECT * FROM nhanvien WHERE MONTH(NgaySinh) = $month";
+            break;
         default:
             $query = "SELECT * from nhanvien where " . $_GET['col'] . " like '%" . $_GET['inf'] . "%'";
     }

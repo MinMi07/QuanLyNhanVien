@@ -39,7 +39,7 @@ try {
 
 // Thực thi truy vấn
 if ($query) {
-    echo json_encode(["success" => true, "message" => "Thêm phòng ban thành công!"]);
+    echo json_encode(["success" => true, "message" => "Cập nhật phòng ban thành công!"]);
 } else {
-    echo json_encode(["success" => false, "message" => "Lỗi khi thêm phòng ban!"]);
+    echo json_encode(["success" => false, "message" => "Lỗi khi cập nhật phòng ban!"]);
 }
