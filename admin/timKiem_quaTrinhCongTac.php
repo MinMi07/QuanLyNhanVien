@@ -12,7 +12,9 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
     }
 
     foreach ($quaTrinhCongTacs as $quaTrinhCongTac) {
-        echo " <td align=\"center\" width=\"4.34%\" >" . $quaTrinhCongTac['MaQuaTrinh'] . "</td> 
+        echo " 
+        <tr class=\"class noidungbang\">
+        <td align=\"center\" width=\"4.34%\" >" . $quaTrinhCongTac['MaQuaTrinh'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['MaNhanVien'] . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['ThoiGian'] . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['Loai'] . "</td>

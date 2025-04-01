@@ -48,6 +48,34 @@ $sql = new SQL(); ?>
             </div>
         </div>
     </div>
+
+    <div class="hidden" id="DataDetecFace">
+        <div class="bk_mo ">
+            <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
+                <h2>Thêm dữ liệu nhận diện khuân mặt</h2>
+                <form class="" action="" method="post">
+                    <div class="box_content">
+                        <div class="add_pass onceColumn"> <label for="TaiKhoan">Tài khoản<span>*</span></label>
+                            <select name="TaiKhoan" id="TaiKhoan_data">
+                                <?php
+                                $taiKhoan = "SELECT TaiKhoan from taikhoan ";
+                                $dataTaiKhoans = $sql->getdata($taiKhoan);
+                                while ($row = $dataTaiKhoans->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['TaiKhoan'] . "\">" . $row['TaiKhoan'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                            <!-- <input type="text" id="TaiKhoan_data"> -->
+                        </div>
+                        <div class="add_pass onceColumn"> <label for="AnhMau">Ảnh mẫu<span>*</span></label> <input type="file" id="AnhMau_data" multiple> </div>
+                    </div>
+                    <div class="button"> <button type="button" id="data_face">Tạo</button> </div>
+                    <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="hidden" id="add">
         <div class="bk_mo ">
             <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
@@ -56,7 +84,17 @@ $sql = new SQL(); ?>
                     <div class="box_content">
                         <div class="add_ma" style="width: 100%"> <label for="HoTen">Họ tên<span>*</span></label> <input type="text" id="HoTen"> </div>
                         <div class="add_pass"> <label for="NgaySinh">Ngày sinh<span>*</span></label> <input type="date" id="NgaySinh"> </div>
-                        <div class="add_pass"> <label for="TaiKhoan">Tài khoản<span>*</span></label> <input type="text" id="TaiKhoan"> </div>
+                        <div class="add_pass"> <label for="TaiKhoan">Tài khoản<span>*</span></label>
+                            <select name="TaiKhoan" id="TaiKhoan">
+                                <?php
+                                $taiKhoan = "SELECT TaiKhoan from taikhoan ";
+                                $dataTaiKhoan = $sql->getdata($taiKhoan);
+                                while ($row = $dataTaiKhoan->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['TaiKhoan'] . "\">" . $row['TaiKhoan'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="add_pass"> <label for="GioiTinh">Giới tính <span>*</span></label> <input type="radio" id="nam" name="GioiTinh" value="Nam"> <label for="nam">Nam</label><br> <input type="radio" id="nu" name="GioiTinh" value="Nữ"> <label for="nu">Nữ</label><br> </div>
                         <div class="add_pass"> <label for="TrinhDo">Trình độ <span>*</span></label> <input type="text" id="TrinhDo"> </div>
                         <div class="add_pass"> <label for="NgoaiNgu">Ngoại ngữ <span>*</span></label> <input type="text" id="NgoaiNgu"> </div>
@@ -94,7 +132,17 @@ $sql = new SQL(); ?>
                     <div class="box_content">
                         <div class="add_ma" style="width: 100%"> <label for="HoTen">Họ tên<span>*</span></label> <input type="text" id="HoTen_update"> </div>
                         <div class="add_pass"> <label for="NgaySinh">Ngày sinh<span>*</span></label> <input type="date" id="NgaySinh_update"> </div>
-                        <div class="add_pass"> <label for="TaiKhoan">Tài khoản<span>*</span></label> <input type="text" id="TaiKhoan_update"> </div>
+                        <div class="add_pass"> <label for="TaiKhoan">Tài khoản<span>*</span></label>
+                            <select name="TaiKhoan" id="TaiKhoan">
+                                <?php
+                                $taiKhoan = "SELECT TaiKhoan from taikhoan ";
+                                $dataTaiKhoan = $sql->getdata($taiKhoan);
+                                while ($row = $dataTaiKhoan->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['TaiKhoan'] . "\">" . $row['TaiKhoan'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="add_pass"> <label for="GioiTinh">Giới tính <span>*</span></label> <input type="radio" id="nam" name="GioiTinh_update" value="Nam"> <label for="nam">Nam</label><br> <input type="radio" id="nu" name="GioiTinh_update" value="Nữ"> <label for="nu">Nữ</label><br> </div>
                         <div class="add_pass"> <label for="TrinhDo">Trình độ <span>*</span></label> <input type="text" id="TrinhDo_update"> </div>
                         <div class="add_pass"> <label for="NgoaiNgu">Ngoại ngữ <span>*</span></label> <input type="text" id="NgoaiNgu_update"> </div>
@@ -143,8 +191,8 @@ $sql = new SQL(); ?>
                 <li class="li1 "><a href="./admin.php" class="taga"><i class="fas fa-home i_normal "></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Chấm công khuân mặt</p>
+                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                        <p>Mở rộng tính năng</p>
                     </a></li>
                 <li class="li1 test"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal i_to"></i>
                         <p class="to">Hồ sơ nhân viên</p>
@@ -195,6 +243,7 @@ $sql = new SQL(); ?>
                         <input type="button" value="Thêm" id="add_btn">
                         <input type="button" value="Sửa" id="update_btn">
                         <input type="button" value="Xuất Excel" id="excel_btn">
+                        <input type="button" value="Dữ liệu khuân mặt" id="data_to_detect_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="HoTen">Họ tên</option>
@@ -205,6 +254,7 @@ $sql = new SQL(); ?>
                             <option value="PhongBan">Phòng ban</option>
                             <option value="CongViec">Công việc</option>
                             <option value="GioiTinh">Giới tính</option>
+                            <option value="ThangSinhNhat">Tháng sinh nhật</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -607,6 +657,59 @@ $sql = new SQL(); ?>
             var sel_search = document.getElementById('sel_search');
             search('timKiem_hoSoNhanVien.php', sel_search.value, this.value);
         }
+
+        // Thêm dữ liệu nhận diện khuân mặt
+        document.getElementById('data_face').addEventListener("click", async function() {
+            var taiKhoan = document.getElementById('TaiKhoan_data').value.trim();
+            var files = document.getElementById('AnhMau_data').files;
+
+            if (!taiKhoan) {
+                alert("Vui lòng nhập tài khoản trước khi tải ảnh lên!");
+                return;
+            }
+
+            if (files.length === 0) {
+                alert("Vui lòng chọn ít nhất một ảnh!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("taiKhoan", taiKhoan);
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append("images[]", files[i], `${i + 1}.jpg`);
+            }
+
+            let checkResponse = await fetch('./upload_face.php', {
+                method: "POST",
+                body: formData
+            });
+
+            let responseText = await checkResponse.text();
+            let checkResult = JSON.parse(responseText);
+
+            if (checkResult.success) {
+                Toastify({
+                    text: checkResult.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+                }).showToast();
+
+                setTimeout(() => {
+                    window.location.href = "hoSoNhanVien.php";
+                }, 3000);
+            } else {
+                Toastify({
+                    text: checkResult.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                }).showToast();
+            }
+        })
     </script>
 </body>
 

@@ -67,8 +67,8 @@ $sql = new SQL(); ?>
                 <li class="li1 "><a href="./admin.php" class="taga"><i class="fas fa-home i_normal "></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Chấm công khuân mặt</p>
+                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                        <p>Mở rộng tính năng</p>
                     </a></li>
                 <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
                         <p>Hồ sơ nhân viên</p>

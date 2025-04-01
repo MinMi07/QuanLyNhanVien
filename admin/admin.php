@@ -35,8 +35,8 @@ $sql = new SQL(); ?>
                 <li class="li1 test"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal i_to"></i>
                         <p class="to">Home</p>
                     </a></li>
-                <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Chấm công khuân mặt</p>
+                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                        <p>Mở rộng tính năng</p>
                     </a></li>
                 <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
                         <p>Hồ sơ nhân viên</p>
@@ -125,7 +125,7 @@ $sql = new SQL(); ?>
                         </a> </div>
                 </div>
                 <div class="content_home">
-                    <div class="content_tieude"> <a href="./giaovien.php">
+                    <div class="content_tieude"> <a href="#">
                             <h1>Phòng </h1>
                         </a> <a href="#">
                             <p>Số phòng ban: <?php echo $sql->getdata("SELECT count(*) as 'So' from phongban")->fetch_assoc()['So'] ?? 0; ?> </p>
@@ -147,7 +147,7 @@ $sql = new SQL(); ?>
                         </a> </div>
                 </div>
                 <div class="content_home">
-                    <div class="content_tieude"> <a href="./#">
+                    <div class="content_tieude"> <a href="#">
                             <h1>Công việc</h1>
                         </a> <a href="">
                             <p>Số công việc: <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec")->fetch_assoc()['So'] ?? 0); ?></p>
@@ -165,6 +165,33 @@ $sql = new SQL(); ?>
         </div>
     </section>
     <script src="./Js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            await fetch("export_sinhNhat.php")
+                .then(response => response.text())
+                .then(data => console.log("Kết quả:", data))
+                .catch(error => console.error("Lỗi khi gọi file export_sinhNhat.php:", error));
+
+            // Danh sách nhân viên được tăng lương theo kỳ
+            await fetch("export_nhanVienTangLuongTheoKy.php")
+                .then(response => response.text())
+                .then(data => console.log("Kết quả:", data))
+                .catch(error => console.error("Lỗi khi gọi file export_nhanVienTangLuongTheoKy.php:", error));
+
+            // Danh sách nhân viên đến tuổi nghỉ hưu
+            await fetch("export_nhanVienNghiHuu.php")
+                .then(response => response.text())
+                .then(data => console.log("Kết quả:", data))
+                .catch(error => console.error("Lỗi khi gọi file export_nhanVienNghiHuu.php:", error));
+
+            // Tính lương
+            await fetch("export_luong.php")
+                .then(response => response.text())
+                .then(data => console.log("Kết quả:", data))
+                .catch(error => console.error("Lỗi khi gọi file expoexport_luongrt_sinhNhat.php:", error));
+        });
+    </script>
+
 </body>
 
 </html>
