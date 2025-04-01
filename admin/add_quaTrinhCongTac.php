@@ -19,6 +19,7 @@ $maNhanVien = $data['MaNhanVien'] ?? null;
 $loai = $data['Loai'] ?? null;
 $thoiGian = $data['ThoiGian'] ?? null;
 $moTaChiTiet = $data['MoTaChiTiet'] ?? null;
+$thoiGianKetThuc = $data['ThoiGianKetThuc'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
 if (!$maNhanVien || !$loai || !$thoiGian || !$moTaChiTiet) {
@@ -27,7 +28,7 @@ if (!$maNhanVien || !$loai || !$thoiGian || !$moTaChiTiet) {
 }
 
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO quatrinhcongtac (MaNhanVien,Loai,ThoiGian,MoTaChiTiet) VALUES ('$maNhanVien','$loai','$thoiGian','$moTaChiTiet')";
+$rawQuery = "INSERT INTO quatrinhcongtac (MaNhanVien,Loai,ThoiGian,MoTaChiTiet,ThoiGianKetThuc) VALUES ('$maNhanVien','$loai','$thoiGian','$moTaChiTiet', '$thoiGianKetThuc')";
 
 try {
     $query = $sql->exe($rawQuery);

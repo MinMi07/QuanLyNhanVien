@@ -115,7 +115,7 @@ $query = "SELECT MaLuong,MaNhanVien,ThoiGianTao,SoTien,TheLoai,MoTa FROM luong W
 
 $result = $sql->getdata($query);
 if ($result && $result->num_rows > 0) {
-    $filename = "bangLuongThang_" . date("n") . "Nam" . date("Y") . ".csv";
+    $filename = "bangLuongThang_" . (date("n") - 1) . "Nam" . date("Y") . ".csv";
     $filepath = __DIR__ . "/exports/" . $filename;
 
     // Tạo thư mục nếu chưa có

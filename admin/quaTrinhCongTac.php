@@ -69,6 +69,7 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="Loai">Loại<span>*</span></label> <input type="text" id="Loai"> </div>
                         <div class="add_pass"> <label for="ThoiGian">Thời gian<span>*</span></label> <input type="date" id="ThoiGian"> </div>
                         <div class="add_pass"> <label for="MoTaChiTiet">Mô tả chi tiết<span>*</span></label> <input type="text" id="MoTaChiTiet"> </div>
+                        <div class="add_pass"> <label for="ThoiGianKetThuc">Thời gian kết thúc<span>*</span></label> <input type="date" id="ThoiGianKetThuc"> </div>
                     </div>
                     <div class="button"> <button type="button" id="add_quaTrinhCongTac">Thêm</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền</p>
@@ -97,6 +98,7 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="Loai">Loại<span>*</span></label> <input type="text" id="Loai_update"> </div>
                         <div class="add_pass"> <label for="ThoiGian">Thời gian<span>*</span></label> <input type="date" id="ThoiGian_update"> </div>
                         <div class="add_pass"> <label for="MoTaChiTiet">Mô tả chi tiết<span>*</span></label> <input type="text" id="MoTaChiTiet_update"> </div>
+                        <div class="add_pass"> <label for="ThoiGianKetThuc">Mô tả chi tiết<span>*</span></label> <input type="date" id="ThoiGianKetThuc_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_quaTrinhCongTac">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
@@ -192,6 +194,7 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Loại</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Mô tả chi tiết</th>
+                            <th width="4.34%">Thời gian kết thúc</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -204,7 +207,9 @@ $sql = new SQL(); ?>
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaNhanVien'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['Loai'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGian'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MoTaChiTiet'] . "</td> </tr> ";
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MoTaChiTiet'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGianKetThuc'] . "</td> 
+                                </tr> ";
                             } ?> </table>
                     </div>
                 </div>
@@ -219,12 +224,14 @@ $sql = new SQL(); ?>
             var Loai = document.getElementById('Loai');
             var ThoiGian = document.getElementById('ThoiGian');
             var MoTaChiTiet = document.getElementById('MoTaChiTiet');
+            var ThoiGianKetThuc = document.getElementById('ThoiGianKetThuc');
 
             if (
                 MaNhanVien.value == '' ||
                 Loai.value == '' ||
                 ThoiGian.value == '' ||
-                MoTaChiTiet.value == ''
+                MoTaChiTiet.value == '' ||
+                ThoiGianKetThuc.value == ''
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -236,7 +243,8 @@ $sql = new SQL(); ?>
                     MaNhanVien: MaNhanVien.value,
                     Loai: Loai.value,
                     ThoiGian: ThoiGian.value,
-                    MoTaChiTiet: MoTaChiTiet.value
+                    MoTaChiTiet: MoTaChiTiet.value,
+                    ThoiGianKetThuc: ThoiGianKetThuc.value
                 };
 
                 console.log(data);
@@ -288,7 +296,6 @@ $sql = new SQL(); ?>
         }
 
         // Cập nhật hồ sơ nhân viên
-
         document.getElementById('update_btn').onclick = async function() {
             var maQuaTrinhCongTacs = [];
             get_ma(maQuaTrinhCongTacs, update_box, 'sửa');
@@ -298,6 +305,7 @@ $sql = new SQL(); ?>
                 var Loai = document.getElementById('Loai_update');
                 var ThoiGian = document.getElementById('ThoiGian_update');
                 var MoTaChiTiet = document.getElementById('MoTaChiTiet_update');
+                var ThoiGianKetThuc = document.getElementById('ThoiGianKetThuc_update');
 
                 if (maQuaTrinhCongTacs.length == 0) {
                     Toastify({
@@ -314,7 +322,8 @@ $sql = new SQL(); ?>
                     MaNhanVien.value == '' ||
                     Loai.value == '' ||
                     ThoiGian.value == '' ||
-                    MoTaChiTiet.value == ''
+                    MoTaChiTiet.value == '' ||
+                    ThoiGianKetThuc.value == ''
                 ) {
                     document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -327,7 +336,8 @@ $sql = new SQL(); ?>
                         MaNhanVien: MaNhanVien.value,
                         Loai: Loai.value,
                         ThoiGian: ThoiGian.value,
-                        MoTaChiTiet: MoTaChiTiet.value
+                        MoTaChiTiet: MoTaChiTiet.value,
+                        ThoiGianKetThuc: ThoiGianKetThuc.value
                     };
 
                     try {
@@ -404,7 +414,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Quá Trình", "Mã Nhân Viên", "Thời gian", "Loại", "Mô tả chi tiết"], // Tiêu đề
+                ["Mã Quá Trình", "Mã Nhân Viên", "Thời gian", "Loại", "Mô tả chi tiết", "Thời gian kết thúc"], // Tiêu đề
                 ...tableData
             ]);
 

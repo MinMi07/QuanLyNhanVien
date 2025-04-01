@@ -128,6 +128,7 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Loại</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Mô tả chi tiết</th>
+                            <th width="4.34%">Thời gian kết thúc</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -144,7 +145,9 @@ $sql = new SQL(); ?>
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaNhanVien'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['Loai'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGian'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MoTaChiTiet'] . "</td> </tr> ";
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MoTaChiTiet'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGianKetThuc'] . "</td> 
+                                </tr> ";
                             }} ?> </table>
                     </div>
                 </div>
