@@ -20,6 +20,7 @@ $maNhanVien = $data['MaNhanVien'] ?? null;
 $loai = $data['Loai'] ?? null;
 $thoiGian = $data['ThoiGian'] ?? null;
 $moTaChiTiet = $data['MoTaChiTiet'] ?? null;
+$thoiGianKetThuc = $data['ThoiGianKetThuc'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
 if (!$maNhanVien || !$loai || !$thoiGian || !$moTaChiTiet) {
@@ -33,7 +34,8 @@ $rawQuery = "UPDATE quatrinhcongtac
                 MaNhanVien = '$maNhanVien',
                 Loai = '$loai',
                 ThoiGian = '$thoiGian',
-                MoTaChiTiet = '$moTaChiTiet'
+                MoTaChiTiet = '$moTaChiTiet',
+                ThoiGianKetThuc = '$thoiGianKetThuc'
             WHERE MaQuaTrinh = $maQuaTrinh";
 
 try {

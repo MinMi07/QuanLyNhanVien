@@ -19,6 +19,7 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['ThoiGian'] . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['Loai'] . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['MoTaChiTiet'] . "</td>
+                <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['ThoiGianKetThuc'] . "</td>
                 </tr> ";
     }
 }
