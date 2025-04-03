@@ -118,16 +118,30 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
-                    <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
+                    <div class="timkiem">
+                        <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaNhanVien">Mã nhân viên</option>
+                            <option value="MaChamCong">Mã chấm công</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search"> 
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_thang">
                             <option value="Thang">Tháng</option>
-                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_thang"> 
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_nam">
+                            <option value="Nam">Năm</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_nam"> 
+                    </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
                             <th width="4.34%">Mã chấm công</th>
                             <th width="4.34%">Mã nhân viên</th>
+                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Trạng thái</th>
                         </tr>
@@ -142,9 +156,13 @@ $sql = new SQL(); ?>
 
                             $data_chamcong = $sql->getdata($query) ?? [];
                             while ($nhanVien = $data_chamcong->fetch_assoc()) {
+                                $maNhanVien = $nhanVien['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $nhanVien['MaChamCong'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $nhanVien['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $nhanVien['ThoiGian'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . ($nhanVien['TrangThai'] ? "Chấm công đúng giờ" : "Chấm công muộn") . "</td>
                                 </tr> ";
@@ -165,7 +183,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [2]; // Vị trí cột của thời gian chấm công
+            let dateColumns = [3]; // Vị trí cột của thời gian chấm công
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
@@ -183,7 +201,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã chấm công", "Mã nhân viên", "Thời gian", "Trạng thái"], // Tiêu đề
+                ["Mã chấm công", "Mã nhân viên", "Tên nhân viên", "Thời gian", "Trạng thái"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -196,10 +214,40 @@ $sql = new SQL(); ?>
 
 
         // Chức năng tìm kiếm
-        document.getElementById('search').oninput = function() {
-            var sel_search = document.getElementById('sel_search');
-            search('timKiem_chamCong.php', sel_search.value, this.value);
-        }
+        document.querySelectorAll('#search, #search_thang, #search_nam').forEach(async function(input) {
+            input.oninput = async function() {
+                var sel_search = document.getElementById('sel_search').value;
+                var search = document.getElementById('search');
+
+                var sel_search_thang = document.getElementById('search_thang');
+                var sel_search_nam = document.getElementById('search_nam');
+
+                var searchValue = search.value ?? '';
+                var thang = sel_search_thang.value ?? '';
+                var nam = sel_search_nam.value ?? '';
+
+                if (searchValue == '' && thang == '' && nam == '') {
+                    location.reload();
+                } else {
+                    let dataById = await fetch('./timKiem_chamCong.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Search: sel_search,
+                            SearchValue: searchValue,
+                            Thang: thang,
+                            Nam: nam
+                        })
+                    });
+
+                    let dataText = await dataById.text();
+                    document.getElementById("table_class").innerHTML = dataText
+                }
+            }
+        });
     </script>
 </body>
+
 </html>

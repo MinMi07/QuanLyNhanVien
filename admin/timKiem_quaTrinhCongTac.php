@@ -12,12 +12,16 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
     }
 
     foreach ($quaTrinhCongTacs as $quaTrinhCongTac) {
+        $maNhanVien = $quaTrinhCongTac['MaNhanVien'];
+        $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
         echo " 
         <tr class=\"class noidungbang\">
         <td align=\"center\" width=\"4.34%\" >" . $quaTrinhCongTac['MaQuaTrinh'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['MaNhanVien'] . "</td>
+                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['ThoiGian'] . "</td>
-                <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['Loai'] . "</td>
+                <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['NoiCongTac'] . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['MoTaChiTiet'] . "</td>
                 <td align=\"center\" width=\"4.34%\">" . $quaTrinhCongTac['ThoiGianKetThuc'] . "</td>
                 </tr> ";

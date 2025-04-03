@@ -112,17 +112,21 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
-                    <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
+                    <div class="timkiem">
+                        <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaKhenThuongKyLuat">Mã khen thưởng kỷ luật</option>
-                            <option value="ThoiGianKhenThuongKyLuat">Thời gian khen thưởng kỷ luật</option>
-                            <option value="Loai">Loại</option>
-                            <option value="NoiDung">Nội dung</option>
-                            <option value="SoQuyetDinh">Số quyết định</option>
-                            <option value="CoQuanQuyetDinh">Cơ quan quyết định</option>
-                            <option value="HinhThuc">Hình thức</option>
-                            <option value="SoTien">Số tiền</option>
-                            <option value="TrangThai">Trạng thái</option>
-                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
+                        </select> <input type="search" placeholder="Tìm kiếm" id="search">
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_thang">
+                            <option value="Thang">Tháng</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_thang">
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_nam">
+                            <option value="Nam">Năm</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_nam">
+                    </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
@@ -145,25 +149,26 @@ $sql = new SQL(); ?>
                             <?php
                             $maNhanVien = $_SESSION['maNhanVien'];
                             $query = "SELECT * FROM khenthuongkyluat WHERE MaNhanVien = $maNhanVien"; // Sửa cú pháp truy vấn
-                            $data_hopdong = $sql->getdata($query);
+                            $data_khenThuongKyLuat = $sql->getdata($query);
 
                             // Kiểm tra nếu không có dữ liệu
-                            if ($data_hopdong && $data_hopdong->num_rows > 0) {
-                                while ($hopDong = $data_hopdong->fetch_assoc()) {
+                            if ($data_khenThuongKyLuat && $data_khenThuongKyLuat->num_rows > 0) {
+                                while ($khenThuongKyLuat = $data_khenThuongKyLuat->fetch_assoc()) {
                                     echo " <tr class=\"class noidungbang\"> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['MaKhenThuongKyLuat'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['MaNhanVien'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['ThoiGianKhenThuongKyLuat'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['Loai'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['NoiDung'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['SoQuyetDinh'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['CoQuanQuyetDinh'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['HinhThuc'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['SoTien'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $hopDong['GhiChu'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['MaKhenThuongKyLuat'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['MaNhanVien'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['ThoiGianKhenThuongKyLuat'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['Loai'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['NoiDung'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['SoQuyetDinh'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['CoQuanQuyetDinh'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['HinhThuc'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['SoTien'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['TrangThai'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['GhiChu'] . "</td> 
                                     </tr>";
-                                }}
+                                }
+                            }
                             ?>
                         </table>
                     </div>
@@ -214,10 +219,39 @@ $sql = new SQL(); ?>
 
 
         // Chức năng tìm kiếm
-        document.getElementById('search').oninput = function() {
-            var sel_search = document.getElementById('sel_search');
-            search('timKiem_khenThuongKyLuat.php', sel_search.value, this.value);
-        }
+        document.querySelectorAll('#search, #search_thang, #search_nam').forEach(async function(input) {
+            input.oninput = async function() {
+                var sel_search = document.getElementById('sel_search').value;
+                var search = document.getElementById('search');
+
+                var sel_search_thang = document.getElementById('search_thang');
+                var sel_search_nam = document.getElementById('search_nam');
+
+                var searchValue = search.value ?? '';
+                var thang = sel_search_thang.value ?? '';
+                var nam = sel_search_nam.value ?? '';
+
+                if (searchValue == '' && thang == '' && nam == '') {
+                    location.reload();
+                } else {
+                    let dataById = await fetch('./timKiem_khenThuongKyLuat.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Search: sel_search,
+                            SearchValue: searchValue,
+                            Thang: thang,
+                            Nam: nam
+                        })
+                    });
+
+                    let dataText = await dataById.text();
+                    document.getElementById("table_class").innerHTML = dataText
+                }
+            }
+        });
     </script>
 </body>
 

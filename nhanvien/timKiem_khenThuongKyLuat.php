@@ -1,31 +1,58 @@
 <?php
 session_start();
+
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 require_once "./logIn/sql.php";
 $sql = new SQL();
+$data = json_decode(file_get_contents("php://input"), true);
+
+if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
+    echo json_encode(["success" => false, "message" => "Sai kiểu dữ liệu, yêu cầu JSON"]);
+    exit;
+}
 
 $maNhanVien = $_SESSION['maNhanVien'];
-if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
-    $query = "SELECT * from khenthuongkyluat where MaNhanVien = $maNhanVien and " . $_GET['col'] . " like '%" . $_GET['inf'] . "%'";
+$search = $data['Search'] ?? null;
+$searchValue = $data['SearchValue'] ?? null;
+$thang = $data['Thang'] ?? null;
+$nam = $data['Nam'] ?? null;
+
+$query = "SELECT * from khenthuongkyluat WHERE MaNhanVien = $maNhanVien ";
+
+if ($search && $searchValue) {
+    $query = $query . " AND $search = '$searchValue' ";
+}
+
+if ($thang) {
+    $query = $query . " AND MONTH(ThoiGianKhenThuongKyLuat) = '$thang' ";
+}
+
+if ($nam) {
+    $query = $query . " AND YEAR(ThoiGianKhenThuongKyLuat) = '$nam' ";
+}
 
     $data_khenthuongkyluat = $sql->getdata($query);
-    $hopDongs = [];
+    $khenThuongKyLuats = [];
     while ($row = $data_khenthuongkyluat->fetch_assoc()) {
-        $hopDongs[] = $row;
+        $khenThuongKyLuats[] = $row;
     }
 
-    foreach ($hopDongs as $hopDong) {
+    foreach ($khenThuongKyLuats as $khenThuongKyLuat) {
         echo " 
         <tr class=\"class noidungbang\">
-        <td align=\"center\" width=\"4.34%\" >" . $hopDong['MaKhenThuongKyLuat'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['MaNhanVien'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['ThoiGianKhenThuongKyLuat'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['Loai'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['NoiDung'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['SoQuyetDinh'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['CoQuanQuyetDinh'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['HinhThuc'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['SoTien'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['GhiChu'] . "</td> </tr> ";
-    }
+        <td align=\"center\" width=\"4.34%\" >" . $khenThuongKyLuat['MaKhenThuongKyLuat'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['MaNhanVien'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['ThoiGianKhenThuongKyLuat'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['Loai'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['NoiDung'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['SoQuyetDinh'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['CoQuanQuyetDinh'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['HinhThuc'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['SoTien'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['TrangThai'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['GhiChu'] . "</td> </tr> ";
 }

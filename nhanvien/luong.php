@@ -201,8 +201,14 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+            
             search('timKiem_luong.php', sel_search.value, this.value);
         }
     </script>
 </body>
+
 </html>

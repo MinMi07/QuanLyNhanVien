@@ -12,6 +12,7 @@ $sql = new SQL(); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="./css/style.css">
@@ -144,7 +145,7 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
                         <p>Chấm công</p>
                     </a></li>
-                <li class="li1"><a href="./SoQuyetDinh.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
                         <p>Bậc lương</p>
                     </a></li>
                 <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
@@ -191,14 +192,6 @@ $sql = new SQL(); ?>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaKhenThuongKyLuat">Mã khen thưởng kỷ luật</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="ThoiGianKhenThuongKyLuat">Thời gian khen thưởng kỷ luật</option>
-                            <option value="Loai">Loại</option>
-                            <option value="NoiDung">Nội dung</option>
-                            <option value="SoQuyetDinh">Số quyết định</option>
-                            <option value="CoQuanQuyetDinh">Cơ quan quyết định</option>
-                            <option value="HinhThuc">Hình thức</option>
-                            <option value="SoTien">Số tiền</option>
-                            <option value="TrangThai">Trạng thái</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -206,6 +199,7 @@ $sql = new SQL(); ?>
                         <tr class="bangtieude">
                             <th width="4.34%">Mã khen thưởng kỷ luật</th>
                             <th width="4.34%">Mã nhân viên</th>
+                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Loại</th>
                             <th width="4.34%">Nội dung</th>
@@ -222,9 +216,13 @@ $sql = new SQL(); ?>
                             <?php $query = "SELECT * from khenthuongkyluat";
                             $data_hopdong = $sql->getdata($query);
                             while ($hopDong = $data_hopdong->fetch_assoc()) {
+                                $maNhanVien = $hopDong['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $hopDong['MaKhenThuongKyLuat'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['ThoiGianKhenThuongKyLuat'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['Loai'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['NoiDung'] . "</td> 
@@ -339,6 +337,32 @@ $sql = new SQL(); ?>
         document.getElementById('update_btn').onclick = async function() {
             var maKhenThuongKyLuats = [];
             get_ma(maKhenThuongKyLuats, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "khenthuongkyluat",
+                    IdBang: maKhenThuongKyLuats[0],
+                    TenCotId: "MaKhenThuongKyLuat"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
+            document.getElementById('ThoiGianKhenThuongKyLuat_update').value = moment(dataResult.data.ThoiGianKhenThuongKyLuat).format("YYYY-MM-DD");
+            document.getElementById('Loai_update').value = dataResult.data.Loai;
+            document.getElementById('NoiDung_update').value = dataResult.data.NoiDung;
+            document.getElementById('SoQuyetDinh_update').value = dataResult.data.SoQuyetDinh;
+            document.getElementById('CoQuanQuyetDinh_update').value = dataResult.data.CoQuanQuyetDinh;
+            document.getElementById('HinhThuc_update').value = dataResult.data.HinhThuc;
+            document.getElementById('SoTien_update').value = dataResult.data.SoTien;
+            document.getElementById('TrangThai_update').value = dataResult.data.TrangThai;
+            document.getElementById('GhiChu_update').value = dataResult.data.GhiChu;
 
             document.getElementById('update_khenThuongKyLuat').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
@@ -470,7 +494,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Trạng Thái", "Ghi Chú"], // Tiêu đề
+                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Tên nhân viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Trạng Thái", "Ghi Chú"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -485,6 +509,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_khenThuongKyLuat.php', sel_search.value, this.value);
         }
     </script>

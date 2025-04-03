@@ -112,9 +112,17 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
-                    <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
+                    <div class="timkiem">
+                        <select name="luachontimkiem" class="luachon" id="sel_search_thang">
                             <option value="Thang">Tháng</option>
-                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_thang">
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_nam">
+                            <option value="Nam">Năm</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_nam">
+                    </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
@@ -191,10 +199,33 @@ $sql = new SQL(); ?>
 
 
         // Chức năng tìm kiếm
-        document.getElementById('search').oninput = function() {
-            var sel_search = document.getElementById('sel_search');
-            search('timKiem_chamCongNhanVien.php', sel_search.value, this.value);
-        }
+        document.querySelectorAll('#search_thang, #search_nam').forEach(async function(input) {
+            input.oninput = async function() {
+                var sel_search_thang = document.getElementById('search_thang');
+                var sel_search_nam = document.getElementById('search_nam');
+
+                var thang = sel_search_thang.value ?? '';
+                var nam = sel_search_nam.value ?? '';
+
+                if (thang == '' && nam == '') {
+                    location.reload();
+                } else {
+                    let dataById = await fetch('./timKiem_chamCongNhanVien.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Thang: thang,
+                            Nam: nam
+                        })
+                    });
+
+                    let dataText = await dataById.text();
+                    document.getElementById("table_class").innerHTML = dataText
+                }
+            }
+        });
     </script>
 </body>
 

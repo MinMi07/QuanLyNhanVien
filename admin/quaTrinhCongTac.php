@@ -12,6 +12,7 @@ $sql = new SQL(); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="./css/style.css">
@@ -66,7 +67,7 @@ $sql = new SQL(); ?>
                                 ?>
                             </select>
                         </div>
-                        <div class="add_pass"> <label for="Loai">Loại<span>*</span></label> <input type="text" id="Loai"> </div>
+                        <div class="add_pass"> <label for="NoiCongTac">Nơi công tác<span>*</span></label> <input type="text" id="NoiCongTac"> </div>
                         <div class="add_pass"> <label for="ThoiGian">Thời gian<span>*</span></label> <input type="date" id="ThoiGian"> </div>
                         <div class="add_pass"> <label for="MoTaChiTiet">Mô tả chi tiết<span>*</span></label> <input type="text" id="MoTaChiTiet"> </div>
                         <div class="add_pass"> <label for="ThoiGianKetThuc">Thời gian kết thúc<span>*</span></label> <input type="date" id="ThoiGianKetThuc"> </div>
@@ -95,10 +96,10 @@ $sql = new SQL(); ?>
                                 ?>
                             </select>
                         </div>
-                        <div class="add_pass"> <label for="Loai">Loại<span>*</span></label> <input type="text" id="Loai_update"> </div>
+                        <div class="add_pass"> <label for="NoiCongTac">Nơi công tác<span>*</span></label> <input type="text" id="NoiCongTac_update"> </div>
                         <div class="add_pass"> <label for="ThoiGian">Thời gian<span>*</span></label> <input type="date" id="ThoiGian_update"> </div>
                         <div class="add_pass"> <label for="MoTaChiTiet">Mô tả chi tiết<span>*</span></label> <input type="text" id="MoTaChiTiet_update"> </div>
-                        <div class="add_pass"> <label for="ThoiGianKetThuc">Mô tả chi tiết<span>*</span></label> <input type="date" id="ThoiGianKetThuc_update"> </div>
+                        <div class="add_pass"> <label for="ThoiGianKetThuc">Thời gian kết thúc<span>*</span></label> <input type="date" id="ThoiGianKetThuc_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_quaTrinhCongTac">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
@@ -180,10 +181,8 @@ $sql = new SQL(); ?>
                     </div>
 
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
+                            <option value="MaQuaTrinh">Mã quá trình</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="ThoiGian">Thời gian</option>
-                            <option value="Loai">Loại</option>
-                            <option value="MoTaChiTiet">Mô tả chi tiết</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -191,7 +190,8 @@ $sql = new SQL(); ?>
                         <tr class="bangtieude">
                             <th width="4.34%">Mã quá trình</th>
                             <th width="4.34%">Mã nhân viên</th>
-                            <th width="4.34%">Loại</th>
+                            <th width="4.34%">Tên nhân viên</th>
+                            <th width="4.34%">Nơi công tác</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Mô tả chi tiết</th>
                             <th width="4.34%">Thời gian kết thúc</th>
@@ -202,10 +202,14 @@ $sql = new SQL(); ?>
                             <?php $query = "SELECT * from quatrinhcongtac";
                             $data_quatrinhcongtac = $sql->getdata($query);
                             while ($quatrinhcongtac = $data_quatrinhcongtac->fetch_assoc()) {
+                                $maNhanVien = $quatrinhcongtac['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+                                
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaQuaTrinh'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['Loai'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['NoiCongTac'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGian'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MoTaChiTiet'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGianKetThuc'] . "</td> 
@@ -221,14 +225,14 @@ $sql = new SQL(); ?>
         // Chức năng thêm thông tin
         document.getElementById('add_quaTrinhCongTac').onclick = async function() {
             var MaNhanVien = document.getElementById('MaNhanVien');
-            var Loai = document.getElementById('Loai');
+            var NoiCongTac = document.getElementById('NoiCongTac');
             var ThoiGian = document.getElementById('ThoiGian');
             var MoTaChiTiet = document.getElementById('MoTaChiTiet');
             var ThoiGianKetThuc = document.getElementById('ThoiGianKetThuc');
 
             if (
                 MaNhanVien.value == '' ||
-                Loai.value == '' ||
+                NoiCongTac.value == '' ||
                 ThoiGian.value == '' ||
                 MoTaChiTiet.value == '' ||
                 ThoiGianKetThuc.value == ''
@@ -241,7 +245,7 @@ $sql = new SQL(); ?>
             } else {
                 let data = {
                     MaNhanVien: MaNhanVien.value,
-                    Loai: Loai.value,
+                    NoiCongTac: NoiCongTac.value,
                     ThoiGian: ThoiGian.value,
                     MoTaChiTiet: MoTaChiTiet.value,
                     ThoiGianKetThuc: ThoiGianKetThuc.value
@@ -300,9 +304,30 @@ $sql = new SQL(); ?>
             var maQuaTrinhCongTacs = [];
             get_ma(maQuaTrinhCongTacs, update_box, 'sửa');
 
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "quatrinhcongtac",
+                    IdBang: maQuaTrinhCongTacs[0],
+                    TenCotId: "MaQuaTrinh"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
+            document.getElementById('NoiCongTac_update').value = dataResult.data.NoiCongTac;
+            document.getElementById('ThoiGian_update').value = moment(dataResult.data.ThoiGian).format("YYYY-MM-DD");
+            document.getElementById('MoTaChiTiet_update').value = dataResult.data.MoTaChiTiet;
+            document.getElementById('ThoiGianKetThuc_update').value = moment(dataResult.data.ThoiGianKetThuc).format("YYYY-MM-DD");
+
             document.getElementById('update_quaTrinhCongTac').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
-                var Loai = document.getElementById('Loai_update');
+                var NoiCongTac = document.getElementById('NoiCongTac_update');
                 var ThoiGian = document.getElementById('ThoiGian_update');
                 var MoTaChiTiet = document.getElementById('MoTaChiTiet_update');
                 var ThoiGianKetThuc = document.getElementById('ThoiGianKetThuc_update');
@@ -320,7 +345,7 @@ $sql = new SQL(); ?>
 
                 if (
                     MaNhanVien.value == '' ||
-                    Loai.value == '' ||
+                    NoiCongTac.value == '' ||
                     ThoiGian.value == '' ||
                     MoTaChiTiet.value == '' ||
                     ThoiGianKetThuc.value == ''
@@ -334,7 +359,7 @@ $sql = new SQL(); ?>
                     let data = {
                         MaQuaTrinh: maQuaTrinhCongTacs[0],
                         MaNhanVien: MaNhanVien.value,
-                        Loai: Loai.value,
+                        NoiCongTac: NoiCongTac.value,
                         ThoiGian: ThoiGian.value,
                         MoTaChiTiet: MoTaChiTiet.value,
                         ThoiGianKetThuc: ThoiGianKetThuc.value
@@ -396,7 +421,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [2]; // Vị trí cột của Thời gian
+            let dateColumns = [3,6]; // Vị trí cột của Thời gian
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
@@ -414,7 +439,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Quá Trình", "Mã Nhân Viên", "Thời gian", "Loại", "Mô tả chi tiết", "Thời gian kết thúc"], // Tiêu đề
+                ["Mã Quá Trình", "Mã Nhân Viên", "Tên Nhân Viên", "Thời gian", "Nơi công tác", "Mô tả chi tiết", "Thời gian kết thúc"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -429,6 +454,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_quaTrinhCongTac.php', sel_search.value, this.value);
         }
     </script>

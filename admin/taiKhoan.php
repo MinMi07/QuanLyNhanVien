@@ -11,6 +11,7 @@ $sql = new SQL(); ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -127,6 +128,7 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Thêm" id="add_btn">
                         <input type="button" value="Sửa" id="update_btn">
+                        <input type="button" value="Xóa" id="delete_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="TaiKhoan">Tài khoản</option>
@@ -161,7 +163,6 @@ $sql = new SQL(); ?>
     </section>
     <script src="./js/main.js"></script>
     <script>
-        // Chức năng thêm thông tin
         document.getElementById('add_taiKhoan').onclick = async function() {
             var TaiKhoan = document.getElementById('TaiKhoan');
             var MatKhau = document.getElementById('MatKhau');
@@ -226,10 +227,27 @@ $sql = new SQL(); ?>
             }
         }
 
-        // Cập nhật bậc lương
         document.getElementById('update_btn').onclick = async function() {
             var taiKhoans = [];
             get_ma(taiKhoans, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "taikhoan",
+                    IdBang: taiKhoans[0],
+                    TenCotId: "TaiKhoan"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('MatKhau_update').value = dataResult.data.MatKhau;
+            document.getElementById('KichHoat_update').value = dataResult.data.KichHoat;
 
             document.getElementById('update_taiKhoan').onclick = async function() {
                 var MatKhau = document.getElementById('MatKhau_update');
@@ -312,7 +330,79 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_taiKhoan.php', sel_search.value, this.value);
+        }
+
+        // Xóa
+        document.getElementById('delete_btn').onclick = async function() {
+            var TaiKhoans = [];
+            get_ma(TaiKhoans, '', 'xóa');
+
+            if (TaiKhoans.length > 0) {
+                var a = '';
+                for (var i = 0; i < TaiKhoans.length; i++) {
+                    a += `
+                        <p style="text-align: left ;font-size: 17px; font-weight: 500; color: #5C7AEA">Xác nhận xóa cấu hình có mã là <span style="color: #FFB319; font-weight: 600; border-bottom: 1px solid #FFB319">${TaiKhoans[i]}</span></p>
+                    `;
+                }
+
+                document.getElementById('delete_infor').innerHTML = a;
+                document.getElementById('delete').style.display = 'block';
+                document.getElementById('delete_confirm').onclick = async function() {
+                    let data = {
+                        TaiKhoan: TaiKhoans[0]
+                    };
+
+                    try {
+                        let checkResponse = await fetch('./delete_taiKhoan.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        let responseText = await checkResponse.text();
+                        let checkResult = JSON.parse(responseText);
+
+                        if (checkResult.success) {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+                            }).showToast();
+
+                            setTimeout(() => {
+                                window.location.href = "taiKhoan.php";
+                            }, 1000);
+                        } else {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                            }).showToast();
+                        }
+
+                    } catch (error) {
+                        Toastify({
+                            text: error.message,
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                        }).showToast();
+                    }
+                }
+            }
         }
     </script>
 </body>

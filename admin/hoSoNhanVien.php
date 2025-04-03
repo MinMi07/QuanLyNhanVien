@@ -11,6 +11,7 @@ $sql = new SQL(); ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -133,7 +134,7 @@ $sql = new SQL(); ?>
                         <div class="add_ma" style="width: 100%"> <label for="HoTen">Họ tên<span>*</span></label> <input type="text" id="HoTen_update"> </div>
                         <div class="add_pass"> <label for="NgaySinh">Ngày sinh<span>*</span></label> <input type="date" id="NgaySinh_update"> </div>
                         <div class="add_pass"> <label for="TaiKhoan">Tài khoản<span>*</span></label>
-                            <select name="TaiKhoan" id="TaiKhoan">
+                            <select name="TaiKhoan" id="TaiKhoan_update">
                                 <?php
                                 $taiKhoan = "SELECT TaiKhoan from taikhoan ";
                                 $dataTaiKhoan = $sql->getdata($taiKhoan);
@@ -168,6 +169,44 @@ $sql = new SQL(); ?>
                     </div>
                     <div class="button"> <button type="button" id="update_hosonhanvien">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden" id="detail">
+        <div class="bk_mo ">
+            <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
+                <h2>Chi tiết hồ sơ nhân viên</h2>
+                <form class="" action="" method="post">
+                    <div class="box_content">
+                        <div class="detail_pass"> <label for="MaNhanVien">Mã nhân viên <span></span></label> <input type="text" id="MaNhanVien_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="HoTen">Họ tên<span></span></label> <input type="text" id="HoTen_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="NgaySinh">Ngày sinh<span></span></label> <input type="date" id="NgaySinh_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="TaiKhoan">Tài khoản<span></span></label> <input type="text" id="TaiKhoan_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="GioiTinh">Giới tính <span></span></label> <input type="text" id="GioiTinh_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="TrinhDo">Trình độ <span></span></label> <input type="text" id="TrinhDo_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="NgoaiNgu">Ngoại ngữ <span></span></label> <input type="text" id="NgoaiNgu_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="CMND">CMND <span></span></label> <input type="text" id="CMND_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="DiaChi">Địa chỉ <span></span></label> <input type="text" id="DiaChi_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="SDT">SĐT <span></span></label> <input type="text" id="SDT_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="Email">Email <span></span></label> <input type="text" id="Email_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="TonGiao">Tôn giáo <span></span></label> <input type="text" id="TonGiao_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="DanToc">Dân tộc <span></span></label> <input type="text" id="DanToc_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="ChucVu">Chức vụ <span></span></label> <input type="text" id="ChucVu_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="PhongBan">Phòng ban <span></span></label> <input type="text" id="PhongBan_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="date" id="NgayVaoDoan_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="date" id="NgayVaoDang_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="LoaiNhanVien">Loại nhân viên <span></span></label> <input type="text" id="LoaiNhanVien_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="HonNhan">Hôn nhân <span></span></label> <input type="text" id="HonNhan_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="Cha">Cha <span></span></label> <input type="text" id="Cha_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="Me">Mẹ <span></span></label> <input type="text" id="Me_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="VoChong">Vợ chồng <span></span></label> <input type="text" id="VoChong_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="Con">Con <span></span></label> <input type="text" id="Con_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="BacLuong">Bậc lương <span></span></label> <input type="text" id="BacLuong_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="PhongCongTac">Phòng công tác <span></span></label> <input type="text" id="PhongCongTac_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="CongViec">Công việc <span></span></label> <input type="text" id="CongViec_detail" disabled> </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -244,45 +283,23 @@ $sql = new SQL(); ?>
                         <input type="button" value="Sửa" id="update_btn">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                         <input type="button" value="Dữ liệu khuân mặt" id="data_to_detect_btn">
+                        <input type="button" value="Xem chi tiết" id="detail_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
-                            <option value="HoTen">Họ tên</option>
-                            <option value="Tuoi">Tuổi</option>
-                            <option value="BacLuong">Bậc lương</option>
-                            <option value="TrinhDo">Trình độ</option>
-                            <option value="DangVien">Đảng viên</option>
-                            <option value="PhongBan">Phòng ban</option>
-                            <option value="CongViec">Công việc</option>
-                            <option value="GioiTinh">Giới tính</option>
-                            <option value="ThangSinhNhat">Tháng sinh nhật</option>
+                            <option value="MaNhanVien">MaNhanVien</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
-                            <th width="4.34%">Mã nhân viên</th>
-                            <th width="4.34%">Họ tên</th>
-                            <th width="4.34%">Ngày sinh</th>
-                            <th width="4.34%">Giới tính</th>
-                            <th width="4.34%">Trình độ</th>
-                            <th width="4.34%">Ngoại ngữ</th>
-                            <th width="4.34%">CMND</th>
-                            <th width="4.34%">Địa chỉ</th>
-                            <th width="4.34%">SĐT</th>
-                            <th width="4.34%">Email</th>
-                            <th width="4.34%">Tôn giáo</th>
-                            <th width="4.34%">Dân tộc</th>
-                            <th width="4.34%">Chức vụ</th>
-                            <th width="4.34%">Phòng ban</th>
-                            <th width="4.34%">Ngày vào đoàn</th>
-                            <th width="4.34%">Ngày vào đảng</th>
-                            <th width="4.34%">Loại nhân viên</th>
-                            <th width="4.34%">Hôn nhân</th>
-                            <th width="4.34%">Cha</th>
-                            <th width="4.34%">Mẹ</th>
-                            <th width="4.34%">Vợ/Cồng</th>
-                            <th width="4.34%">Con</th>
-                            <th width="4.34%">Bậc lương</th>
+                            <th width="12.5%">Mã nhân viên</th>
+                            <th width="12.5%">Họ tên</th>
+                            <th width="12.5%">Ngày sinh</th>
+                            <th width="12.5%">Giới tính</th>
+                            <th width="12.5%">Chức vụ</th>
+                            <th width="12.5%">Phòng ban</th>
+                            <th width="12.5%">SĐT</th>
+                            <th width="12.5%">Email</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -291,29 +308,15 @@ $sql = new SQL(); ?>
                             $data_nhanvien_bang = $sql->getdata($query);
                             while ($nhanVien = $data_nhanvien_bang->fetch_assoc()) {
                                 echo " <tr class=\"class noidungbang\"> 
-                                <td align=\"center\" width=\"4.34%\" >" . $nhanVien['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['HoTen'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgaySinh'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['GioiTinh'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['TrinhDo'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgoaiNgu'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['CMND'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['DiaChi'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['SDT'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Email'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['TonGiao'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['DanToc'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['ChucVu'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['PhongBan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgayVaoDoan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgayVaoDang'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['LoaiNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['TinhTrangHonNhan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Cha'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Me'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['VoChong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Con'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['BacLuong'] . "</td></tr> ";
+                                <td align=\"center\" width=\"12.5%\" >" . $nhanVien['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['HoTen'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['NgaySinh'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['GioiTinh'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['ChucVu'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['PhongBan'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['SDT'] . "</td> 
+                                <td align=\"center\" width=\"12.5%\">" . $nhanVien['Email'] . "</td>
+                                </tr> ";
                             } ?> </table>
                     </div>
                 </div>
@@ -460,10 +463,67 @@ $sql = new SQL(); ?>
         }
 
         // Cập nhật hồ sơ nhân viên
-
         document.getElementById('update_btn').onclick = async function() {
             var maNhanViens = [];
             get_ma(maNhanViens, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "nhanvien",
+                    IdBang: maNhanViens[0],
+                    TenCotId: "MaNhanVien"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('HoTen_update').value = dataResult.data.HoTen;
+            document.getElementById('NgaySinh_update').value = dataResult.data.NgaySinh;
+            document.getElementById('TrinhDo_update').value = dataResult.data.TrinhDo;
+            document.getElementById('NgoaiNgu_update').value = dataResult.data.NgoaiNgu;
+            document.getElementById('CMND_update').value = dataResult.data.CMND;
+            document.getElementById('DiaChi_update').value = dataResult.data.DiaChi;
+            document.getElementById('SDT_update').value = dataResult.data.SDT;
+            document.getElementById('Email_update').value = dataResult.data.Email;
+            document.getElementById('TonGiao_update').value = dataResult.data.TonGiao;
+            document.getElementById('DanToc_update').value = dataResult.data.DanToc;
+            document.getElementById('ChucVu_update').value = dataResult.data.ChucVu;
+            document.getElementById('PhongBan_update').value = dataResult.data.PhongBan;
+            document.getElementById('NgayVaoDoan_update').value = dataResult.data.NgayVaoDoan;
+            document.getElementById('NgayVaoDang_update').value = dataResult.data.NgayVaoDang;
+            document.getElementById('LoaiNhanVien_update').value = dataResult.data.LoaiNhanVien;
+            document.getElementById('HonNhan_update').value = dataResult.data.TinhTrangHonNhan;
+            document.getElementById('Cha_update').value = dataResult.data.Cha;
+            document.getElementById('Me_update').value = dataResult.data.Me;
+            document.getElementById('VoChong_update').value = dataResult.data.VoChong;
+            document.getElementById('Con_update').value = dataResult.data.Con;
+            document.getElementById('BacLuong_update').value = dataResult.data.BacLuong;
+            document.getElementById('PhongCongTac_update').value = dataResult.data.PhongCongTac;
+            document.getElementById('CongViec_update').value = dataResult.data.CongViec;
+
+            let valueToSet = dataResult.data.TaiKhoan;
+            let selectElements = document.querySelectorAll('#TaiKhoan_update'); // Lấy tất cả select có id="TaiKhoan"
+
+            selectElements.forEach(select => {
+                let optionExists = [...select.options].some(option => option.value === valueToSet);
+
+                if (optionExists) {
+                    select.value = valueToSet;
+                }
+            });
+
+            var gioiTinhValue = dataResult.data.GioiTinh;
+            let radios = document.querySelectorAll('input[name="GioiTinh_update"]');
+            radios.forEach(radio => {
+                if (radio.value === gioiTinhValue) {
+                    radio.checked = true;
+                }
+            });
 
             document.getElementById('update_hosonhanvien').onclick = async function() {
                 var itemGT = document.querySelector('input[name="GioiTinh_update"]:checked')
@@ -655,6 +715,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_hoSoNhanVien.php', sel_search.value, this.value);
         }
 
@@ -710,6 +775,58 @@ $sql = new SQL(); ?>
                 }).showToast();
             }
         })
+
+        // Xem chi tiết hồ sơ nhân viên
+        document.getElementById('detail_btn').onclick = async function() {
+            var maNhanViens = [];
+            get_ma(maNhanViens, '', 'chi tiết');
+            console.log(maNhanViens);
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "nhanvien",
+                    IdBang: maNhanViens[0],
+                    TenCotId: "MaNhanVien"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('HoTen_detail').value = dataResult.data.HoTen;
+            document.getElementById('NgaySinh_detail').value = dataResult.data.NgaySinh;
+            document.getElementById('TrinhDo_detail').value = dataResult.data.TrinhDo;
+            document.getElementById('NgoaiNgu_detail').value = dataResult.data.NgoaiNgu;
+            document.getElementById('CMND_detail').value = dataResult.data.CMND;
+            document.getElementById('DiaChi_detail').value = dataResult.data.DiaChi;
+            document.getElementById('SDT_detail').value = dataResult.data.SDT;
+            document.getElementById('Email_detail').value = dataResult.data.Email;
+            document.getElementById('TonGiao_detail').value = dataResult.data.TonGiao;
+            document.getElementById('DanToc_detail').value = dataResult.data.DanToc;
+            document.getElementById('ChucVu_detail').value = dataResult.data.ChucVu;
+            document.getElementById('PhongBan_detail').value = dataResult.data.PhongBan;
+            document.getElementById('NgayVaoDoan_detail').value = dataResult.data.NgayVaoDoan;
+            document.getElementById('NgayVaoDang_detail').value = dataResult.data.NgayVaoDang;
+            document.getElementById('LoaiNhanVien_detail').value = dataResult.data.LoaiNhanVien;
+            document.getElementById('HonNhan_detail').value = dataResult.data.TinhTrangHonNhan;
+            document.getElementById('Cha_detail').value = dataResult.data.Cha;
+            document.getElementById('Me_detail').value = dataResult.data.Me;
+            document.getElementById('VoChong_detail').value = dataResult.data.VoChong;
+            document.getElementById('Con_detail').value = dataResult.data.Con;
+            document.getElementById('BacLuong_detail').value = dataResult.data.BacLuong;
+            document.getElementById('PhongCongTac_detail').value = dataResult.data.PhongCongTac;
+            document.getElementById('CongViec_detail').value = dataResult.data.CongViec;
+            document.getElementById('TaiKhoan_detail').value = dataResult.data.TaiKhoan;
+            document.getElementById('GioiTinh_detail').value = dataResult.data.GioiTinh;
+            document.getElementById('MaNhanVien_detail').value = maNhanViens[0];
+
+            const detail = document.getElementById("detail");
+            detail.style.display = "block";
+        }
     </script>
 </body>
 

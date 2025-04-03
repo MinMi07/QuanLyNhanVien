@@ -173,8 +173,8 @@ $sql = new SQL(); ?>
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
+                            <option value="MaBacLuong">Mã bậc lương</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="SoTien">Số tiền</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -182,6 +182,7 @@ $sql = new SQL(); ?>
                         <tr class="bangtieude">
                             <th width="4.34%">Mã bậc lương</th>
                             <th width="4.34%">Mã nhân viên</th>
+                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Số tiền</th>
                         </tr>
                     </table>
@@ -190,9 +191,13 @@ $sql = new SQL(); ?>
                             <?php $query = "SELECT * from bacluong";
                             $data_bacluong = $sql->getdata($query);
                             while ($bacluong = $data_bacluong->fetch_assoc()) {
+                                $maNhanVien = $bacluong['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $bacluong['MaBacLuong'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $bacluong['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $bacluong['SoTien'] . "</td>
                                 </tr> ";
                             } ?> </table>
@@ -273,6 +278,24 @@ $sql = new SQL(); ?>
         document.getElementById('update_btn').onclick = async function() {
             var maBacLuongs = [];
             get_ma(maBacLuongs, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "bacluong",
+                    IdBang: maBacLuongs[0],
+                    TenCotId: "MaBacLuong"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
+            document.getElementById('SoTien_update').value = dataResult.data.SoTien;
 
             document.getElementById('update_bacLuong').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
@@ -364,7 +387,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Bậc Lương", "Mã Nhân Viên", "Số Tiền"], // Tiêu đề
+                ["Mã Bậc Lương", "Mã Nhân Viên", "Tên Nhân Viên", "Số Tiền"], // Tiêu đề
                 ...tableData
             ]);
 

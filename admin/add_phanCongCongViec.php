@@ -20,17 +20,15 @@ $tenCongViec = $data['TenCongViec'] ?? null;
 $ngayBatDau = $data['NgayBatDau'] ?? null;
 $ngayKetThuc = $data['NgayKetThuc'] ?? null;
 $trangThai = $data['TrangThai'] ?? null;
-$tienDo = $data['TienDo'] ?? null;
-
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$tenCongViec || !$ngayBatDau || !$ngayKetThuc || !$trangThai || !$tienDo) {
+if (!$maNhanVien || !$tenCongViec || !$ngayBatDau || !$ngayKetThuc) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO phancongcongviec (MaNhanVien,TenCongViec,NgayBatDau,NgayKetThuc,TrangThai,TienDo) VALUES ('$maNhanVien','$tenCongViec','$ngayBatDau','$ngayKetThuc','$trangThai','$tienDo')";
+$rawQuery = "INSERT INTO phancongcongviec (MaNhanVien,TenCongViec,NgayBatDau,NgayKetThuc,TrangThai) VALUES ('$maNhanVien','$tenCongViec','$ngayBatDau','$ngayKetThuc','$trangThai')";
 
 try {
     $query = $sql->exe($rawQuery);

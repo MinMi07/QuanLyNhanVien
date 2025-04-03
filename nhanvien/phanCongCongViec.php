@@ -48,6 +48,21 @@ $sql = new SQL(); ?>
             </div>
         </div>
     </div>
+    <div class="hidden" id="update">
+        <div class="bk_mo ">
+            <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
+                <h2>Sửa thông tin công việc</h2>
+                <form class="" action="" method="post">
+                    <div class="box_content" style="width: 100%">
+                        <div class="add_ma"> <label for="TienDoNhanVien">Tiến độ nhân viên<span> </span></label> <input type="text" id="TienDoNhanVien_update"> </div>
+                    </div>
+                    <div class="button"> <button type="button" id="update_phanCongCongViec">Sửa</button> </div>
+                    <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="hidden" id="logout">
         <div class="bk_mo ">
             <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
@@ -111,16 +126,11 @@ $sql = new SQL(); ?>
                 <div class="chucnang">
                     <div class="chucnangchinh">
                         <input type="button" value="Xuất Excel" id="excel_btn">
+                        <input type="button" value="Cập nhật tiến độ" id="update_btn">
                     </div>
 
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaCongViec">Mã công việc</option>
-                            <option value="NgayBatDau">Ngày bắt đầu</option>
-                            <option value="TenCongViec">Tên công việc</option>
-                            <option value="NgayKetThuc">Ngày kết thúc</option>
-                            <option value="TrangThai">Trạng thái</option>
-                            <option value="TienDo">Tiến độ</option>
-                            <option value="TrangThai">Trạng thái</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -132,7 +142,7 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Ngày bắt đầu</th>
                             <th width="4.34%">Ngày kết thúc</th>
                             <th width="4.34%">Trạng thái</th>
-                            <th width="4.34%">Tiến độ</th>
+                            <th width="4.34%">Tiến độ nhân viên</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -151,7 +161,8 @@ $sql = new SQL(); ?>
                                     <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayBatDau'] . "</td> 
                                     <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayKetThuc'] . "</td> 
                                     <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TrangThai'] . "</td> 
-                                    <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDo'] . "</td> </tr> ";
+                                    <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDoNhanVien'] . "</td> 
+                                    </tr> ";
                                 }
                             } ?> </table>
                     </div>
@@ -199,10 +210,111 @@ $sql = new SQL(); ?>
             XLSX.writeFile(wb, "PhanCongCongViec.xlsx");
         });
 
+        // Cập nhật
+        document.getElementById('update_btn').onclick = async function() {
+            var maPhanCongCongViecs = [];
+            get_ma(maPhanCongCongViecs, update_box, 'sửa');
+
+            let dataById = await fetch('../admin/getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "phancongcongviec",
+                    IdBang: maPhanCongCongViecs[0],
+                    TenCotId: "MaCongViec"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+            document.getElementById('TienDoNhanVien_update').value = dataResult.data.TienDoNhanVien;
+
+            document.getElementById('update_phanCongCongViec').onclick = async function() {
+                var TienDoNhanVien = document.getElementById('TienDoNhanVien_update');
+
+                if (maPhanCongCongViecs.length == 0) {
+                    Toastify({
+                        text: "Không tìm thấy mã công việc",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                    }).showToast();
+                    return;
+                }
+
+                if (
+                    TienDoNhanVien.value == ''
+                ) {
+                    document.getElementById('thongbao_chucnang_1').innerHTML = ` 
+                    <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
+                    <p style="font-size: 15px; margin-top: 20px;">Bạn chưa nhập đầy đủ thông tin</p> 
+                `;
+                    document.getElementById('thongbao_chucnang').style.display = 'block';
+                } else {
+                    let data = {
+                        MaCongViec: maPhanCongCongViecs[0],
+                        TienDoNhanVien: TienDoNhanVien.value
+                    };
+
+                    try {
+                        let checkResponse = await fetch('./update_phanCongCongViec.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        let responseText = await checkResponse.text();
+                        let checkResult = JSON.parse(responseText);
+
+                        if (checkResult.success) {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+                            }).showToast();
+
+                            setTimeout(() => {
+                                window.location.href = "phanCongCongViec.php";
+                            }, 3000);
+                        } else {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                            }).showToast();
+                        }
+
+                    } catch (error) {
+                        Toastify({
+                            text: error.message,
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                        }).showToast();
+                    }
+                }
+            }
+        }
+
 
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_phanCongCongViec.php', sel_search.value, this.value);
         }
     </script>

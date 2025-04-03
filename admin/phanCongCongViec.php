@@ -11,6 +11,7 @@ $sql = new SQL(); ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -69,8 +70,7 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="TenCongViec">Tên công việc<span>*</span></label> <input type="text" id="TenCongViec"> </div>
                         <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau"> </div>
                         <div class="add_pass"> <label for="NgayKetThuc">Ngày kết thúc<span>*</span></label> <input type="date" id="NgayKetThuc"> </div>
-                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai"> </div>
-                        <div class="add_pass"> <label for="TienDo">Tiến độ<span>*</span></label> <input type="text" id="TienDo"> </div>
+                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span></span></label> <input type="text" id="TrangThai"> </div>
                     </div>
                     <div class="button"> <button type="button" id="add_phanCongCongViec">Thêm</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền</p>
@@ -99,8 +99,7 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="TenCongViec">Tên công việc<span>*</span></label> <input type="text" id="TenCongViec_update"> </div>
                         <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau_update"> </div>
                         <div class="add_pass"> <label for="NgayKetThuc">Ngày kết thúc<span>*</span></label> <input type="date" id="NgayKetThuc_update"> </div>
-                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai_update"> </div>
-                        <div class="add_pass"> <label for="TienDo">Tiến độ<span>*</span></label> <input type="text" id="TienDo_update"> </div>
+                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span></span></label> <input type="text" id="TrangThai_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_phanCongCongViec">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
@@ -181,16 +180,9 @@ $sql = new SQL(); ?>
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
 
-                    <!-- MaCongViec MaNhanVien TenCongViec NgayBatDau NgayKetThuc TrangThai TienDo -->
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaCongViec">Mã công việc</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="NgayBatDau">Ngày bắt đầu</option>
-                            <option value="TenCongViec">Tên công việc</option>
-                            <option value="NgayKetThuc">Ngày kết thúc</option>
-                            <option value="TrangThai">Trạng thái</option>
-                            <option value="TienDo">Tiến độ</option>
-                            <option value="TrangThai">Trạng thái</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -198,11 +190,12 @@ $sql = new SQL(); ?>
                         <tr class="bangtieude">
                             <th width="4.34%">Mã công việc</th>
                             <th width="4.34%">Mã nhân viên</th>
+                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Tên công việc</th>
                             <th width="4.34%">Ngày bắt đầu</th>
                             <th width="4.34%">Ngày kết thúc</th>
                             <th width="4.34%">Trạng thái</th>
-                            <th width="4.34%">Tiến độ</th>
+                            <th width="4.34%">Tiến độ nhân viên</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -210,14 +203,18 @@ $sql = new SQL(); ?>
                             <?php $query = "SELECT * from phancongcongviec";
                             $data_phancongcongviec = $sql->getdata($query);
                             while ($phancongcongviec = $data_phancongcongviec->fetch_assoc()) {
+                                $maNhanVien = $phancongcongviec['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $phancongcongviec['MaCongViec'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TenCongViec'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayBatDau'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayKetThuc'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TrangThai'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDo'] . "</td> </tr> ";
+                                <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDoNhanVien'] . "</td> </tr> ";
                             } ?> </table>
                     </div>
                 </div>
@@ -233,14 +230,12 @@ $sql = new SQL(); ?>
             var NgayBatDau = document.getElementById('NgayBatDau');
             var NgayKetThuc = document.getElementById('NgayKetThuc');
             var TrangThai = document.getElementById('TrangThai');
-            var TienDo = document.getElementById('TienDo');
+
             if (
                 MaNhanVien.value == '' ||
                 TenCongViec.value == '' ||
                 NgayBatDau.value == '' ||
-                NgayKetThuc.value == '' ||
-                TrangThai.value == '' ||
-                TienDo.value == ''
+                NgayKetThuc.value == ''
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -253,8 +248,7 @@ $sql = new SQL(); ?>
                     TenCongViec: TenCongViec.value,
                     NgayBatDau: NgayBatDau.value,
                     NgayKetThuc: NgayKetThuc.value,
-                    TrangThai: TrangThai.value,
-                    TienDo: TienDo.value
+                    TrangThai: TrangThai.value
                 };
 
                 console.log(data);
@@ -305,11 +299,31 @@ $sql = new SQL(); ?>
             }
         }
 
-        // Cập nhật hồ sơ nhân viên
-
+        // Cập nhật
         document.getElementById('update_btn').onclick = async function() {
             var maPhanCongCongViecs = [];
             get_ma(maPhanCongCongViecs, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "phancongcongviec",
+                    IdBang: maPhanCongCongViecs[0],
+                    TenCotId: "MaCongViec"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
+            document.getElementById('TenCongViec_update').value = dataResult.data.TenCongViec;
+            document.getElementById('NgayBatDau_update').value = moment(dataResult.data.NgayBatDau).format("YYYY-MM-DD");
+            document.getElementById('NgayKetThuc_update').value = moment(dataResult.data.NgayKetThuc).format("YYYY-MM-DD");
+            document.getElementById('TrangThai_update').value = dataResult.data.TrangThai;
 
             document.getElementById('update_phanCongCongViec').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
@@ -317,7 +331,6 @@ $sql = new SQL(); ?>
                 var NgayBatDau = document.getElementById('NgayBatDau_update');
                 var NgayKetThuc = document.getElementById('NgayKetThuc_update');
                 var TrangThai = document.getElementById('TrangThai_update');
-                var TienDo = document.getElementById('TienDo_update');
 
                 if (maPhanCongCongViecs.length == 0) {
                     Toastify({
@@ -334,9 +347,7 @@ $sql = new SQL(); ?>
                     MaNhanVien.value == '' ||
                     TenCongViec.value == '' ||
                     NgayBatDau.value == '' ||
-                    NgayKetThuc.value == '' ||
-                    TrangThai.value == '' ||
-                    TienDo.value == ''
+                    NgayKetThuc.value == ''
                 ) {
                     document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -350,8 +361,7 @@ $sql = new SQL(); ?>
                         TenCongViec: TenCongViec.value,
                         NgayBatDau: NgayBatDau.value,
                         NgayKetThuc: NgayKetThuc.value,
-                        TrangThai: TrangThai.value,
-                        TienDo: TienDo.value
+                        TrangThai: TrangThai.value
                     };
 
                     try {
@@ -410,7 +420,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [3, 4]; // Vị trí cột của ngày bắt đầu, ngày kết thúc
+            let dateColumns = [4, 5]; // Vị trí cột của ngày bắt đầu, ngày kết thúc
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
@@ -428,7 +438,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Công việc", "Mã Nhân Viên", "Tên Công Việc", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Trạng Thái", "Tiến Độ"], // Tiêu đề
+                ["Mã Công việc", "Mã Nhân Viên", "Tên Công Việc", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Trạng Thái", "Tiến Độ Nhân Viên"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -443,6 +453,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_phanCongCongViec.php', sel_search.value, this.value);
         }
     </script>

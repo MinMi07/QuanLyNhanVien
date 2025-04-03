@@ -22,7 +22,7 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayBatDau'] . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayKetThuc'] . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TrangThai'] . "</td> 
-            <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDo'] . "</td> 
+            <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDoNhanVien'] . "</td> 
         </tr> ";
     }
 }

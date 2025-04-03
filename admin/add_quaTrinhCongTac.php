@@ -16,19 +16,19 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 
 // Lấy dữ liệu từ request POST
 $maNhanVien = $data['MaNhanVien'] ?? null;
-$loai = $data['Loai'] ?? null;
+$noiCongTac = $data['NoiCongTac'] ?? null;
 $thoiGian = $data['ThoiGian'] ?? null;
 $moTaChiTiet = $data['MoTaChiTiet'] ?? null;
 $thoiGianKetThuc = $data['ThoiGianKetThuc'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$loai || !$thoiGian || !$moTaChiTiet) {
+if (!$maNhanVien || !$noiCongTac || !$thoiGian || !$moTaChiTiet) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO quatrinhcongtac (MaNhanVien,Loai,ThoiGian,MoTaChiTiet,ThoiGianKetThuc) VALUES ('$maNhanVien','$loai','$thoiGian','$moTaChiTiet', '$thoiGianKetThuc')";
+$rawQuery = "INSERT INTO quatrinhcongtac (MaNhanVien,NoiCongTac,ThoiGian,MoTaChiTiet,ThoiGianKetThuc) VALUES ('$maNhanVien','$noiCongTac','$thoiGian','$moTaChiTiet', '$thoiGianKetThuc')";
 
 try {
     $query = $sql->exe($rawQuery);

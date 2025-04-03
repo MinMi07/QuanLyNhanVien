@@ -12,6 +12,7 @@ $sql = new SQL(); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="./css/style.css">
@@ -191,15 +192,6 @@ $sql = new SQL(); ?>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaHopDong">Mã hợp đồng</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="LoaiHopDong">Loại hợp đồng</option>
-                            <option value="NgayBatDau">Ngày bắt đầu</option>
-                            <option value="NgayHetHan">Ngày hết hạn</option>
-                            <option value="BacLuong">Bậc lương</option>
-                            <option value="HeSoLuong">Hệ số lương</option>
-                            <option value="PhuCap">Phụ cấp</option>
-                            <option value="BaoHiem">Bảo hiểm</option>
-                            <option value="LuongThoaThuan">Lương thỏa thuận</option>
-                            <option value="TrangThai">Trạng thái</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -207,6 +199,7 @@ $sql = new SQL(); ?>
                         <tr class="bangtieude">
                             <th width="4.34%">Mã hợp đồng</th>
                             <th width="4.34%">Mã nhân viên</th>
+                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Loại hợp đồng</th>
                             <th width="4.34%">Ngày bắt đầu</th>
                             <th width="4.34%">Ngày hết hạn</th>
@@ -223,9 +216,13 @@ $sql = new SQL(); ?>
                             <?php $query = "SELECT * from hopdong";
                             $data_hopdong = $sql->getdata($query);
                             while ($hopDong = $data_hopdong->fetch_assoc()) {
+                                $maNhanVien = $hopDong['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $hopDong['MaHopDong'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['LoaiHopDong'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['NgayBatDau'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['NgayHetHan'] . "</td> 
@@ -287,8 +284,6 @@ $sql = new SQL(); ?>
                     TrangThai: TrangThai.value
                 };
 
-                console.log(data);
-
                 try {
                     let checkResponse = await fetch('./add_hopDong.php', {
                         method: 'POST',
@@ -340,6 +335,32 @@ $sql = new SQL(); ?>
         document.getElementById('update_btn').onclick = async function() {
             var maHopDongs = [];
             get_ma(maHopDongs, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "hopdong",
+                    IdBang: maHopDongs[0],
+                    TenCotId: "MaHopDong"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
+            document.getElementById('LoaiHopDong_update').value = dataResult.data.LoaiHopDong;
+            document.getElementById('NgayBatDau_update').value = moment(dataResult.data.NgayBatDau).format("YYYY-MM-DD");
+            document.getElementById('NgayHetHan_update').value = moment(dataResult.data.NgayHetHan).format("YYYY-MM-DD");
+            document.getElementById('BacLuong_update').value = dataResult.data.BacLuong;
+            document.getElementById('HeSoLuong_update').value = dataResult.data.HeSoLuong;
+            document.getElementById('PhuCap_update').value = dataResult.data.PhuCap;
+            document.getElementById('BaoHiem_update').value = dataResult.data.BaoHiem;
+            document.getElementById('LuongThoaThuan_update').value = dataResult.data.LuongThoaThuan;
+            document.getElementById('TrangThai_update').value = dataResult.data.TrangThai;
 
             document.getElementById('update_hopDong').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
@@ -452,7 +473,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [3, 4]; // Vị trí cột của ngày bắt đầu, ngày kết thúc
+            let dateColumns = [4,5]; // Vị trí cột của ngày bắt đầu, ngày kết thúc
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
@@ -470,7 +491,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Hợp Đồng", "Mã Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận", "Trạng Thái"], // Tiêu đề
+                ["Mã Hợp Đồng", "Mã Nhân Viên", "Tên Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận", "Trạng Thái"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -485,6 +506,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_hopDong.php', sel_search.value, this.value);
         }
     </script>

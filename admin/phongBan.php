@@ -67,8 +67,8 @@ $sql = new SQL(); ?>
             <div class="box_fun"> <span class="close"><i class="fas fa-times"></i></span>
                 <h2>Sửa thông tin phòng ban</h2>
                 <form class="" action="" method="post">
-                    <div class="box_content">
-                        <div class="add_pass onceColumn"> <label for="TenPhongBan">Phòng ban<span>*</span></label> <input type="text" id="TenPhongBan_update"> </div>
+                    <div class="box_content" style="width: 100%">
+                        <div class="add_pass onceColumn"> <label for="TenPhongBan">Tên phòng ban<span>*</span></label> <input type="text" id="TenPhongBan_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_phongBan">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
@@ -181,7 +181,6 @@ $sql = new SQL(); ?>
         // Chức năng thêm thông tin
         document.getElementById('add_phongBan').onclick = async function() {
             var TenPhongBan = document.getElementById('TenPhongBan');
-
             if (
                 TenPhongBan.value == ""
             ) {
@@ -245,6 +244,22 @@ $sql = new SQL(); ?>
         document.getElementById('update_btn').onclick = async function() {
             var maPhongBans = [];
             get_ma(maPhongBans, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "phongban",
+                    IdBang: maPhongBans[0],
+                    TenCotId: "MaPhongBan"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+            document.getElementById('TenPhongBan_update').value = dataResult.data.TenPhongBan;
 
             document.getElementById('update_phongBan').onclick = async function() {
                 var TenPhongBan = document.getElementById('TenPhongBan_update');
@@ -348,6 +363,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_phongBan.php', sel_search.value, this.value);
         }
     </script>

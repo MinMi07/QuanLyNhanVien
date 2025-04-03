@@ -116,7 +116,7 @@ $sql = new SQL(); ?>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaQuaTrinh">Mã quá trình</option>
                             <option value="ThoiGian">Thời gian</option>
-                            <option value="Loai">Loại</option>
+                            <option value="NoiCongTac">Nơi công tác</option>
                             <option value="MoTaChiTiet">Mô tả chi tiết</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
@@ -125,7 +125,7 @@ $sql = new SQL(); ?>
                         <tr class="bangtieude">
                             <th width="4.34%">Mã quá trình</th>
                             <th width="4.34%">Mã nhân viên</th>
-                            <th width="4.34%">Loại</th>
+                            <th width="4.34%">Nơi công tác</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Mô tả chi tiết</th>
                             <th width="4.34%">Thời gian kết thúc</th>
@@ -139,16 +139,17 @@ $sql = new SQL(); ?>
                             $data_quatrinhcongtac = $sql->getdata($query);
 
                             if ($data_quatrinhcongtac && $data_quatrinhcongtac->num_rows > 0) {
-                            while ($quatrinhcongtac = $data_quatrinhcongtac->fetch_assoc()) {
-                                echo " <tr class=\"class noidungbang\"> 
+                                while ($quatrinhcongtac = $data_quatrinhcongtac->fetch_assoc()) {
+                                    echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaQuaTrinh'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['Loai'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['NoiCongTac'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGian'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MoTaChiTiet'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['ThoiGianKetThuc'] . "</td> 
                                 </tr> ";
-                            }} ?> </table>
+                                }
+                            } ?> </table>
                     </div>
                 </div>
             </div>
@@ -183,7 +184,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Quá Trình", "Mã Nhân Viên", "Thời gian", "Loại", "Mô tả chi tiết"], // Tiêu đề
+                ["Mã Quá Trình", "Mã Nhân Viên", "Thời gian", "Nơi Công Tác", "Mô tả chi tiết"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -198,6 +199,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_quaTrinhCongTac.php', sel_search.value, this.value);
         }
     </script>

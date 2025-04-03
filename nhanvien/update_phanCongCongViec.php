@@ -16,14 +16,10 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 
 // Lấy dữ liệu từ request POST
 $maCongViec = $data['MaCongViec'] ?? null;
-$maNhanVien = $data['MaNhanVien'] ?? null;
-$tenCongViec = $data['TenCongViec'] ?? null;
-$ngayBatDau = $data['NgayBatDau'] ?? null;
-$ngayKetThuc = $data['NgayKetThuc'] ?? null;
-$trangThai = $data['TrangThai'] ?? null;
+$tienDoNhanVien = $data['TienDoNhanVien'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$tenCongViec || !$ngayBatDau || !$ngayKetThuc) {
+if (!$tienDoNhanVien) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
@@ -31,11 +27,7 @@ if (!$maNhanVien || !$tenCongViec || !$ngayBatDau || !$ngayKetThuc) {
 // Tránh lỗi SQL Injection
 $rawQuery = "UPDATE phancongcongviec 
             SET 
-                MaNhanVien = '$maNhanVien',
-                TenCongViec = '$tenCongViec',
-                NgayBatDau = '$ngayBatDau',
-                NgayKetThuc = '$ngayKetThuc',
-                TrangThai = '$trangThai'
+                TienDoNhanVien = '$tienDoNhanVien'
             WHERE MaCongViec = $maCongViec";
 
 try {

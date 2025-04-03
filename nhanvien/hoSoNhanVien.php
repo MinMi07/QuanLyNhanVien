@@ -108,69 +108,38 @@ $sql = new SQL(); ?>
         </header>
         <div class="con">
             <div class="content">
-                <div class="chucnang">
-                </div>
                 <div class="content_content">
-                    <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
-                        <tr class="bangtieude">
-                            <th width="4.34%">Mã nhân viên</th>
-                            <th width="4.34%">Họ tên</th>
-                            <th width="4.34%">Ngày sinh</th>
-                            <th width="4.34%">Giới tính</th>
-                            <th width="4.34%">Trình độ</th>
-                            <th width="4.34%">Ngoại ngữ</th>
-                            <th width="4.34%">CMND</th>
-                            <th width="4.34%">Địa chỉ</th>
-                            <th width="4.34%">SĐT</th>
-                            <th width="4.34%">Email</th>
-                            <th width="4.34%">Tôn giáo</th>
-                            <th width="4.34%">Dân tộc</th>
-                            <th width="4.34%">Chức vụ</th>
-                            <th width="4.34%">Phòng ban</th>
-                            <th width="4.34%">Ngày vào đoàn</th>
-                            <th width="4.34%">Ngày vào đảng</th>
-                            <th width="4.34%">Loại nhân viên</th>
-                            <th width="4.34%">Hôn nhân</th>
-                            <th width="4.34%">Cha</th>
-                            <th width="4.34%">Mẹ</th>
-                            <th width="4.34%">Vợ/Cồng</th>
-                            <th width="4.34%">Con</th>
-                            <th width="4.34%">Bậc lương</th>
-                        </tr>
-                    </table>
-                    <div class="thongtinbang">
-                        <table id="table_class" class="bangnd" border="1" cellspacing="0" width="100%">
-                            <?php 
-                            $maNhanVien = $_SESSION['maNhanVien'];
-                            $query = "SELECT * from nhanvien where MaNhanVien = '$maNhanVien'";
-
-                            $data_nhanvien_bang = $sql->getdata($query);
-                            while ($nhanVien = $data_nhanvien_bang->fetch_assoc()) {
-                                echo " <tr class=\"class noidungbang\"> 
-                                <td align=\"center\" width=\"4.34%\" >" . $nhanVien['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['HoTen'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgaySinh'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['GioiTinh'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['TrinhDo'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgoaiNgu'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['CMND'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['DiaChi'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['SDT'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Email'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['TonGiao'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['DanToc'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['ChucVu'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['PhongBan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgayVaoDoan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['NgayVaoDang'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['LoaiNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['TinhTrangHonNhan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Cha'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Me'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['VoChong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['Con'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['BacLuong'] . "</td></tr> ";
-                            } ?> </table>
+                    <div class="box_fun">
+                        <form class="" action="" method="post">
+                            <div class="box_content" style="width:100%">
+                                <div class="detail_pass"> <label for="MaNhanVien">Mã nhân viên <span></span></label> <input type="text" id="MaNhanVien_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="HoTen">Họ tên<span></span></label> <input type="text" id="HoTen_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="NgaySinh">Ngày sinh<span></span></label> <input type="date" id="NgaySinh_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="TaiKhoan">Tài khoản<span></span></label> <input type="text" id="TaiKhoan_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="GioiTinh">Giới tính <span></span></label> <input type="text" id="GioiTinh_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="TrinhDo">Trình độ <span></span></label> <input type="text" id="TrinhDo_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="NgoaiNgu">Ngoại ngữ <span></span></label> <input type="text" id="NgoaiNgu_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="CMND">CMND <span></span></label> <input type="text" id="CMND_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="DiaChi">Địa chỉ <span></span></label> <input type="text" id="DiaChi_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="SDT">SĐT <span></span></label> <input type="text" id="SDT_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="Email">Email <span></span></label> <input type="text" id="Email_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="TonGiao">Tôn giáo <span></span></label> <input type="text" id="TonGiao_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="DanToc">Dân tộc <span></span></label> <input type="text" id="DanToc_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="ChucVu">Chức vụ <span></span></label> <input type="text" id="ChucVu_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="PhongBan">Phòng ban <span></span></label> <input type="text" id="PhongBan_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="date" id="NgayVaoDoan_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="date" id="NgayVaoDang_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="LoaiNhanVien">Loại nhân viên <span></span></label> <input type="text" id="LoaiNhanVien_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="HonNhan">Hôn nhân <span></span></label> <input type="text" id="HonNhan_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="Cha">Cha <span></span></label> <input type="text" id="Cha_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="Me">Mẹ <span></span></label> <input type="text" id="Me_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="VoChong">Vợ chồng <span></span></label> <input type="text" id="VoChong_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="Con">Con <span></span></label> <input type="text" id="Con_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="BacLuong">Bậc lương <span></span></label> <input type="text" id="BacLuong_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="PhongCongTac">Phòng công tác <span></span></label> <input type="text" id="PhongCongTac_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="CongViec">Công việc <span></span></label> <input type="text" id="CongViec_detail" disabled> </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -178,103 +147,53 @@ $sql = new SQL(); ?>
     </section>
     <script src="../admin/js/main.js"></script>
     <script>
-        // Chức năng xuất excel
-        document.getElementById("excel_btn").addEventListener("click", function() {
-            // Lấy bảng
-            var table = document.getElementById("table_class");
-            var tableData = XLSX.utils.sheet_to_json(XLSX.utils.table_to_sheet(table), {
-                header: 1
-            });
+        var maNhanVien = "<?php echo isset($_SESSION['maNhanVien']) ? $_SESSION['maNhanVien'] : ''; ?>";
 
-            // Danh sách các cột cần định dạng ngày
-            let dateColumns = [2, 14, 15]; // Vị trí cột của Ngày Sinh, Ngày Vào Đoàn, Ngày Vào Đảng
-
-            // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
-            tableData.forEach((row, rowIndex) => {
-                dateColumns.forEach(colIndex => {
-                    if (row[colIndex]) {
-                        let excelDate = parseFloat(row[colIndex]);
-                        if (!isNaN(excelDate)) { // Kiểm tra xem có phải số không
-                            let date = new Date((excelDate - 25569) * 86400000);
-                            row[colIndex] = date.toISOString().slice(0, 19).replace('T', ' '); // Định dạng yyyy-MM-dd HH:mm:ss
-                        }
-                    }
-                });
-            });
-
-            // Tạo Workbook và Sheet mới
-            var wb = XLSX.utils.book_new();
-            var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã NV", "Họ Tên", "Ngày Sinh", "Giới Tính", "Trình Độ", "Ngoại Ngữ", "CMND", "Địa Chỉ", "SDT", "Email", "Tôn Giáo", "Dân Tộc", "Chức Vụ", "Phòng Ban", "Ngày Vào Đoàn", "Ngày Vào Đảng", "Loại Nhân Viên", "Tình Trạng Hôn Nhân", "Cha", "Mẹ", "Vợ/Chồng", "Con", "Bậc Lương"], // Tiêu đề
-                ...tableData
-            ]);
-
-            // Thêm sheet vào workbook
-            XLSX.utils.book_append_sheet(wb, ws, "DanhSachNhanVien");
-
-            // Xuất file Excel
-            XLSX.writeFile(wb, "DanhSachNhanVien.xlsx");
-        });
-
-
-        // Chức năng tìm kiếm
-        document.getElementById('search').oninput = function() {
-            var sel_search = document.getElementById('sel_search');
-            search('timKiem_hoSoNhanVien.php', sel_search.value, this.value);
-        }
-
-        // Thêm dữ liệu nhận diện khuân mặt
-        document.getElementById('data_face').addEventListener("click", async function() {
-            var taiKhoan = document.getElementById('TaiKhoan_data').value.trim();
-            var files = document.getElementById('AnhMau_data').files;
-
-            if (!taiKhoan) {
-                alert("Vui lòng nhập tài khoản trước khi tải ảnh lên!");
-                return;
-            }
-
-            if (files.length === 0) {
-                alert("Vui lòng chọn ít nhất một ảnh!");
-                return;
-            }
-
-            let formData = new FormData();
-            formData.append("taiKhoan", taiKhoan);
-
-            for (let i = 0; i < files.length; i++) {
-                formData.append("images[]", files[i], `${i + 1}.jpg`);
-            }
-
-            let checkResponse = await fetch('./upload_face.php', {
-                method: "POST",
-                body: formData
-            });
-
-            let responseText = await checkResponse.text();
-            let checkResult = JSON.parse(responseText);
-
-            if (checkResult.success) {
-                Toastify({
-                    text: checkResult.message,
-                    duration: 3000,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
-                }).showToast();
-
-                setTimeout(() => {
-                    window.location.href = "hoSoNhanVien.php";
-                }, 3000);
-            } else {
-                Toastify({
-                    text: checkResult.message,
-                    duration: 3000,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
-                }).showToast();
-            }
-        })
+        fetch('../admin/getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "nhanvien",
+                    IdBang: maNhanVien,
+                    TenCotId: "MaNhanVien"
+                })
+            })
+            .then(response => response.json()) // Chuyển phản hồi thành JSON
+            .then(dataResult => {
+                if (dataResult.data) { // Kiểm tra nếu dữ liệu tồn tại
+                    document.getElementById('HoTen_detail').value = dataResult.data.HoTen || '';
+                    document.getElementById('NgaySinh_detail').value = dataResult.data.NgaySinh || '';
+                    document.getElementById('TrinhDo_detail').value = dataResult.data.TrinhDo || '';
+                    document.getElementById('NgoaiNgu_detail').value = dataResult.data.NgoaiNgu || '';
+                    document.getElementById('CMND_detail').value = dataResult.data.CMND || '';
+                    document.getElementById('DiaChi_detail').value = dataResult.data.DiaChi || '';
+                    document.getElementById('SDT_detail').value = dataResult.data.SDT || '';
+                    document.getElementById('Email_detail').value = dataResult.data.Email || '';
+                    document.getElementById('TonGiao_detail').value = dataResult.data.TonGiao || '';
+                    document.getElementById('DanToc_detail').value = dataResult.data.DanToc || '';
+                    document.getElementById('ChucVu_detail').value = dataResult.data.ChucVu || '';
+                    document.getElementById('PhongBan_detail').value = dataResult.data.PhongBan || '';
+                    document.getElementById('NgayVaoDoan_detail').value = dataResult.data.NgayVaoDoan || '';
+                    document.getElementById('NgayVaoDang_detail').value = dataResult.data.NgayVaoDang || '';
+                    document.getElementById('LoaiNhanVien_detail').value = dataResult.data.LoaiNhanVien || '';
+                    document.getElementById('HonNhan_detail').value = dataResult.data.TinhTrangHonNhan || '';
+                    document.getElementById('Cha_detail').value = dataResult.data.Cha || '';
+                    document.getElementById('Me_detail').value = dataResult.data.Me || '';
+                    document.getElementById('VoChong_detail').value = dataResult.data.VoChong || '';
+                    document.getElementById('Con_detail').value = dataResult.data.Con || '';
+                    document.getElementById('BacLuong_detail').value = dataResult.data.BacLuong || '';
+                    document.getElementById('PhongCongTac_detail').value = dataResult.data.PhongCongTac || '';
+                    document.getElementById('CongViec_detail').value = dataResult.data.CongViec || '';
+                    document.getElementById('TaiKhoan_detail').value = dataResult.data.TaiKhoan || '';
+                    document.getElementById('GioiTinh_detail').value = dataResult.data.GioiTinh || '';
+                    document.getElementById('MaNhanVien_detail').value = maNhanVien;
+                } else {
+                    console.error("Dữ liệu không hợp lệ:", dataResult);
+                }
+            })
+            .catch(error => console.error("Lỗi khi lấy dữ liệu:", error));
     </script>
 </body>
 

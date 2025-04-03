@@ -110,6 +110,7 @@ const logout = document.getElementById("logout");
 const add_box = document.getElementById("add");
 const update_box = document.getElementById("update");
 const dataDetecFace = document.getElementById("DataDetecFace");
+const detail = document.getElementById("detail");
 
 var add_btn = document.getElementById("add_btn");
 

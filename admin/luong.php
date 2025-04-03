@@ -76,7 +76,7 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
                         <p>Chấm công</p>
                     </a></li>
-                <li class="li1"><a href="./TrangThai.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
                         <p>Bậc lương</p>
                     </a></li>
                 <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
@@ -118,22 +118,29 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
-
-                    <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
-                            <option value="Thang">Tháng</option>
+                    <div class="timkiem">
+                        <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaLuong">Mã lương</option>
                             <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="ThoiGianTao">Thời gian tạo</option>
-                            <option value="SoTien">Số tiền</option>
-                            <option value="TheLoai">Thể loại</option>
-                            <option value="MoTa">Mô tả</option>
-                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
+                        </select> <input type="search" placeholder="Tìm kiếm" id="search">
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_thang">
+                            <option value="Thang">Tháng</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_thang">
+
+                        <select name="luachontimkiem" class="luachon" id="sel_search_nam">
+                            <option value="Nam">Năm</option>
+                        </select>
+                        <input type="search" placeholder="Tìm kiếm" id="search_nam">
+                    </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
                             <th width="4.34%">Mã lương</th>
                             <th width="4.34%">Mã nhân viên</th>
+                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Thời gian</th>
                             <th width="4.34%">Số tiền</th>
                             <th width="4.34%">Thể loại</th>
@@ -144,14 +151,19 @@ $sql = new SQL(); ?>
                         <table id="table_class" class="bangnd" border="1" cellspacing="0" width="100%">
                             <?php
                             $year = date("Y");
-                            $month = date("n") - 1;
-                            $query = "SELECT * FROM luong WHERE MONTH(ThoiGianTao) = $month and YEAR(ThoiGianTao) =  $year";
+                            $month = date("n");
+                            $day = "01";
+                            $query = "SELECT * FROM luong WHERE DAY(ThoiGianTao) = $day and MONTH(ThoiGianTao) = $month and YEAR(ThoiGianTao) =  $year";
 
                             $data_luong = $sql->getdata($query);
                             while ($luong = $data_luong->fetch_assoc()) {
+                                $maNhanVien = $luong['MaNhanVien'];
+                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
                                 echo " <tr class=\"class noidungbang\"> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['MaLuong'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['MaNhanVien'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['ThoiGianTao'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['SoTien'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['TheLoai'] . "</td> 
@@ -174,7 +186,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [2]; // Vị trí cột thời gian tạo
+            let dateColumns = [3]; // Vị trí cột thời gian tạo
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
@@ -192,7 +204,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Lương", "Mã Nhân Viên", "Thời Gian", "Số Tiền", "Thể Loại", "Mô Tả"], // Tiêu đề
+                ["Mã Lương", "Mã Nhân Viên", "Tên Nhân Viên", "Thời Gian", "Số Tiền", "Thể Loại", "Mô Tả"], // Tiêu đề
                 ...tableData
             ]);
 
@@ -204,10 +216,45 @@ $sql = new SQL(); ?>
         });
 
         // Chức năng tìm kiếm
-        document.getElementById('search').oninput = function() {
-            var sel_search = document.getElementById('sel_search');
-            search('timKiem_luong.php', sel_search.value, this.value);
-        }
+        document.querySelectorAll('#search, #search_thang, #search_nam').forEach(async function(input) {
+            input.oninput = async function() {
+                var sel_search = document.getElementById('sel_search').value;
+                var search = document.getElementById('search');
+
+                var sel_search_thang = document.getElementById('search_thang');
+                var sel_search_nam = document.getElementById('search_nam');
+
+                var searchValue = search.value ?? '';
+                var thang = sel_search_thang.value ?? '';
+                var nam = sel_search_nam.value ?? '';
+
+                if (searchValue == '' && thang == '' && nam == '') {
+                    location.reload();
+                } else {
+                    console.log({
+                        Search: sel_search,
+                        SearchValue: searchValue,
+                        Thang: thang,
+                        Nam: nam
+                    });
+                    let dataById = await fetch('./timKiem_luong.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Search: sel_search,
+                            SearchValue: searchValue,
+                            Thang: thang,
+                            Nam: nam
+                        })
+                    });
+
+                    let dataText = await dataById.text();
+                    document.getElementById("table_class").innerHTML = dataText
+                }
+            }
+        });
     </script>
 </body>
 

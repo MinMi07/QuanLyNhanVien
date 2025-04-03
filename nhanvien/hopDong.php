@@ -114,16 +114,6 @@ $sql = new SQL(); ?>
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaHopDong">Mã hợp đồng</option>
-                            <option value="MaNhanVien">Mã nhân viên</option>
-                            <option value="LoaiHopDong">Loại hợp đồng</option>
-                            <option value="NgayBatDau">Ngày bắt đầu</option>
-                            <option value="NgayHetHan">Ngày hết hạn</option>
-                            <option value="BacLuong">Bậc lương</option>
-                            <option value="HeSoLuong">Hệ số lương</option>
-                            <option value="PhuCap">Phụ cấp</option>
-                            <option value="BaoHiem">Bảo hiểm</option>
-                            <option value="LuongThoaThuan">Lương thỏa thuận</option>
-                            <option value="TrangThai">Trạng thái</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -211,6 +201,11 @@ $sql = new SQL(); ?>
         // Chức năng tìm kiếm
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
+
+            if (this.value == '') {
+                location.reload();
+            }
+
             search('timKiem_hopDong.php', sel_search.value, this.value);
         }
     </script>

@@ -15,28 +15,17 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 }
 
 // Lấy dữ liệu từ request POST
-$maCongViec = $data['MaCongViec'] ?? null;
-$maNhanVien = $data['MaNhanVien'] ?? null;
-$tenCongViec = $data['TenCongViec'] ?? null;
-$ngayBatDau = $data['NgayBatDau'] ?? null;
-$ngayKetThuc = $data['NgayKetThuc'] ?? null;
-$trangThai = $data['TrangThai'] ?? null;
+$taiKhoan = $data['TaiKhoan'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$tenCongViec || !$ngayBatDau || !$ngayKetThuc) {
+if (!$taiKhoan) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
+
 // Tránh lỗi SQL Injection
-$rawQuery = "UPDATE phancongcongviec 
-            SET 
-                MaNhanVien = '$maNhanVien',
-                TenCongViec = '$tenCongViec',
-                NgayBatDau = '$ngayBatDau',
-                NgayKetThuc = '$ngayKetThuc',
-                TrangThai = '$trangThai'
-            WHERE MaCongViec = $maCongViec";
+$rawQuery = "DELETE FROM taikhoan WHERE TaiKhoan = '$taiKhoan'";
 
 try {
     $query = $sql->exe($rawQuery);
@@ -46,7 +35,7 @@ try {
 
 // Thực thi truy vấn
 if ($query) {
-    echo json_encode(["success" => true, "message" => "Cập nhật phân công công việc thành công!"]);
+    echo json_encode(["success" => true, "message" => "Xóa tài khoản thành công!"]);
 } else {
-    echo json_encode(["success" => false, "message" => "Lỗi khi cập nhật phân công công việc!"]);
+    echo json_encode(["success" => false, "message" => "Lỗi khi xóa tài khoản!"]);
 }

@@ -9,10 +9,10 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
 
     if($_GET['col'] == 'Thang') {
 
-        $month = $_GET['inf'];
+        $month = (int)$_GET['inf'] + 1;
         $year = date("Y");
 
-        $query = "SELECT * from luong where MaNhanVien = $maNhanVien and  MONTH(ThoiGianTao) = $month and YEAR(ThoiGianTao) = $year";
+        $query = "SELECT * from luong where MaNhanVien = $maNhanVien and  MONTH(ThoiGianTao) = '$month' and YEAR(ThoiGianTao) = '$year'";
     }
     
     $data_luong = $sql->getdata($query);

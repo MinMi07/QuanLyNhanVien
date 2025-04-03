@@ -15,34 +15,39 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 }
 
 // Lấy dữ liệu từ request POST
-$taiKhoan = $data['TaiKhoan'] ?? null;
-$matKhau = $data['MatKhau'] ?? null;
-$kichHoat = $data['KichHoat'] ?? null;
-
+$bang = $data['Table'] ?? null;
+$idBang = $data['IdBang'] ?? null;
+$tenCotId = $data['TenCotId'] ?? null;
+$truongThongTin = $data['TruongThongTin'] ?? '*';
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$taiKhoan || !$matKhau) {
+if (!$bang || !$tenCotId || !$truongThongTin) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
-
 // Tránh lỗi SQL Injection
-$rawQuery = "UPDATE taikhoan 
-            SET 
-                MatKhau = '$matKhau',
-                KichHoat = '$kichHoat'
-            WHERE TaiKhoan = '$taiKhoan'";
+$rawQuery = "SELECT $truongThongTin from $bang where $tenCotId = '$idBang'";
 
-try {
-    $query = $sql->exe($rawQuery);
-} catch (Exception $e) {
-    var_dump($e);
+// var_dump($rawQuery);
+
+$datas = $sql->getdata($rawQuery);
+$info = [];
+while ($row = $datas->fetch_assoc()) {
+    $info = $row;
 }
 
 // Thực thi truy vấn
-if ($query) {
-    echo json_encode(["success" => true, "message" => "Cập nhật tài khoản thành công!"]);
+if ($info) {
+    echo json_encode([
+        "success" => true, 
+        "data" => $info,
+        "message" => "Lấy dữ liệu thành công!"
+    ]);
 } else {
-    echo json_encode(["success" => false, "message" => "Lỗi khi cập nhật tài khoản!"]);
+    echo json_encode([
+        "success" => false,
+        "data" => [],
+        "message" => "Lấy dữ liệu thất bại!"
+    ]);
 }

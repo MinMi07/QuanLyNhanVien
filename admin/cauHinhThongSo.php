@@ -69,7 +69,7 @@ $sql = new SQL(); ?>
                 <h2>Sửa thông tin cấu hình</h2>
                 <form class="" action="" method="post">
                     <div class="box_content">
-                        <div class="add_pass onceColumn"> <label for="CauHinh">Cấu hình<span>*</span></label> <input type="text" id="CauHinh_update"> </div>
+                        <div class="add_pass onceColumn"> <label for="CauHinh">Cấu hình<span></span></label> <input type="text" id="CauHinh_update" disabled> </div>
                         <div class="add_pass onceColumn"> <label for="GiaTri">Giá trị<span>*</span></label> <input type="text" id="GiaTri_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_CauHinh">Sửa</button> </div>
@@ -220,10 +220,28 @@ $sql = new SQL(); ?>
             }
         }
 
-        // Cập nhật bậc lương
+        // Cập nhật
         document.getElementById('update_btn').onclick = async function() {
             var CauHinhs = [];
             get_ma(CauHinhs, update_box, 'sửa');
+
+            let dataById = await fetch('./getDataById.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Table: "cauhinhthongso",
+                    IdBang: CauHinhs[0],
+                    TenCotId: "CauHinh"
+                })
+            });
+
+            let dataText = await dataById.text();
+            let dataResult = JSON.parse(dataText);
+
+            document.getElementById('CauHinh_update').value = dataResult.data.CauHinh;
+            document.getElementById('GiaTri_update').value = dataResult.data.GiaTri;
 
             document.getElementById('update_CauHinh').onclick = async function() {
                 var GiaTri = document.getElementById('GiaTri_update');
@@ -300,7 +318,7 @@ $sql = new SQL(); ?>
             }
         }
 
-        // Cập nhật bậc lương
+        // Xóa
         document.getElementById('delete_btn').onclick = async function() {
             var CauHinhs = [];
             get_ma(CauHinhs, '', 'xóa');

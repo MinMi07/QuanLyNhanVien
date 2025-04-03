@@ -12,12 +12,18 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
     }
 
     foreach ($congviecs as $phancongcongviec) {
-    echo "  <td align=\"center\" width=\"4.34%\" >" . $phancongcongviec['MaCongViec'] . "</td> 
+        $maNhanVien = $phancongcongviec['MaNhanVien'];
+        $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
+        echo "  
+        <tr class=\"class noidungbang\"> 
+            <td align=\"center\" width=\"4.34%\" >" . $phancongcongviec['MaCongViec'] . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['MaNhanVien'] . "</td> 
+            <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TenCongViec'] . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayBatDau'] . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['NgayKetThuc'] . "</td> 
             <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TrangThai'] . "</td> 
-            <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDo'] . "</td> </tr> ";
+            <td align=\"center\" width=\"4.34%\">" . $phancongcongviec['TienDoNhanVien'] . "</td> </tr> ";
     }
 }
