@@ -15,27 +15,16 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 }
 
 // Lấy dữ liệu từ request POST
-$maNhanVien = $data['MaNhanVien'] ?? null;
 $soTien = $data['SoTien'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$soTien) {
+if (!$soTien) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
-// Kiểm tra user đã có bậc lương hay chưa
-$queryBacLuongNhanVien = "SELECT * from bacluong where MaNhanVien = $maNhanVien";
-$dataBacLuongNhanVien = $sql->getdata($queryBacLuongNhanVien);
-
-if($dataBacLuongNhanVien->num_rows > 0) {
-    echo json_encode(["success" => false, "message" => "Mã nhân viên 'maNhanVien' đã có bậc lương, vui lòng không thêm nữa!"]);
-    exit();
-}
-
-
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO bacluong (MaNhanVien,SoTien) VALUES ('$maNhanVien','$soTien')";
+$rawQuery = "INSERT INTO bacluong (SoTien) VALUES ('$soTien')";
 
 try {
     $query = $sql->exe($rawQuery);

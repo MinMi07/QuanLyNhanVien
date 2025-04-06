@@ -130,7 +130,9 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Mã chấm công</th>
                             <th width="4.34%">Mã nhân viên</th>
                             <th width="4.34%">Thời gian</th>
+                            <th width="4.34%">Thời gian về</th>
                             <th width="4.34%">Trạng thái</th>
+                            <th width="4.34%">Loại</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -143,13 +145,24 @@ $sql = new SQL(); ?>
 
                             $data_chamcong = $sql->getdata($query);
                             if ($data_chamcong && $data_chamcong->num_rows > 0) {
-                                while ($nhanVien = $data_chamcong->fetch_assoc()) {
-                                    echo " <tr class=\"class noidungbang\"> 
-                                <td align=\"center\" width=\"4.34%\" >" . $nhanVien['MaChamCong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $nhanVien['ThoiGian'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . ($nhanVien['TrangThai'] ? "Chấm công đúng giờ" : "Chấm công muộn") . "</td>
-                                </tr> ";
+                                while ($chamCong = $data_chamcong->fetch_assoc()) {
+                                    $loai = "Công thương";
+                                    if ($chamCong['Loai'] == 1) {
+                                        $loai = "Công thương";
+                                    }
+
+                                    if ($chamCong['Loai'] == 2) {
+                                        $loai = "Tăng ca";
+                                    }
+
+                                        echo " <tr class=\"class noidungbang\"> 
+                                    <td align=\"center\" width=\"4.34%\" >" . $chamCong['MaChamCong'] . "</td> 
+                                    <td align=\"center\" width=\"4.34%\">" . $chamCong['MaNhanVien'] . "</td> 
+                                    <td align=\"center\" width=\"4.34%\">" . $chamCong['ThoiGian'] . "</td> 
+                                    <td align=\"center\" width=\"4.34%\">" . $chamCong['ThoiGianVe'] . "</td> 
+                                    <td align=\"center\" width=\"4.34%\">" . ($chamCong['TrangThai'] ? "Chấm công đúng giờ" : "Chấm công muộn") . "</td>
+                                    <td align=\"center\" width=\"4.34%\">" . $loai . "</td>
+                                    </tr> ";
                                 }
                             } ?> </table>
                     </div>
@@ -168,7 +181,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [2]; // Vị trí cột của thời gian chấm công
+            let dateColumns = [2, 3]; // Vị trí cột của thời gian chấm công
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
@@ -186,7 +199,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã chấm công", "Mã nhân viên", "Thời gian", "Trạng thái"], // Tiêu đề
+                ["Mã chấm công", "Mã nhân viên", "Thời gian", "Thời gian về", "Trạng thái", "Loại"], // Tiêu đề
                 ...tableData
             ]);
 

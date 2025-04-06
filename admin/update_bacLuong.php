@@ -16,19 +16,17 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 
 // Lấy dữ liệu từ request POST
 $maBacLuong = $data['MaBacLuong'] ?? null;
-$maNhanVien = $data['MaNhanVien'] ?? null;
 $soTien = $data['SoTien'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maBacLuong || !$maNhanVien || !$soTien) {
+if (!$maBacLuong || !$soTien) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
 $rawQuery = "UPDATE bacluong 
-            SET SoTien = '$soTien',
-                MaNhanVien = '$maNhanVien'
+            SET SoTien = '$soTien'
             WHERE MaBacLuong = $maBacLuong";
 
 try {

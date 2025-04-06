@@ -23,6 +23,12 @@ if (!$cauHinh) {
     exit;
 }
 
+$whileConfig = ['thoiGianChamCong', 'thoiGianChamCongVe', 'phatChamCongMuon', 'luongTangCa'];
+
+if (in_array($cauHinh, $whileConfig)) {
+    echo json_encode(["success" => false, "message" => "Cấu hình $cauHinh không thể xóa!"]);
+    exit;
+}
 
 // Tránh lỗi SQL Injection
 $rawQuery = "DELETE FROM cauhinhthongso WHERE CauHinh = '$cauHinh'";

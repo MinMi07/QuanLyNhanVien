@@ -22,18 +22,18 @@ if ($dataLuong && $dataLuong->num_rows > 0) {
 }
 
 // Xác định bậc lương
-$queryBacLuong = "SELECT MaNhanVien , SoTien FROM bacluong ORDER BY ThoiGianTao ASC";
+$queryBacLuong = "SELECT MaBacLuong , SoTien FROM bacluong ORDER BY ThoiGianTao ASC";
 $dataBacLuongs = $sql->getdata($queryBacLuong);
 
 $bacLuongs = [];
 if ($dataBacLuongs && $dataBacLuongs->num_rows > 0) {
     while ($row = $dataBacLuongs->fetch_assoc()) {
-        $bacLuongs[$row["MaNhanVien"]] = $row["SoTien"];
+        $bacLuongs[$row["MaBacLuong"]] = $row["SoTien"];
     }
 }
 
 // Lấy thông tin LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan
-$queryHopDong = "SELECT MaNhanVien , LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan FROM hopdong WHERE TrangThai = 1 ORDER BY ThoiGianTao ASC";
+$queryHopDong = "SELECT MaNhanVien , LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan, BacLuong FROM hopdong WHERE TrangThai = 1 ORDER BY ThoiGianTao ASC";
 $dataHopDongs = $sql->getdata($queryHopDong);
 
 $hopDongs = [];
@@ -47,7 +47,7 @@ if ($dataHopDongs && $dataHopDongs->num_rows > 0) {
 $startTime = date("Y-m-01 00:00:00", strtotime("first day of last month"));
 $endTime = date("Y-m-t 23:59:59", strtotime("last day of last month"));
 
-$queryChamCong = "SELECT MaNhanVien, count(MaChamCong) AS 'SoCong' FROM chamcong WHERE ThoiGian >= '$startTime' AND ThoiGian <= '$endTime' GROUP BY MaNhanVien";
+$queryChamCong = "SELECT MaNhanVien, count(MaChamCong) AS 'SoCong' FROM chamcong WHERE Loai = 1 AND ThoiGian >= '$startTime' AND ThoiGian <= '$endTime' GROUP BY MaNhanVien";
 
 $dataChamCongs = $sql->getdata($queryChamCong);
 
@@ -55,6 +55,44 @@ $ChamCongs = [];
 if ($dataChamCongs && $dataChamCongs->num_rows > 0) {
     while ($row = $dataChamCongs->fetch_assoc()) {
         $ChamCongs[$row["MaNhanVien"]] = $row;
+    }
+}
+
+$luongTangCa = $sql->getdata("SELECT GiaTri FROM cauhinhthongso WHERE CauHinh = 'luongTangCa'")->fetch_assoc()['GiaTri'];
+$phatChamCongMuon = $sql->getdata("SELECT GiaTri FROM cauhinhthongso WHERE CauHinh = 'phatChamCongMuon'")->fetch_assoc()['GiaTri'];
+
+// Số lần đi muộn
+$queryChamCongMuon = "SELECT MaNhanVien, count(MaChamCong) AS 'SoCong' FROM chamcong WHERE Loai = 1 AND TrangThai = 0 AND ThoiGian >= '$startTime' AND ThoiGian <= '$endTime' GROUP BY MaNhanVien";
+$dataChamCongMuons = $sql->getdata($queryChamCongMuon);
+$chamCongMuons = [];
+if ($dataChamCongMuons && $dataChamCongMuons->num_rows > 0) {
+    while ($row = $dataChamCongMuons->fetch_assoc()) {
+        $chamCongMuons[$row["MaNhanVien"]] = $row["SoCong"];
+    }
+}
+
+// Số giờ tăng ca
+$queryTangCa = "SELECT MaNhanVien,ThoiGian,ThoiGianVe FROM chamcong WHERE Loai = 2 AND ThoiGian >= '$startTime' AND ThoiGian <= '$endTime'";
+$dataTangCas = $sql->getdata($queryTangCa);
+if ($dataTangCas && $dataTangCas->num_rows > 0) {
+    while ($row = $dataTangCas->fetch_assoc()) {
+
+        $checkIn = $row["ThoiGian"];
+        $checkOut = $row["ThoiGianVe"];
+
+        $start = new DateTime($checkIn);
+        $end = new DateTime($checkOut);
+
+        // Lấy tổng số giây giữa hai thời điểm
+        $seconds = $end->getTimestamp() - $start->getTimestamp();
+
+        // Chuyển đổi giây sang giờ (số thập phân)
+        $hours = $seconds / 3600;
+
+        // Làm tròn 2 chữ số thập phân (nếu muốn)
+        round($hours, 2); // Kết quả: 5.01
+
+        $soGioTangCa[$row["MaNhanVien"]] = round($hours, 2);
     }
 }
 
@@ -70,19 +108,21 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
     if ($hopDong["LoaiHopDong"] == "Hợp đồng") {
         $tongTien = $hopDong["LuongThoaThuan"] ?? 0;
     } else {
-        $bacLuong = $bacLuongs[$maNhanVien] ? (int)$bacLuongs[$maNhanVien] : 1;
+        $bacLuong = $bacLuongs[$hopDong["BacLuong"] ?? 0] ? (int)$bacLuongs[$hopDong["BacLuong"]] : 1;
         $heSo = $hopDong["HeSoLuong"] ?? 1;
         $soNgayCong = !empty($ChamCongs[$maNhanVien]) ? $ChamCongs[$maNhanVien]["SoCong"] : 1;
         $phuCap = $hopDong["PhuCap"] ?? 0;
         $baoHiem = $hopDong["BaoHiem"] ?? 0;
-        $tongTien = $bacLuong * $heSo * $soNgayCong + $phuCap - $baoHiem;
+        $phatChamCong = !empty($chamCongMuons[$maNhanVien] ?? 0) ? $chamCongMuons[$maNhanVien]*$phatChamCongMuon : 0;
+        $tienTangCa = !empty($soGioTangCa[$maNhanVien] ?? 0) ? $soGioTangCa[$maNhanVien]*$luongTangCa : 0;
+        $tongTien = $bacLuong * $heSo * $soNgayCong + $phuCap - $baoHiem - $phatChamCong + $tienTangCa;
     }
 
     // Không có dữ liệu ngày công
     if(
         empty($ChamCongs[$maNhanVien]) ||
         ($ChamCongs[$maNhanVien]["SoCong"] ?? 0) == 0
-    ) {
+        ) {
         $tongTien = 0;    
     }
 

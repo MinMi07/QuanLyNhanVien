@@ -33,7 +33,7 @@ $row = $nhanVien->fetch_assoc();
 $maNhanVien = $row['MaNhanVien'] ?? null; // Dùng `??` để tránh lỗi nếu không tồn tại
 
 // Kiểm tra xem user đã chấm công hôm nay chưa
-$chamCong = $sql->getdata("select MaChamCong, ThoiGian, ThoiGianVe, Loai from chamcong where MaNhanVien = '$maNhanVien' and Loai = 1 and Thoigian > '$today'")->fetch_assoc();
+$chamCong = $sql->getdata("select MaChamCong, ThoiGian, ThoiGianVe, Loai from chamcong where MaNhanVien = '$maNhanVien' and Loai = 2 and Thoigian > '$today'")->fetch_assoc();
 
 if ($chamCong) {
     echo json_encode([

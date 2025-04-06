@@ -117,7 +117,6 @@ $sql = new SQL(); ?>
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
                             <th width="4.34%">Mã bậc lương</th>
-                            <th width="4.34%">Mã nhân viên</th>
                             <th width="4.34%">Số tiền</th>
                         </tr>
                     </table>
@@ -126,12 +125,15 @@ $sql = new SQL(); ?>
                             <?php
                             $maNhanVien = $_SESSION['maNhanVien'];
 
-                            $query = "SELECT * from bacluong where MaNhanVien = $maNhanVien";
+                            $query = "SELECT bacluong.MaBacLuong AS MaBacLuong, bacluong.SoTien AS SoTien from nhanvien
+                            JOIN bacluong ON nhanvien.BacLuong = bacluong.MaBacLuong
+                            where nhanvien.MaNhanVien = $maNhanVien";
+
                             $data_bacluong = $sql->getdata($query);
+                            
                             while ($bacluong = $data_bacluong->fetch_assoc()) {
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $bacluong['MaBacLuong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $bacluong['MaNhanVien'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $bacluong['SoTien'] . "</td>
                                 </tr> ";
                             } ?> </table>
@@ -154,7 +156,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Bậc Lương", "Mã Nhân Viên", "Số Tiền"], // Tiêu đề
+                ["Mã Bậc Lương", "Số Tiền"], // Tiêu đề
                 ...tableData
             ]);
 

@@ -115,7 +115,17 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="Me">Mẹ <span>*</span></label> <input type="text" id="Me"> </div>
                         <div class="add_pass"> <label for="VoChong">Vợ chồng <span>*</span></label> <input type="text" id="VoChong"> </div>
                         <div class="add_pass"> <label for="Con">Con <span>*</span></label> <input type="text" id="Con"> </div>
-                        <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label> <input type="text" id="BacLuong"> </div>
+                        <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label>
+                            <select name="BacLuong" id="BacLuong">
+                                <?php
+                                $maBacLuong = "SELECT MaBacLuong from bacluong ";
+                                $dataMaBacLuong = $sql->getdata($maBacLuong);
+                                while ($row = $dataMaBacLuong->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['MaBacLuong'] . "\">" . $row['MaBacLuong'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="add_pass"> <label for="PhongCongTac">Phòng công tác <span>*</span></label> <input type="text" id="PhongCongTac"> </div>
                         <div class="add_pass"> <label for="CongViec">Công việc <span>*</span></label> <input type="text" id="CongViec"> </div>
                     </div>
@@ -163,7 +173,17 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="Me">Mẹ <span>*</span></label> <input type="text" id="Me_update"> </div>
                         <div class="add_pass"> <label for="VoChong">Vợ chồng <span>*</span></label> <input type="text" id="VoChong_update"> </div>
                         <div class="add_pass"> <label for="Con">Con <span>*</span></label> <input type="text" id="Con_update"> </div>
-                        <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label> <input type="text" id="BacLuong_update"> </div>
+                        <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label>
+                            <select name="BacLuong" id="BacLuong_update">
+                                <?php
+                                $bacLuong = "SELECT MaBacLuong as BacLuong from bacluong ";
+                                $dataBacLuong = $sql->getdata($bacLuong);
+                                while ($row = $dataBacLuong->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['BacLuong'] . "\">" . $row['BacLuong'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="add_pass"> <label for="PhongCongTac">Phòng công tác <span>*</span></label> <input type="text" id="PhongCongTac_update"> </div>
                         <div class="add_pass"> <label for="CongViec">Công việc <span>*</span></label> <input type="text" id="CongViec_update"> </div>
                     </div>
@@ -502,10 +522,10 @@ $sql = new SQL(); ?>
             document.getElementById('Me_update').value = dataResult.data.Me;
             document.getElementById('VoChong_update').value = dataResult.data.VoChong;
             document.getElementById('Con_update').value = dataResult.data.Con;
-            document.getElementById('BacLuong_update').value = dataResult.data.BacLuong;
             document.getElementById('PhongCongTac_update').value = dataResult.data.PhongCongTac;
             document.getElementById('CongViec_update').value = dataResult.data.CongViec;
 
+            // Tai khoan
             let valueToSet = dataResult.data.TaiKhoan;
             let selectElements = document.querySelectorAll('#TaiKhoan_update'); // Lấy tất cả select có id="TaiKhoan"
 
@@ -514,6 +534,18 @@ $sql = new SQL(); ?>
 
                 if (optionExists) {
                     select.value = valueToSet;
+                }
+            });
+
+            // Bac luong
+            let valueToSetBacLuong = dataResult.data.BacLuong;
+            let selectElementBacLuongs = document.querySelectorAll('#BacLuong_update'); // Lấy tất cả select có id="BacLuong"
+
+            selectElementBacLuongs.forEach(select => {
+                let optionExistBacLuongs = [...select.options].some(option => option.value === valueToSetBacLuong);
+
+                if (optionExistBacLuongs) {
+                    select.value = valueToSetBacLuong;
                 }
             });
 

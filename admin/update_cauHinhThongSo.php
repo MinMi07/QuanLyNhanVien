@@ -24,6 +24,29 @@ if (!$cauHinh || !$giaTri) {
     exit;
 }
 
+$whileConfig = ['thoiGianChamCong', 'thoiGianChamCongVe', 'phatChamCongMuon', 'luongTangCa'];
+$typeTimeConfig = ['thoiGianChamCong', 'thoiGianChamCongVe'];
+$typeMoneyConfig = ['phatChamCongMuon', 'luongTangCa'];
+
+if (in_array($cauHinh, $whileConfig)) {
+    // Kiểm tra định dạng
+    if (in_array($cauHinh, $typeTimeConfig)) {
+        $valid = DateTime::createFromFormat('H:i:s', $giaTri);
+
+        if (!$valid || $valid->format('H:i:s') !== $giaTri) {
+            echo json_encode(["success" => false, "message" => "Cấu hình '$cauHinh' không dúng định dạng thời gian. VD: 09:00:00"]);
+            exit();
+        }
+    }
+
+    if (in_array($cauHinh, $typeMoneyConfig)) {
+        $giaTri = (int)$giaTri;
+        if (!is_int($giaTri) || $giaTri <= 0) {
+            echo json_encode(["success" => false, "message" => "Cấu hình '$cauHinh' không dúng định dạng số tiền. VD: 100000"]);
+            exit();
+        }
+    }
+}
 
 // Tránh lỗi SQL Injection
 $rawQuery = "UPDATE cauhinhthongso 

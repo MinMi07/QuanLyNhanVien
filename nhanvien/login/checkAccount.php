@@ -15,9 +15,9 @@ if (isset($_COOKIE['checkNhanVien'])) {
 function checkdata($sql, $user, $pass, $trang, &$loi)
 {
     $data = $sql->getdata("select * from taikhoan where TaiKhoan = '$user' and MatKhau = '$pass'");
-    $nhavien = $sql->getdata("SELECT MaNhanVien from nhanvien where TaiKhoan = '$user'")->fetch_assoc()['MaNhanVien'];
-
+    
     if ($data->num_rows > 0) {
+        $nhavien = $sql->getdata("SELECT MaNhanVien from nhanvien where TaiKhoan = '$user'")->fetch_assoc()['MaNhanVien'];
         setcookie('checkNhanVien', true, time() + 3600);
         $_SESSION['userNhanVien'] = $_POST['user'];
         $_SESSION['passMatKhau'] = $_POST['pass'];

@@ -38,9 +38,21 @@ while ($row = $data_chamcong->fetch_assoc()) {
 }
 
 foreach ($chamCongs as $chamCong) {
+    $loai = "Công thương";
+    if ($chamCong['Loai'] == 1) {
+        $loai = "Công thương";
+    }
+
+    if ($chamCong['Loai'] == 2) {
+        $loai = "Tăng ca";
+    }
+    
     echo " <tr class=\"class noidungbang\"> 
         <td align=\"center\" width=\"4.34%\" >" . $chamCong['MaChamCong'] . "</td> 
         <td align=\"center\" width=\"4.34%\">" . $chamCong['MaNhanVien'] . "</td> 
         <td align=\"center\" width=\"4.34%\">" . $chamCong['ThoiGian'] . "</td> 
-        <td align=\"center\" width=\"4.34%\">" . ($chamCong['TrangThai'] ? "Chấm công đúng giờ" : "Chấm công muộn") . "</td></tr> ";
+        <td align=\"center\" width=\"4.34%\">" . $chamCong['ThoiGianVe'] . "</td> 
+        <td align=\"center\" width=\"4.34%\">" . ($chamCong['TrangThai'] ? "Chấm công đúng giờ" : "Chấm công muộn") . "</td>
+        <td align=\"center\" width=\"4.34%\">" . $loai . "</td>
+        </tr> ";
 }
