@@ -779,7 +779,7 @@ $sql = new SQL(); ?>
         // Xem chi tiết hồ sơ nhân viên
         document.getElementById('detail_btn').onclick = async function() {
             var maNhanViens = [];
-            get_ma(maNhanViens, '', 'chi tiết');
+            get_ma(maNhanViens, '', 'chi tiết'); 
             console.log(maNhanViens);
 
             let dataById = await fetch('./getDataById.php', {
