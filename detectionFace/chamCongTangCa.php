@@ -15,16 +15,10 @@ if (
 }
 
 $maNhanVien = (int)$data['manhanvien'];
-$timeCheckin = $sql->getdata("SELECT GiaTri FROM cauhinhthongso WHERE CauHinh = 'thoiGianChamCong'")->fetch_assoc()['GiaTri'];
 
-$ruleTime = date("Y-m-d $timeCheckin");
 $timeNow = date("Y-m-d H:i:s");
-$statusCheckin = 1; // chấm công đúng giờ
-$type = 1; // 1 : công thường, 2 : công tăng ca 
-
-if ($timeNow > $ruleTime) {
-    $statusCheckin = 0; // chấm công muộn
-}
+$statusCheckin = 1;
+$type = 2; // 1 : công thường, 2 : công tăng ca 
 
 $rawQuery = "INSERT INTO chamcong (MaNhanVien, ThoiGian, TrangThai, Loai) VALUES ($maNhanVien,'$timeNow',$statusCheckin,$type)";
 
@@ -35,11 +29,7 @@ try {
 }
 
 if ($query) {
-    if (!$statusCheckin) {
-        echo json_encode(["success" => true, "message" => "Bạn đã chấm công muộn"]);
-        exit;
-    }
-    echo json_encode(["success" => true, "message" => "Chấm công thành công"]);
+    echo json_encode(["success" => true, "message" => "Chấm công tăng ca thành công"]);
 } else {
-    echo json_encode(["success" => false, "message" => "Chấm công thất bại"]);
+    echo json_encode(["success" => false, "message" => "Chấm công tăng ca thất bại"]);
 }

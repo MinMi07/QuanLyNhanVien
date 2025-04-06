@@ -54,18 +54,6 @@ $sql = new SQL(); ?>
                 <h2>Thêm bậc lương</h2>
                 <form class="" action="" method="post">
                     <div class="box_content">
-                        <div class="add_pass onceColumn" style="width: 100%">
-                            <label for="MaNhanVien">Mã nhân viên<span>*</span></label>
-                            <select name="manhanvien" id="MaNhanVien">
-                                <?php
-                                $maNhanVien = "SELECT MaNhanVien from nhanvien ";
-                                $dataMaNhanVien = $sql->getdata($maNhanVien);
-                                while ($row = $dataMaNhanVien->fetch_assoc()) {
-                                    echo "<option value=\"" . $row['MaNhanVien'] . "\">" . $row['MaNhanVien'] . "</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
                         <div class="add_pass onceColumn"> <label for="SoTien">Số tiền<span>*</span></label> <input type="text" id="SoTien"> </div>
                     </div>
                     <div class="button"> <button type="button" id="add_bacLuong">Thêm</button> </div>
@@ -80,18 +68,6 @@ $sql = new SQL(); ?>
                 <h2>Sửa thông tin bậc lương</h2>
                 <form class="" action="" method="post">
                     <div class="box_content">
-                        <div class="add_pass onceColumn" style="width: 100%">
-                            <label for="HoTen">Mã nhân viên<span>*</span></label>
-                            <select name="manhanvien" id="MaNhanVien_update">
-                                <?php
-                                $maNhanVien = "SELECT MaNhanVien from nhanvien ";
-                                $dataMaNhanVien = $sql->getdata($maNhanVien);
-                                while ($row = $dataMaNhanVien->fetch_assoc()) {
-                                    echo "<option value=\"" . $row['MaNhanVien'] . "\">" . $row['MaNhanVien'] . "</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
                         <div class="add_pass onceColumn"> <label for="SoTien">Số tiền<span>*</span></label> <input type="text" id="SoTien_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_bacLuong">Sửa</button> </div>
@@ -174,15 +150,12 @@ $sql = new SQL(); ?>
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaBacLuong">Mã bậc lương</option>
-                            <option value="MaNhanVien">Mã nhân viên</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
                             <th width="4.34%">Mã bậc lương</th>
-                            <th width="4.34%">Mã nhân viên</th>
-                            <th width="4.34%">Tên nhân viên</th>
                             <th width="4.34%">Số tiền</th>
                         </tr>
                     </table>
@@ -191,13 +164,8 @@ $sql = new SQL(); ?>
                             <?php $query = "SELECT * from bacluong";
                             $data_bacluong = $sql->getdata($query);
                             while ($bacluong = $data_bacluong->fetch_assoc()) {
-                                $maNhanVien = $bacluong['MaNhanVien'];
-                                $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
-
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\" >" . $bacluong['MaBacLuong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $bacluong['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $bacluong['SoTien'] . "</td>
                                 </tr> ";
                             } ?> </table>
@@ -214,7 +182,6 @@ $sql = new SQL(); ?>
             var SoTien = document.getElementById('SoTien');
 
             if (
-                MaNhanVien.value == "" ||
                 SoTien.value == ""
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
@@ -224,7 +191,6 @@ $sql = new SQL(); ?>
                 document.getElementById('thongbao_chucnang').style.display = 'block';
             } else {
                 let data = {
-                    MaNhanVien: MaNhanVien.value,
                     SoTien: SoTien.value
                 };
 
@@ -294,9 +260,7 @@ $sql = new SQL(); ?>
             let dataText = await dataById.text();
             let dataResult = JSON.parse(dataText);
 
-            document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
             document.getElementById('SoTien_update').value = dataResult.data.SoTien;
-
             document.getElementById('update_bacLuong').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
                 var SoTien = document.getElementById('SoTien_update');
@@ -313,7 +277,6 @@ $sql = new SQL(); ?>
                 }
 
                 if (
-                    MaNhanVien.value == "" ||
                     SoTien.value == ""
                 ) {
                     document.getElementById('thongbao_chucnang_1').innerHTML = ` 
@@ -324,7 +287,6 @@ $sql = new SQL(); ?>
                 } else {
                     let data = {
                         MaBacLuong: maBacLuongs[0],
-                        MaNhanVien: MaNhanVien.value,
                         SoTien: SoTien.value
                     };
 
@@ -387,7 +349,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Bậc Lương", "Mã Nhân Viên", "Tên Nhân Viên", "Số Tiền"], // Tiêu đề
+                ["Mã Bậc Lương", "Số Tiền"], // Tiêu đề
                 ...tableData
             ]);
 

@@ -473,7 +473,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [4,5]; // Vị trí cột của ngày bắt đầu, ngày kết thúc
+            let dateColumns = [4, 5]; // Vị trí cột của ngày bắt đầu, ngày kết thúc
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {

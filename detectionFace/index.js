@@ -91,12 +91,51 @@ function drawFrameNotiCheckin(video, type) {
     }
 }
 
+function addHoursToTime(timeStr, hoursToAdd) {
+    let [h, m, s] = timeStr.split(":").map(Number);
+    let date = new Date();
+    date.setHours(h + hoursToAdd, m, s || 0, 0);
+    return date;
+}
+
 video.addEventListener('playing', async () => {
     const canvas = faceapi.createCanvasFromMedia(video);
     document.body.append(canvas);
 
     const displaySize = { width: video.videoWidth, height: video.videoHeight };
     faceapi.matchDimensions(canvas, displaySize);
+
+    // Lấy cấu hình thời gian chấm công
+    let thoiGianChamCong = await fetch('../admin/getDataById.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Table: "cauhinhthongso",
+            IdBang: "thoiGianChamCong",
+            TenCotId: "CauHinh"
+        })
+    });
+
+    let dataThoiGianChamCong = await thoiGianChamCong.text();
+    let thoiGianChamCongConfig = JSON.parse(dataThoiGianChamCong);
+
+    // Lấy cấu hình thời gian chấm công về
+    let thoiGianChamCongVe = await fetch('../admin/getDataById.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Table: "cauhinhthongso",
+            IdBang: "thoiGianChamCongVe",
+            TenCotId: "CauHinh"
+        })
+    });
+
+    let dataThoiGianChamCongVe = await thoiGianChamCongVe.text();
+    let thoiGianChamCongVeConfig = JSON.parse(dataThoiGianChamCongVe);
 
     setInterval(async () => {
         if (!faceMatcher) {
@@ -120,7 +159,7 @@ video.addEventListener('playing', async () => {
 
             drawFrameNotiCheckin(video, 'red');
 
-            if (bestMatch.distance < 0.4 && nameFace !== "Không xác định") {
+            if (bestMatch.distance < 0.7 && nameFace !== "Không xác định") {
                 if (!recognizedFaces.has(nameFace)) {
                     recognizedFaces.add(nameFace);
 
@@ -135,11 +174,83 @@ video.addEventListener('playing', async () => {
                         let responseText = await checkResponse.text();
                         let checkResult = JSON.parse(responseText);
 
-                        if (checkResult.is_checkin) {
-                            drawFrameNotiCheckin(video, 'green');
-                            toastify('notify', `Người dùng ${nameFace} đã chấm công hôm nay!`);
-                            setTimeout(() => { }, 8000);
-                        } else {
+                        let checkResponseTangCa = await fetch('./kiemTraChamCongTangCa.php', {
+
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name: nameFace })
+                        });
+
+                        let responseTextTangCa = await checkResponseTangCa.text();
+                        let checkResultTangCa = JSON.parse(responseTextTangCa);
+
+                        if (checkResult.is_checkin && !checkResultTangCa.is_checkin) {
+
+                            var time = checkResult.check_in;
+                            // Chuyển chuỗi thành đối tượng Date
+                            let originalTime = new Date(time);
+
+                            // Cộng thêm 1 giờ
+                            let timePlus1h = new Date(originalTime.getTime() + 60 * 60 * 1000);
+
+                            // Lấy thời gian hiện tại
+                            let now = new Date();
+                            
+                            if (timePlus1h > now) {
+                                drawFrameNotiCheckin(video, 'green');
+                                toastify('notify', `Người dùng ${nameFace} đã chấm công hôm nay!`);
+                                setTimeout(() => { }, 8000);
+                            }
+
+                            if (timePlus1h < now) {
+                                // Kiểm tra nếu chưa có dữ liệu checkout thì chấm công checkout cho nhân viên
+                                if (checkResult.check_out === null || checkResult.check_out === '') {
+                                    let response = await fetch('./chamCongVe.php', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ 
+                                            machamcong: checkResult.ma_cham_cong
+                                        })
+                                    });
+
+                                    let result = await response.json();
+                                    if (result.success) {
+                                        drawFrameNotiCheckin(video, 'green');
+                                        toastify('notify', `Chấm công về thành công: ${nameFace}`);
+                                        setTimeout(() => { }, 8000);
+                                    }
+                                } else {
+                                    let timeCheckout = thoiGianChamCongVeConfig.data.GiaTri;
+                                    let [h, m, s] = timeCheckout.split(":").map(Number);
+                                    // Tạo object Date với thời gian checkout là hôm nay
+                                    let checkoutTime = new Date();
+                                    checkoutTime.setHours(h, m, s || 0, 0);
+
+                                    // Thời gian hiện tại
+                                    let now = new Date();
+
+                                    if (now > checkoutTime) {
+                                        let response = await fetch('./chamCongTangCa.php', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ manhanvien: checkResult.ma_nhan_vien })
+                                        });
+
+                                        let result = await response.json(); if (result.success) {
+                                            drawFrameNotiCheckin(video, 'green');
+                                            toastify('notify', `Chấm công tăng ca thành công: ${nameFace}`);
+                                            setTimeout(() => { }, 8000);
+                                        } else {
+                                            toastify('error', `Chấm công tăng ca thất bại: ${result.message}`);
+                                        }
+
+                                    }
+                                }
+                            }
+                        } 
+                        
+                        // chưa có dữ liệu chấm công thường và công tăng ca => cần chấm công thường
+                        if (!checkResult.is_checkin && !checkResultTangCa.is_checkin){
                             let response = await fetch('./chamCong.php', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -155,6 +266,46 @@ video.addEventListener('playing', async () => {
                                 toastify('error', `Chấm công thất bại: ${result.message}`);
                             }
                         }
+
+                        if (
+                            checkResult.is_checkin && 
+                            checkResult.check_out !== null && 
+                            checkResultTangCa.is_checkin
+                        ) {
+                            if (checkResultTangCa.check_out === null || checkResultTangCa.check_out === '') {
+                                var time = checkResultTangCa.check_in;
+                                // Chuyển chuỗi thành đối tượng Date
+                                let originalTime = new Date(time);
+
+                                // Cộng thêm 1 giờ
+                                let timePlus1h = new Date(originalTime.getTime() + 60 * 60 * 1000);
+
+                                // Lấy thời gian hiện tại
+                                let now = new Date();
+
+                                if (timePlus1h < now) {
+                                    let response = await fetch('./chamCongVe.php', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ machamcong: checkResultTangCa.ma_cham_cong })
+                                    });
+    
+                                    let result = await response.json();
+                                    if (result.success) {
+                                        drawFrameNotiCheckin(video, 'green');
+                                        toastify('notify', `Chấm công về tăng ca thành công: ${nameFace}`);
+                                        setTimeout(() => { }, 8000);
+                                    } else {
+                                        toastify('error', `Chấm công về tăng ca thất bại: ${result.message}`);
+                                    }
+                                } else {
+                                    drawFrameNotiCheckin(video, 'green');
+                                    toastify('notify', `Người dùng ${nameFace} đã chấm công tăng ca hôm nay!`);
+                                    setTimeout(() => { }, 8000);
+                                }
+                            }
+                        }
+
                     } catch (error) {
                         toastify('error', `Lỗi kiểm tra chấm công: ${error.message}`);
                     }
