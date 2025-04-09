@@ -26,7 +26,6 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
                 <td align=\"center\" width=\"4.34%\">" . $hopDong['PhuCap'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $hopDong['BaoHiem'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $hopDong['LuongThoaThuan'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td>
             </tr> ";
     }
 }
