@@ -306,7 +306,9 @@ $sql = new SQL(); ?>
                         <input type="button" value="Xem chi tiết" id="detail_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
-                            <option value="MaNhanVien">MaNhanVien</option>
+                            <option value="MaNhanVien">Mã nhân viên</option>
+                            <option value="SinhNhatThang">Sinh nhật tháng</option>
+                            <option value="TangLuongTheoKy">Tăng lương theo kỳ</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -336,6 +338,23 @@ $sql = new SQL(); ?>
                                 <td align=\"center\" width=\"12.5%\">" . $nhanVien['PhongBan'] . "</td> 
                                 <td align=\"center\" width=\"12.5%\">" . $nhanVien['SDT'] . "</td> 
                                 <td align=\"center\" width=\"12.5%\">" . $nhanVien['Email'] . "</td>
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['TrinhDo'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['NgoaiNgu'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['CMND'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['DiaChi'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['TonGiao'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['DanToc'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['NgayVaoDoan'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['NgayVaoDang'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['LoaiNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['TinhTrangHonNhan'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['Cha'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['Me'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['VoChong'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['Con'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['BacLuong'] . "</td>
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['PhongCongTac'] . "</td>
+                                <td align=\"center\" width=\"4.34%\" class=\"hidden_column\">" . $nhanVien['CongViec'] . "</td>
                                 </tr> ";
                             } ?> </table>
                     </div>
@@ -732,7 +751,10 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã NV", "Họ Tên", "Ngày Sinh", "Giới Tính", "Trình Độ", "Ngoại Ngữ", "CMND", "Địa Chỉ", "SDT", "Email", "Tôn Giáo", "Dân Tộc", "Chức Vụ", "Phòng Ban", "Ngày Vào Đoàn", "Ngày Vào Đảng", "Loại Nhân Viên", "Tình Trạng Hôn Nhân", "Cha", "Mẹ", "Vợ/Chồng", "Con", "Bậc Lương"], // Tiêu đề
+                ["Mã NV", "Họ Tên", "Ngày Sinh", "Giới Tính", "Chức Vụ", "Phòng Ban", "SDT", "Email", "Trình Độ", 
+                    "Ngoại Ngữ", "CMND", "Địa Chỉ", "Tôn Giáo", "Dân Tộc", "Ngày Vào Đoàn", "Ngày Vào Đảng",
+                    "Loại Nhân Viên", "Tình Trạng Hôn Nhân", "Cha", "Mẹ", "Vợ Chồng", "Con", "Bậc Lương", "Phòng Công Tác", "Công Việc"
+                ], // Tiêu đề
                 ...tableData
             ]);
 
@@ -753,6 +775,14 @@ $sql = new SQL(); ?>
             }
 
             search('timKiem_hoSoNhanVien.php', sel_search.value, this.value);
+        }
+
+        document.getElementById('sel_search').onchange = function() {
+            var sel_search = document.getElementById('sel_search');
+
+            if (this.value === 'TangLuongTheoKy') {
+                search('timKiem_hoSoNhanVien.php', sel_search.value, this.value);
+            }
         }
 
         // Thêm dữ liệu nhận diện khuân mặt

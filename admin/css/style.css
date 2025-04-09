@@ -1004,3 +1004,7 @@ canvas {
     z-index: 11;
     border-radius: 10px;
 }
+
+.hidden_column {
+    display: none;
+}

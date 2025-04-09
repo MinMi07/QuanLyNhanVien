@@ -1,4 +1,4 @@
-<!-- Lương của nhân viên = Bậc lương x Hệ số x Số ngày công + Phụ cấp - Bảo hiểm. 
+<!-- Lương của nhân viên = Bậc lương x Hệ số x Số ngày công + Phụ cấp - Bảo hiểm - phạt chấm công muộn + tăng ca. 
 Nhân viên hợp đồng được trả lương theo thoả thuận -->
 
 <?php

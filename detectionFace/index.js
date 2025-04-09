@@ -105,22 +105,6 @@ video.addEventListener('playing', async () => {
     const displaySize = { width: video.videoWidth, height: video.videoHeight };
     faceapi.matchDimensions(canvas, displaySize);
 
-    // Lấy cấu hình thời gian chấm công
-    let thoiGianChamCong = await fetch('../admin/getDataById.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            Table: "cauhinhthongso",
-            IdBang: "thoiGianChamCong",
-            TenCotId: "CauHinh"
-        })
-    });
-
-    let dataThoiGianChamCong = await thoiGianChamCong.text();
-    let thoiGianChamCongConfig = JSON.parse(dataThoiGianChamCong);
-
     // Lấy cấu hình thời gian chấm công về
     let thoiGianChamCongVe = await fetch('../admin/getDataById.php', {
         method: 'POST',
