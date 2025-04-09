@@ -24,11 +24,10 @@ $soQuyetDinh = $data['SoQuyetDinh'] ?? null;
 $coQuanQuyetDinh = $data['CoQuanQuyetDinh'] ?? null;
 $hinhThuc = $data['HinhThuc'] ?? null;
 $soTien = $data['SoTien'] ?? null;
-$trangThai = $data['TrangThai'] ?? null;
 $ghiChu = $data['GhiChu'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maKhenThuongKyLuat || !$maNhanVien || !$thoiGianKhenThuongKyLuat || !$loai || !$noiDung || !$soQuyetDinh || !$coQuanQuyetDinh || !$hinhThuc || !$soTien || !$trangThai || !$ghiChu) {
+if (!$maKhenThuongKyLuat || !$maNhanVien || !$thoiGianKhenThuongKyLuat || !$loai || !$noiDung || !$soQuyetDinh || !$coQuanQuyetDinh || !$hinhThuc || !$soTien || !$ghiChu) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
@@ -44,7 +43,6 @@ $rawQuery = "UPDATE khenthuongkyluat
                 CoQuanQuyetDinh = '$coQuanQuyetDinh',
                 HinhThuc = '$hinhThuc',
                 SoTien = '$soTien',
-                TrangThai = '$trangThai',
                 GhiChu = '$ghiChu'
             WHERE MaKhenThuongKyLuat = $maKhenThuongKyLuat";
 

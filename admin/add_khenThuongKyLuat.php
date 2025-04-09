@@ -23,18 +23,17 @@ $soQuyetDinh = $data['SoQuyetDinh'] ?? null;
 $coQuanQuyetDinh = $data['CoQuanQuyetDinh'] ?? null;
 $hinhThuc = $data['HinhThuc'] ?? null;
 $soTien = $data['SoTien'] ?? null;
-$trangThai = $data['TrangThai'] ?? null;
 $ghiChu = $data['GhiChu'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
 
-if (!$maNhanVien || !$thoiGianKhenThuongKyLuat || !$loai || !$noiDung || !$soQuyetDinh || !$coQuanQuyetDinh || !$hinhThuc || !$soTien || !$trangThai || !$ghiChu) {
+if (!$maNhanVien || !$thoiGianKhenThuongKyLuat || !$loai || !$noiDung || !$soQuyetDinh || !$coQuanQuyetDinh || !$hinhThuc || !$soTien || !$ghiChu) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO khenthuongkyluat (MaNhanVien,ThoiGianKhenThuongKyLuat,Loai,NoiDung,SoQuyetDinh,CoQuanQuyetDinh,HinhThuc,SoTien,TrangThai,GhiChu) VALUES ('$maNhanVien','$thoiGianKhenThuongKyLuat','$loai','$noiDung','$soQuyetDinh','$coQuanQuyetDinh','$hinhThuc','$soTien','$trangThai','$ghiChu')";
+$rawQuery = "INSERT INTO khenthuongkyluat (MaNhanVien,ThoiGianKhenThuongKyLuat,Loai,NoiDung,SoQuyetDinh,CoQuanQuyetDinh,HinhThuc,SoTien,GhiChu) VALUES ('$maNhanVien','$thoiGianKhenThuongKyLuat','$loai','$noiDung','$soQuyetDinh','$coQuanQuyetDinh','$hinhThuc','$soTien','$ghiChu')";
 
 try {
     $query = $sql->exe($rawQuery);

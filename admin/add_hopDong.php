@@ -24,16 +24,15 @@ $heSoLuong = $data['HeSoLuong'] ?? null;
 $phuCap = $data['PhuCap'] ?? null;
 $baoHiem = $data['BaoHiem'] ?? null;
 $luongThoaThuan = $data['LuongThoaThuan'] ?? null;
-$trangThai = $data['TrangThai'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$loaiHopDong || !$ngayBatDau || !$ngayHetHan || !$bacLuong || !$heSoLuong || !$phuCap || !$baoHiem || !$luongThoaThuan || !$trangThai) {
+if (!$maNhanVien || !$loaiHopDong || !$ngayBatDau || !$ngayHetHan || !$bacLuong || !$heSoLuong || !$phuCap || !$baoHiem || !$luongThoaThuan) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO hopdong (MaNhanVien,LoaiHopDong,NgayBatDau,NgayHetHan,BacLuong,HeSoLuong,PhuCap,BaoHiem,LuongThoaThuan,TrangThai) VALUES ('$maNhanVien','$loaiHopDong','$ngayBatDau','$ngayHetHan','$bacLuong','$heSoLuong','$phuCap','$baoHiem','$luongThoaThuan','$trangThai')";
+$rawQuery = "INSERT INTO hopdong (MaNhanVien,LoaiHopDong,NgayBatDau,NgayHetHan,BacLuong,HeSoLuong,PhuCap,BaoHiem,LuongThoaThuan) VALUES ('$maNhanVien','$loaiHopDong','$ngayBatDau','$ngayHetHan','$bacLuong','$heSoLuong','$phuCap','$baoHiem','$luongThoaThuan')";
 
 try {
     $query = $sql->exe($rawQuery);

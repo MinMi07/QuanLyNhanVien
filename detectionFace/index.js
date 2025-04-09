@@ -159,7 +159,7 @@ video.addEventListener('playing', async () => {
 
             drawFrameNotiCheckin(video, 'red');
 
-            if (bestMatch.distance < 0.4 && nameFace !== "Không xác định") {
+            if (bestMatch.distance < 0.6 && nameFace !== "Không xác định") {
                 if (!recognizedFaces.has(nameFace)) {
                     recognizedFaces.add(nameFace);
 

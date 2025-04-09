@@ -53,6 +53,5 @@ if ($nam) {
                 <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['CoQuanQuyetDinh'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['HinhThuc'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['SoTien'] . "</td> 
-                <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['TrangThai'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['GhiChu'] . "</td> </tr> ";
 }

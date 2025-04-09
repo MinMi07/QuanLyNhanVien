@@ -140,7 +140,6 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Cơ quan quyết định</th>
                             <th width="4.34%">Hình thức</th>
                             <th width="4.34%">Số tiền</th>
-                            <th width="4.34%">Trạng thái</th>
                             <th width="4.34%">Ghi chú</th>
                         </tr>
                     </table>
@@ -164,7 +163,6 @@ $sql = new SQL(); ?>
                                         <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['CoQuanQuyetDinh'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['HinhThuc'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['SoTien'] . "</td> 
-                                        <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['TrangThai'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $khenThuongKyLuat['GhiChu'] . "</td> 
                                     </tr>";
                                 }
@@ -206,7 +204,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Trạng Thái", "Ghi Chú"], // Tiêu đề
+                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Ghi Chú"], // Tiêu đề
                 ...tableData
             ]);
 

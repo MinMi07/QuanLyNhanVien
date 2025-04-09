@@ -74,7 +74,6 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="CoQuanQuyetDinh">Cơ quan quyết định<span>*</span></label> <input type="text" id="CoQuanQuyetDinh"> </div>
                         <div class="add_pass"> <label for="HinhThuc">Hình thức<span>*</span></label> <input type="text" id="HinhThuc"> </div>
                         <div class="add_pass"> <label for="SoTien">Số Tiền<span>*</span></label> <input type="text" id="SoTien"> </div>
-                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai"> </div>
                         <div class="add_pass"> <label for="GhiChu">Ghi chú<span>*</span></label> <input type="text" id="GhiChu"> </div>
                     </div>
                     <div class="button"> <button type="button" id="add_khenThuongKyLuat">Thêm</button> </div>
@@ -108,7 +107,6 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="CoQuanQuyetDinh">Cơ quan quyết định<span>*</span></label> <input type="text" id="CoQuanQuyetDinh_update"> </div>
                         <div class="add_pass"> <label for="HinhThuc">Hình thức<span>*</span></label> <input type="text" id="HinhThuc_update"> </div>
                         <div class="add_pass"> <label for="SoTien">Số Tiền<span>*</span></label> <input type="text" id="SoTien_update"> </div>
-                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai_update"> </div>
                         <div class="add_pass"> <label for="GhiChu">Ghi chú<span>*</span></label> <input type="text" id="GhiChu_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_khenThuongKyLuat">Sửa</button> </div>
@@ -207,7 +205,6 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Cơ quan quyết định</th>
                             <th width="4.34%">Hình thức</th>
                             <th width="4.34%">Số tiền</th>
-                            <th width="4.34%">Trạng thái</th>
                             <th width="4.34%">Ghi chú</th>
                         </tr>
                     </table>
@@ -230,7 +227,6 @@ $sql = new SQL(); ?>
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['CoQuanQuyetDinh'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['HinhThuc'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['SoTien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['GhiChu'] . "</td> </tr> ";
                             } ?> </table>
                     </div>
@@ -250,7 +246,6 @@ $sql = new SQL(); ?>
             var CoQuanQuyetDinh = document.getElementById('CoQuanQuyetDinh');
             var HinhThuc = document.getElementById('HinhThuc');
             var SoTien = document.getElementById('SoTien');
-            var TrangThai = document.getElementById('TrangThai');
             var GhiChu = document.getElementById('GhiChu');
 
             if (
@@ -262,7 +257,6 @@ $sql = new SQL(); ?>
                 CoQuanQuyetDinh.value == '' ||
                 HinhThuc.value == '' ||
                 SoTien.value == '' ||
-                TrangThai.value == '' ||
                 GhiChu.value == ''
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
@@ -280,7 +274,6 @@ $sql = new SQL(); ?>
                     CoQuanQuyetDinh: CoQuanQuyetDinh.value,
                     HinhThuc: HinhThuc.value,
                     SoTien: SoTien.value,
-                    TrangThai: TrangThai.value,
                     GhiChu: GhiChu.value
                 };
 
@@ -361,7 +354,6 @@ $sql = new SQL(); ?>
             document.getElementById('CoQuanQuyetDinh_update').value = dataResult.data.CoQuanQuyetDinh;
             document.getElementById('HinhThuc_update').value = dataResult.data.HinhThuc;
             document.getElementById('SoTien_update').value = dataResult.data.SoTien;
-            document.getElementById('TrangThai_update').value = dataResult.data.TrangThai;
             document.getElementById('GhiChu_update').value = dataResult.data.GhiChu;
 
             document.getElementById('update_khenThuongKyLuat').onclick = async function() {
@@ -373,7 +365,6 @@ $sql = new SQL(); ?>
                 var CoQuanQuyetDinh = document.getElementById('CoQuanQuyetDinh_update');
                 var HinhThuc = document.getElementById('HinhThuc_update');
                 var SoTien = document.getElementById('SoTien_update');
-                var TrangThai = document.getElementById('TrangThai_update');
                 var GhiChu = document.getElementById('GhiChu_update');
 
                 if (maKhenThuongKyLuats.length == 0) {
@@ -396,7 +387,6 @@ $sql = new SQL(); ?>
                     CoQuanQuyetDinh.value == '' ||
                     HinhThuc.value == '' ||
                     SoTien.value == '' ||
-                    TrangThai.value == '' ||
                     GhiChu.value == ''
                 ) {
                     document.getElementById('thongbao_chucnang_1').innerHTML = ` 
@@ -415,7 +405,6 @@ $sql = new SQL(); ?>
                         CoQuanQuyetDinh: CoQuanQuyetDinh.value,
                         HinhThuc: HinhThuc.value,
                         SoTien: SoTien.value,
-                        TrangThai: TrangThai.value,
                         GhiChu: GhiChu.value
                     };
 
@@ -494,7 +483,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Tên nhân viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Trạng Thái", "Ghi Chú"], // Tiêu đề
+                ["Mã Khen Thưởng Kỷ Luật", "Mã Nhân Viên", "Tên nhân viên", "Thời Gian", "Loại", "Nội Dung", "Số Quyết Đinh", "Cơ Quan Quyết Định", "Hình Thức", "Số Tiền", "Ghi Chú"], // Tiêu đề
                 ...tableData
             ]);
 

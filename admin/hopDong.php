@@ -75,7 +75,6 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="PhuCap">Phụ cấp<span>*</span></label> <input type="text" id="PhuCap"> </div>
                         <div class="add_pass"> <label for="BaoHiem">Bảo hiểm<span>*</span></label> <input type="text" id="BaoHiem"> </div>
                         <div class="add_pass"> <label for="LuongThoaThuan">Lương thảo thuận<span>*</span></label> <input type="text" id="LuongThoaThuan"> </div>
-                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai"> </div>
                     </div>
                     <div class="button"> <button type="button" id="add_hopDong">Thêm</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền</p>
@@ -109,7 +108,6 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="PhuCap">Phụ cấp<span>*</span></label> <input type="text" id="PhuCap_update"> </div>
                         <div class="add_pass"> <label for="BaoHiem">Bảo hiểm<span>*</span></label> <input type="text" id="BaoHiem_update"> </div>
                         <div class="add_pass"> <label for="LuongThoaThuan">Lương thảo thuận<span>*</span></label> <input type="text" id="LuongThoaThuan_update"> </div>
-                        <div class="add_pass"> <label for="TrangThai">Trạng thái<span>*</span></label> <input type="text" id="TrangThai_update"> </div>
                     </div>
                     <div class="button"> <button type="button" id="update_hopDong">Sửa</button> </div>
                     <p>Lưu ý: thông tin có chứa dấu (*) bắt buộc phải điền <br> Nếu chọn nhiều hơn 1 sẽ thực hiện sửa cho hàng đầu tiên mà bạn chọn </p>
@@ -208,7 +206,6 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Phụ cấp</th>
                             <th width="4.34%">Bảo hiểm</th>
                             <th width="4.34%">Lương thỏa thuận</th>
-                            <th width="4.34%">Trạng thái</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -231,7 +228,7 @@ $sql = new SQL(); ?>
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['PhuCap'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['BaoHiem'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $hopDong['LuongThoaThuan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['TrangThai'] . "</td> </tr> ";
+                                </tr> ";
                             } ?> </table>
                     </div>
                 </div>
@@ -251,7 +248,6 @@ $sql = new SQL(); ?>
             var PhuCap = document.getElementById('PhuCap');
             var BaoHiem = document.getElementById('BaoHiem');
             var LuongThoaThuan = document.getElementById('LuongThoaThuan');
-            var TrangThai = document.getElementById('TrangThai');
 
             if (
                 MaNhanVien.value == '' ||
@@ -262,8 +258,7 @@ $sql = new SQL(); ?>
                 HeSoLuong.value == '' ||
                 PhuCap.value == '' ||
                 BaoHiem.value == '' ||
-                LuongThoaThuan.value == '' ||
-                TrangThai.value == ''
+                LuongThoaThuan.value == ''
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -281,7 +276,6 @@ $sql = new SQL(); ?>
                     PhuCap: PhuCap.value,
                     BaoHiem: BaoHiem.value,
                     LuongThoaThuan: LuongThoaThuan.value,
-                    TrangThai: TrangThai.value
                 };
 
                 try {
@@ -360,7 +354,6 @@ $sql = new SQL(); ?>
             document.getElementById('PhuCap_update').value = dataResult.data.PhuCap;
             document.getElementById('BaoHiem_update').value = dataResult.data.BaoHiem;
             document.getElementById('LuongThoaThuan_update').value = dataResult.data.LuongThoaThuan;
-            document.getElementById('TrangThai_update').value = dataResult.data.TrangThai;
 
             document.getElementById('update_hopDong').onclick = async function() {
                 var MaNhanVien = document.getElementById('MaNhanVien_update');
@@ -372,7 +365,6 @@ $sql = new SQL(); ?>
                 var PhuCap = document.getElementById('PhuCap_update');
                 var BaoHiem = document.getElementById('BaoHiem_update');
                 var LuongThoaThuan = document.getElementById('LuongThoaThuan_update');
-                var TrangThai = document.getElementById('TrangThai_update');
 
                 if (maHopDongs.length == 0) {
                     Toastify({
@@ -394,8 +386,7 @@ $sql = new SQL(); ?>
                     HeSoLuong.value == '' ||
                     PhuCap.value == '' ||
                     BaoHiem.value == '' ||
-                    LuongThoaThuan.value == '' ||
-                    TrangThai.value == ''
+                    LuongThoaThuan.value == ''
                 ) {
                     document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -414,7 +405,6 @@ $sql = new SQL(); ?>
                         PhuCap: PhuCap.value,
                         BaoHiem: BaoHiem.value,
                         LuongThoaThuan: LuongThoaThuan.value,
-                        TrangThai: TrangThai.value
                     };
 
                     try {
@@ -491,7 +481,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Hợp Đồng", "Mã Nhân Viên", "Tên Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận", "Trạng Thái"], // Tiêu đề
+                ["Mã Hợp Đồng", "Mã Nhân Viên", "Tên Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận"], // Tiêu đề
                 ...tableData
             ]);
 
