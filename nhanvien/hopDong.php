@@ -129,7 +129,6 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Phụ cấp</th>
                             <th width="4.34%">Bảo hiểm</th>
                             <th width="4.34%">Lương thỏa thuận</th>
-                            <th width="4.34%">Trạng thái</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -140,16 +139,16 @@ $sql = new SQL(); ?>
                             $data_hopdong = $sql->getdata($query);
                             while ($hopDong = $data_hopdong->fetch_assoc()) {
                                 echo " <tr class=\"class noidungbang\"> 
-                                <td align=\"center\" width=\"4.34%\" >" . $hopDong['MaHopDong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['MaNhanVien'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['LoaiHopDong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['NgayBatDau'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['NgayHetHan'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['BacLuong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['HeSoLuong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['PhuCap'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['BaoHiem'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $hopDong['LuongThoaThuan'] . "</td> 
+                                <td align=\"center\" width=\"10%\" >" . $hopDong['MaHopDong'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['LoaiHopDong'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['NgayBatDau'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['NgayHetHan'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['BacLuong'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['HeSoLuong'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['PhuCap'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['BaoHiem'] . "</td> 
+                                <td align=\"center\" width=\"10%\">" . $hopDong['LuongThoaThuan'] . "</td> 
                                 </tr> ";
                             } ?> </table>
                     </div>
@@ -186,7 +185,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Hợp Đồng", "Mã Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận", "Trạng Thái"], // Tiêu đề
+                ["Mã Hợp Đồng", "Mã Nhân Viên", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Hết Thúc", "Bậc Lương", "Hệ Số Lương", "Phụ Cấp", "Bảo Hiểm", "Lương Thỏa Thuận"], // Tiêu đề
                 ...tableData
             ]);
 
