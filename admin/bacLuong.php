@@ -54,6 +54,7 @@ $sql = new SQL(); ?>
                 <h2>Thêm bậc lương</h2>
                 <form class="" action="" method="post">
                     <div class="box_content">
+                        <div class="add_pass onceColumn"> <label for="MaBacLuong">Bậc lương<span>*</span></label> <input type="text" id="MaBacLuong"> </div>
                         <div class="add_pass onceColumn"> <label for="SoTien">Số tiền<span>*</span></label> <input type="text" id="SoTien"> </div>
                     </div>
                     <div class="button"> <button type="button" id="add_bacLuong">Thêm</button> </div>
@@ -146,17 +147,20 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Thêm" id="add_btn">
                         <input type="button" value="Sửa" id="update_btn">
+                        <input type="button" value="Xóa" id="delete_btn">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
-                    <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
-                            <option value="MaBacLuong">Mã bậc lương</option>
-                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
+                    <div class="timkiem"> 
+                        <select name="luachontimkiem" class="luachon" id="sel_search">
+                            <option value="MaBacLuong">Bậc lương</option>
+                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> 
+                    </div>
                 </div>
                 <div class="content_content">
                     <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
                         <tr class="bangtieude">
-                            <th width="4.34%">Mã bậc lương</th>
-                            <th width="4.34%">Số tiền</th>
+                            <th width="50%">Bậc lương</th>
+                            <th width="50%">Số tiền</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -165,8 +169,8 @@ $sql = new SQL(); ?>
                             $data_bacluong = $sql->getdata($query);
                             while ($bacluong = $data_bacluong->fetch_assoc()) {
                                 echo " <tr class=\"class noidungbang\"> 
-                                <td align=\"center\" width=\"4.34%\" >" . $bacluong['MaBacLuong'] . "</td> 
-                                <td align=\"center\" width=\"4.34%\">" . $bacluong['SoTien'] . "</td>
+                                <td align=\"center\" width=\"50%\" >" . $bacluong['MaBacLuong'] . "</td> 
+                                <td align=\"center\" width=\"50%\">" . $bacluong['SoTien'] . "</td>
                                 </tr> ";
                             } ?> </table>
                     </div>
@@ -178,11 +182,11 @@ $sql = new SQL(); ?>
     <script>
         // Chức năng thêm thông tin
         document.getElementById('add_bacLuong').onclick = async function() {
-            var MaNhanVien = document.getElementById('MaNhanVien');
+            var MaBacLuong = document.getElementById('MaBacLuong');
             var SoTien = document.getElementById('SoTien');
 
             if (
-                SoTien.value == ""
+                SoTien.value == "" || MaBacLuong.value == ""
             ) {
                 document.getElementById('thongbao_chucnang_1').innerHTML = ` 
                     <h2 style="color: rgb(1, 82, 233);">Thông báo</h2> 
@@ -191,6 +195,7 @@ $sql = new SQL(); ?>
                 document.getElementById('thongbao_chucnang').style.display = 'block';
             } else {
                 let data = {
+                    MaBacLuong: MaBacLuong.value,
                     SoTien: SoTien.value
                 };
 
@@ -365,6 +370,73 @@ $sql = new SQL(); ?>
         document.getElementById('search').oninput = function() {
             var sel_search = document.getElementById('sel_search');
             search('timKiem_bacLuong.php', sel_search.value, this.value);
+        }
+
+        // Xóa
+        document.getElementById('delete_btn').onclick = async function() {
+            var BacLuongs = [];
+            get_ma(BacLuongs, '', 'xóa');
+
+            if (BacLuongs.length > 0) {
+                var a = '';
+                for (var i = 0; i < BacLuongs.length; i++) {
+                    a += `
+                        <p style="text-align: left ;font-size: 17px; font-weight: 500; color: #5C7AEA">Xác nhận xóa bậc lương có mã là <span style="color: #FFB319; font-weight: 600; border-bottom: 1px solid #FFB319">${BacLuongs[i]}</span></p>
+                    `;
+                }
+
+                document.getElementById('delete_infor').innerHTML = a;
+                document.getElementById('delete').style.display = 'block';
+                document.getElementById('delete_confirm').onclick = async function() {
+                    let data = {
+                        MaBacLuong: BacLuongs[0]
+                    };
+
+                    try {
+                        let checkResponse = await fetch('./delete_bacLuong.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        let responseText = await checkResponse.text();
+                        let checkResult = JSON.parse(responseText);
+
+                        if (checkResult.success) {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+                            }).showToast();
+
+                            setTimeout(() => {
+                                window.location.href = "bacLuong.php";
+                            }, 1000);
+                        } else {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                            }).showToast();
+                        }
+
+                    } catch (error) {
+                        Toastify({
+                            text: error.message,
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                        }).showToast();
+                    }
+                }
+            }
         }
     </script>
 </body>

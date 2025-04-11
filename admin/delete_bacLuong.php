@@ -15,25 +15,16 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
 }
 
 // Lấy dữ liệu từ request POST
-$soTien = $data['SoTien'] ?? null;
 $maBacLuong = $data['MaBacLuong'] ?? null;
 
-// Kiểm tra mã bậc lương đã tồn tại
-$checkQuery = "SELECT * FROM bacluong WHERE MaBacLuong = '$maBacLuong'";
-$dataCheckBacLuong = $sql->getdata($checkQuery);
-if ($dataCheckBacLuong->num_rows > 0) {
-    echo json_encode(["success" => false, "message" => "Mã bậc lương đã tồn tại!"]);
-    exit;
-}
-
 // Kiểm tra dữ liệu hợp lệ
-if (!$soTien || !$maBacLuong) {
+if (!$maBacLuong) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
-$rawQuery = "INSERT INTO bacluong (MaBacLuong, SoTien) VALUES ('$maBacLuong','$soTien')";
+$rawQuery = "DELETE FROM bacluong WHERE MaBacLuong = '$maBacLuong'";
 
 try {
     $query = $sql->exe($rawQuery);
@@ -43,7 +34,7 @@ try {
 
 // Thực thi truy vấn
 if ($query) {
-    echo json_encode(["success" => true, "message" => "Thêm bậc lương thành công!"]);
+    echo json_encode(["success" => true, "message" => "Xóa bậc lương thành công!"]);
 } else {
-    echo json_encode(["success" => false, "message" => "Lỗi khi thêm bậc lương!"]);
+    echo json_encode(["success" => false, "message" => "Lỗi khi xóa bậc lương!"]);
 }

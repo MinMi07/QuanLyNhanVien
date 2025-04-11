@@ -17,8 +17,8 @@ if (isset($_GET['col']) && isset($_GET['inf'])) {
 
     foreach ($bacLuongs as $bacLuong) {
         echo " <tr class=\"class noidungbang\"> 
-            <td align=\"center\" width=\"4.34%\" >" . $bacLuong['MaBacLuong'] . "</td> 
-            <td align=\"center\" width=\"4.34%\">" . $bacLuong['SoTien'] . "</td> 
+            <td align=\"center\" width=\"50%\" >" . $bacLuong['MaBacLuong'] . "</td> 
+            <td align=\"center\" width=\"50%\">" . $bacLuong['SoTien'] . "</td> 
             </tr> ";
     }
 }
