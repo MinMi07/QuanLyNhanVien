@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Lỗi: Không nhận được tài khoản!");
     }
 
-    $uploadDir = "D:/xampp/htdocs/QuanLyNhanVien/detectionFace/dataset/" . $taiKhoan;
+    $uploadDir = "C:/xampp/htdocs/QuanLyNhanVien/detectionFace/dataset/" . $taiKhoan;
 
     // Tạo thư mục nếu chưa tồn tại
     if (!file_exists($uploadDir)) {

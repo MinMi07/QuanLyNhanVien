@@ -127,8 +127,8 @@ $sql = new SQL(); ?>
                                 <div class="detail_pass"> <label for="DanToc">Dân tộc <span></span></label> <input type="text" id="DanToc_detail" disabled> </div>
                                 <div class="detail_pass"> <label for="ChucVu">Chức vụ <span></span></label> <input type="text" id="ChucVu_detail" disabled> </div>
                                 <div class="detail_pass"> <label for="PhongBan">Phòng ban <span></span></label> <input type="text" id="PhongBan_detail" disabled> </div>
-                                <div class="detail_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="date" id="NgayVaoDoan_detail" disabled> </div>
-                                <div class="detail_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="date" id="NgayVaoDang_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="text" id="NgayVaoDoan_detail" disabled> </div>
+                                <div class="detail_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="text" id="NgayVaoDang_detail" disabled> </div>
                                 <div class="detail_pass"> <label for="LoaiNhanVien">Loại nhân viên <span></span></label> <input type="text" id="LoaiNhanVien_detail" disabled> </div>
                                 <div class="detail_pass"> <label for="HonNhan">Hôn nhân <span></span></label> <input type="text" id="HonNhan_detail" disabled> </div>
                                 <div class="detail_pass"> <label for="Cha">Cha <span></span></label> <input type="text" id="Cha_detail" disabled> </div>

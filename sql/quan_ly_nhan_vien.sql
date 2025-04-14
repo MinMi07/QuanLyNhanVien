@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2025 at 04:14 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.10
+-- Generation Time: Apr 12, 2025 at 06:23 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `username` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `pass` varchar(255) COLLATE utf8mb4_bin NOT NULL
+  `username` varchar(255) NOT NULL,
+  `pass` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -46,8 +46,7 @@ INSERT INTO `admin` (`username`, `pass`) VALUES
 --
 
 CREATE TABLE `bacluong` (
-  `MaBacLuong` int(11) NOT NULL,
-  `MaNhanVien` int(11) DEFAULT NULL,
+  `MaBacLuong` varchar(255) NOT NULL,
   `SoTien` int(11) DEFAULT NULL,
   `ThoiGianTao` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -56,11 +55,12 @@ CREATE TABLE `bacluong` (
 -- Dumping data for table `bacluong`
 --
 
-INSERT INTO `bacluong` (`MaBacLuong`, `MaNhanVien`, `SoTien`, `ThoiGianTao`) VALUES
-(5, 1, 100000, '2025-03-31 00:00:00'),
-(6, 2, 200000, '2025-03-31 00:00:00'),
-(7, 1, 2000000, '2025-04-01 00:00:00'),
-(8, 3, 100000, '2025-04-01 00:00:00');
+INSERT INTO `bacluong` (`MaBacLuong`, `SoTien`, `ThoiGianTao`) VALUES
+('5', 100000, '2025-03-31 00:00:00'),
+('6', 200000, '2025-03-31 00:00:00'),
+('7', 2000000, '2025-04-01 00:00:00'),
+('8', 100000, '2025-04-01 00:00:00'),
+('BL1', 20000, '2025-04-12 23:08:58');
 
 -- --------------------------------------------------------
 
@@ -69,8 +69,8 @@ INSERT INTO `bacluong` (`MaBacLuong`, `MaNhanVien`, `SoTien`, `ThoiGianTao`) VAL
 --
 
 CREATE TABLE `cauhinhthongso` (
-  `CauHinh` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `GiaTri` varchar(255) COLLATE utf8mb4_bin NOT NULL
+  `CauHinh` varchar(255) NOT NULL,
+  `GiaTri` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -78,7 +78,10 @@ CREATE TABLE `cauhinhthongso` (
 --
 
 INSERT INTO `cauhinhthongso` (`CauHinh`, `GiaTri`) VALUES
-('thoiGianChamCong', '09:00:00');
+('thoiGianChamCong', '09:00:00'),
+('thoiGianChamCongVe', '17:00:00'),
+('phatChamCongMuon', '100000'),
+('luongTangCa', '20000');
 
 -- --------------------------------------------------------
 
@@ -90,19 +93,21 @@ CREATE TABLE `chamcong` (
   `MaChamCong` int(11) NOT NULL,
   `MaNhanVien` int(11) DEFAULT NULL,
   `ThoiGian` datetime DEFAULT NULL,
-  `TrangThai` int(11) DEFAULT NULL
+  `TrangThai` int(11) DEFAULT NULL,
+  `ThoiGianVe` datetime DEFAULT NULL,
+  `Loai` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `chamcong`
 --
 
-INSERT INTO `chamcong` (`MaChamCong`, `MaNhanVien`, `ThoiGian`, `TrangThai`) VALUES
-(6, 3, '2025-03-29 22:09:35', 0),
-(8, 3, '2025-03-30 22:51:49', 0),
-(9, 3, '2025-03-31 12:09:57', 0),
-(10, 45, '2025-03-31 20:56:34', 1),
-(11, 3, '2025-04-01 09:04:50', 0);
+INSERT INTO `chamcong` (`MaChamCong`, `MaNhanVien`, `ThoiGian`, `TrangThai`, `ThoiGianVe`, `Loai`) VALUES
+(6, 3, '2025-03-29 22:09:35', 0, NULL, 1),
+(8, 3, '2025-03-30 22:51:49', 0, NULL, 1),
+(9, 3, '2025-03-31 12:09:57', 0, NULL, 1),
+(10, 45, '2025-03-31 20:56:34', 1, NULL, 1),
+(11, 3, '2025-04-01 09:04:50', 0, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +118,7 @@ INSERT INTO `chamcong` (`MaChamCong`, `MaNhanVien`, `ThoiGian`, `TrangThai`) VAL
 CREATE TABLE `hopdong` (
   `MaHopDong` int(11) NOT NULL,
   `MaNhanVien` int(11) DEFAULT NULL,
-  `LoaiHopDong` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `LoaiHopDong` varchar(255) DEFAULT NULL,
   `NgayBatDau` datetime DEFAULT NULL,
   `NgayHetHan` datetime DEFAULT NULL,
   `BacLuong` int(11) DEFAULT NULL,
@@ -144,14 +149,14 @@ CREATE TABLE `khenthuongkyluat` (
   `MaKhenThuongKyLuat` int(11) NOT NULL,
   `MaNhanVien` int(11) DEFAULT NULL,
   `ThoiGianKhenThuongKyLuat` datetime DEFAULT NULL,
-  `Loai` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `NoiDung` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `SoQuyetDinh` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
-  `CoQuanQuyetDinh` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `HinhThuc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `Loai` varchar(255) DEFAULT NULL,
+  `NoiDung` varchar(255) DEFAULT NULL,
+  `SoQuyetDinh` varchar(50) DEFAULT NULL,
+  `CoQuanQuyetDinh` varchar(255) DEFAULT NULL,
+  `HinhThuc` varchar(255) DEFAULT NULL,
   `SoTien` int(11) DEFAULT 0,
-  `TrangThai` varchar(50) COLLATE utf8mb4_bin DEFAULT 'Chờ duyệt',
-  `GhiChu` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL
+  `TrangThai` varchar(50) DEFAULT 'Chờ duyệt',
+  `GhiChu` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -174,8 +179,8 @@ CREATE TABLE `luong` (
   `MaNhanVien` int(11) DEFAULT NULL,
   `ThoiGianTao` datetime DEFAULT NULL,
   `SoTien` int(11) DEFAULT NULL,
-  `TheLoai` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `MoTa` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL
+  `TheLoai` varchar(255) DEFAULT NULL,
+  `MoTa` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -200,10 +205,10 @@ CREATE TABLE `nhanvien` (
   `GioiTinh` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `TrinhDo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `NgoaiNgu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `CMND` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
+  `CMND` varchar(50) DEFAULT NULL,
   `DiaChi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `SDT` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
-  `Email` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `SDT` varchar(20) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
   `TonGiao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DanToc` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ChucVu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -216,7 +221,7 @@ CREATE TABLE `nhanvien` (
   `Me` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `VoChong` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Con` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `BacLuong` int(11) DEFAULT NULL,
+  `BacLuong` varchar(255) DEFAULT NULL,
   `PhongCongTac` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CongViec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `NgayThamGia` date DEFAULT current_timestamp()
@@ -227,10 +232,10 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`MaNhanVien`, `HoTen`, `TaiKhoan`, `NgaySinh`, `GioiTinh`, `TrinhDo`, `NgoaiNgu`, `CMND`, `DiaChi`, `SDT`, `Email`, `TonGiao`, `DanToc`, `ChucVu`, `PhongBan`, `NgayVaoDoan`, `NgayVaoDang`, `LoaiNhanVien`, `TinhTrangHonNhan`, `Cha`, `Me`, `VoChong`, `Con`, `BacLuong`, `PhongCongTac`, `CongViec`, `NgayThamGia`) VALUES
-(1, 'Nguyễn Văn A', 'anv', '1963-12-31', 'Nam', 'Đại Học', 'B1', '001201021234', 'Hà Nội', '0964438321', 'a@gmail.com', 'Không', 'Kinh', 'Nhân Viên', 1, '2025-02-26', '2025-03-25', 'Hợp đồng', 'chưa', 'Nguyễn Văn B', 'Nguyễn Thị C', 'Nguyễn Thị D', 'Nguyễn Văn D', 2, '1', 'Xếp đồ', '2022-03-31'),
-(2, 'Nguyễn Văn X', 'xvn', '1968-07-31', 'Nữ', 'Cao đẳng', 'B2', '000000000010', 'Nam Từ Liêm, Hà Nội', '0999999999', 'xvn@gmail.com', 'không', 'kinh', 'Nhân viên', 2, '2025-03-03', '2025-03-09', 'hợp đồng', 'Chưa kết hôn', 'Nguyễn Văn Y', 'Nguyễn Thị U', 'Lê Thị I', 'Nguyễn Thị O', 1, 'P1', 'Sắp xếp linh kiện', '2025-03-31'),
-(3, 'Van Minh', 'minhpv', '2016-03-16', 'Nam', 'Đại học', 'B1', '001200000099', 'Ha Noi', '0964999999', 'minh@gmail.com', 'không', 'Kinh', 'Quản lý', 1, '2025-03-05', '2025-03-05', 'Hợp đồng', 'Chưa kết hôn', 'Nguyen Van A', 'Nguyen Van B', 'Nguyen Thị C', 'Nguyen Van X', 2, 'B1', 'Quản lý dậy chuyền', '2025-03-31'),
-(45, 'Võ Huy Hoàng', 'hoangvh', '1999-12-15', 'Nam', 'Đại học', 'B1', '0123456789', 'Hà Tây', '0964555555', 'hoang@gmail.com', 'Không', 'Kinh', 'Nhân viên', 1, '2025-03-26', '2025-04-01', 'Hợp đồng', 'chưa', 'Võ Huy X', 'Võ Thị Y', 'Võ Thu Nhi', 'Võ Huy D', 1, 'Hành chính', 'Sắp xếp hàng', '2025-04-01');
+(1, 'Nguyễn Văn A', 'hoangvh', '1963-12-31', 'Nam', 'Đại Học', 'B1', '001201021234', 'Hà Nội', '0964438321', 'a@gmail.com', 'Không', 'Kinh', 'Nhân Viên', 1, '2025-02-26', '2025-03-25', 'Hợp đồng', 'chưa', 'Nguyễn Văn B', 'Nguyễn Thị C', 'Nguyễn Thị D', 'Nguyễn Văn D', '6', '1', 'Xếp đồ', '2022-03-31'),
+(2, 'Nguyễn Văn X', 'xvn', '1968-07-31', 'Nữ', 'Cao đẳng', 'B2', '000000000010', 'Nam Từ Liêm, Hà Nội', '0999999999', 'xvn@gmail.com', 'không', 'kinh', 'Nhân viên', 2, '2025-03-03', '2025-03-09', 'hợp đồng', 'Chưa kết hôn', 'Nguyễn Văn Y', 'Nguyễn Thị U', 'Lê Thị I', 'Nguyễn Thị O', '5', 'P1', 'Sắp xếp linh kiện', '2025-03-31'),
+(3, 'Van Minh', 'minhpv', '2016-03-16', 'Nam', 'Đại học', 'B1', '001200000099', 'Ha Noi', '0964999999', 'minh@gmail.com', 'không', 'Kinh', 'Quản lý', 1, '2025-03-05', '2025-03-05', 'Hợp đồng', 'Chưa kết hôn', 'Nguyen Van A', 'Nguyen Van B', 'Nguyen Thị C', 'Nguyen Van X', 'BL1', 'B1', 'Quản lý dậy chuyền', '2025-03-31'),
+(45, 'Võ Huy Hoàng', 'hoangvh', '1999-12-15', 'Nam', 'Đại học', 'B1', '0123456789', 'Hà Tây', '0964555555', 'hoang@gmail.com', 'Không', 'Kinh', 'Nhân viên', 1, '2025-03-26', '2025-04-01', 'Hợp đồng', 'chưa', 'Võ Huy X', 'Võ Thị Y', 'Võ Thu Nhi', 'Võ Huy D', '5', 'Hành chính', 'Sắp xếp hàng', '2025-04-01');
 
 -- --------------------------------------------------------
 
@@ -241,18 +246,18 @@ INSERT INTO `nhanvien` (`MaNhanVien`, `HoTen`, `TaiKhoan`, `NgaySinh`, `GioiTinh
 CREATE TABLE `phancongcongviec` (
   `MaCongViec` int(11) NOT NULL,
   `MaNhanVien` int(11) DEFAULT NULL,
-  `TenCongViec` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `TenCongViec` varchar(255) DEFAULT NULL,
   `NgayBatDau` datetime DEFAULT NULL,
   `NgayKetThuc` datetime DEFAULT NULL,
-  `TrangThai` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `TienDo` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL
+  `TrangThai` varchar(255) DEFAULT NULL,
+  `TienDoNhanVien` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `phancongcongviec`
 --
 
-INSERT INTO `phancongcongviec` (`MaCongViec`, `MaNhanVien`, `TenCongViec`, `NgayBatDau`, `NgayKetThuc`, `TrangThai`, `TienDo`) VALUES
+INSERT INTO `phancongcongviec` (`MaCongViec`, `MaNhanVien`, `TenCongViec`, `NgayBatDau`, `NgayKetThuc`, `TrangThai`, `TienDoNhanVien`) VALUES
 (1, 1, 'Quản lý kho', '2024-12-18 00:00:00', '2025-07-25 00:00:00', '1', '80'),
 (2, 2, 'Sắp xếp kho', '2025-03-30 00:00:00', '2025-03-31 00:00:00', '1', '50'),
 (3, 3, 'Quản lý kho', '2025-04-10 00:00:00', '2025-04-18 00:00:00', '1', '70');
@@ -265,7 +270,7 @@ INSERT INTO `phancongcongviec` (`MaCongViec`, `MaNhanVien`, `TenCongViec`, `Ngay
 
 CREATE TABLE `phongban` (
   `MaPhongBan` int(11) NOT NULL,
-  `TenPhongBan` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL
+  `TenPhongBan` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -287,18 +292,19 @@ CREATE TABLE `quatrinhcongtac` (
   `MaQuaTrinh` int(11) NOT NULL,
   `MaNhanVien` int(11) DEFAULT NULL,
   `ThoiGian` datetime DEFAULT NULL,
-  `Loai` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `MoTaChiTiet` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL
+  `NoiCongTac` varchar(255) DEFAULT NULL,
+  `MoTaChiTiet` varchar(255) DEFAULT NULL,
+  `ThoiGianKetThuc` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `quatrinhcongtac`
 --
 
-INSERT INTO `quatrinhcongtac` (`MaQuaTrinh`, `MaNhanVien`, `ThoiGian`, `Loai`, `MoTaChiTiet`) VALUES
-(1, 1, '2025-03-06 00:00:00', 'Khen thưởng', 'Khen thưởng hoàn thành công việc'),
-(2, 3, '2025-03-11 00:00:00', 'Kỷ Luật', 'Kỷ luật vi phạm hút thuốc'),
-(3, 1, '2025-03-19 00:00:00', 'Tăng lương', 'Tăng lương 100000');
+INSERT INTO `quatrinhcongtac` (`MaQuaTrinh`, `MaNhanVien`, `ThoiGian`, `NoiCongTac`, `MoTaChiTiet`, `ThoiGianKetThuc`) VALUES
+(1, 1, '2025-03-06 00:00:00', 'Khen thưởng', 'Khen thưởng hoàn thành công việc', NULL),
+(2, 3, '2025-03-11 00:00:00', 'Kỷ Luật', 'Kỷ luật vi phạm hút thuốc', NULL),
+(3, 1, '2025-03-19 00:00:00', 'Tăng lương', 'Tăng lương 100000', NULL);
 
 -- --------------------------------------------------------
 
@@ -307,8 +313,8 @@ INSERT INTO `quatrinhcongtac` (`MaQuaTrinh`, `MaNhanVien`, `ThoiGian`, `Loai`, `
 --
 
 CREATE TABLE `taikhoan` (
-  `TaiKhoan` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `MatKhau` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `TaiKhoan` varchar(255) NOT NULL,
+  `MatKhau` varchar(255) DEFAULT NULL,
   `ThoiGian` datetime DEFAULT current_timestamp(),
   `KichHoat` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -335,8 +341,7 @@ ALTER TABLE `admin`
 -- Indexes for table `bacluong`
 --
 ALTER TABLE `bacluong`
-  ADD PRIMARY KEY (`MaBacLuong`),
-  ADD KEY `IDX_BacLuong_MaNhanVien` (`MaNhanVien`);
+  ADD PRIMARY KEY (`MaBacLuong`);
 
 --
 -- Indexes for table `chamcong`
@@ -400,7 +405,7 @@ ALTER TABLE `phancongcongviec`
   ADD KEY `IDX_PhanCongCongViec_MaNhanVien` (`MaNhanVien`),
   ADD KEY `IDX_PhanCongCongViec_NgayBatDau` (`NgayBatDau`),
   ADD KEY `IDX_PhanCongCongViec_NgayKetThuc` (`NgayKetThuc`),
-  ADD KEY `IDX_PhanCongCongViec_TienDo` (`TienDo`);
+  ADD KEY `IDX_PhanCongCongViec_TienDo` (`TienDoNhanVien`);
 
 --
 -- Indexes for table `phongban`
@@ -415,7 +420,7 @@ ALTER TABLE `phongban`
 ALTER TABLE `quatrinhcongtac`
   ADD PRIMARY KEY (`MaQuaTrinh`),
   ADD KEY `IDX_MaNhanVien` (`MaNhanVien`),
-  ADD KEY `IDX_Loai` (`Loai`),
+  ADD KEY `IDX_Loai` (`NoiCongTac`),
   ADD KEY `IDX_ThoiGian` (`ThoiGian`);
 
 --
@@ -428,12 +433,6 @@ ALTER TABLE `taikhoan`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `bacluong`
---
-ALTER TABLE `bacluong`
-  MODIFY `MaBacLuong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `chamcong`
