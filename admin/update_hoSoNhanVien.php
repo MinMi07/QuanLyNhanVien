@@ -14,6 +14,9 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
     exit;
 }
 
+$vaoDoan = $data['NgayVaoDoan'];
+$vaoDang = $data['NgayVaoDang'];
+
 // Lấy dữ liệu từ request POST
 $maNhanVien = $data['MaNhanVien'] ?? null;
 $hoTen = $data['HoTen'] ?? null;
@@ -30,8 +33,8 @@ $tonGiao = $data['TonGiao'] ?? null;
 $danToc = $data['DanToc'] ?? null;
 $chucVu = $data['ChucVu'] ?? null;
 $phongBan = $data['PhongBan'] ?? null;
-$ngayVaoDoan = $data['NgayVaoDoan'] ?? null;
-$ngayVaoDang = $data['NgayVaoDang'] ?? null;
+$ngayVaoDoan = !empty($data['NgayVaoDoan']) ? "'$vaoDoan'" : 'NULL';
+$ngayVaoDang = !empty($data['NgayVaoDang']) ? "'$vaoDang'" : 'NULL';
 $loaiNhanVien = $data['LoaiNhanVien'] ?? null;
 $tinhTrangHonNhan = $data['HonNhan'] ?? null;
 $cha = $data['Cha'] ?? null;
@@ -43,7 +46,7 @@ $phongCongTac = $data['PhongCongTac'] ?? null;
 $congViec = $data['CongViec'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maNhanVien || !$hoTen || !$taiKhoan || !$ngaySinh || !$gioiTinh || !$trinhDo || !$ngoaiNgu || !$cmnd || !$diaChi || !$sdt || !$email || !$tonGiao || !$danToc || !$chucVu || !$phongBan || !$ngayVaoDoan || !$ngayVaoDang || !$loaiNhanVien || !$tinhTrangHonNhan || !$cha || !$me || !$voChong || !$con || !$bacLuong || !$phongCongTac || !$congViec) {
+if (!$maNhanVien || !$hoTen || !$taiKhoan || !$ngaySinh || !$gioiTinh || !$trinhDo || !$ngoaiNgu || !$cmnd || !$diaChi || !$sdt || !$email || !$tonGiao || !$danToc || !$chucVu || !$phongBan || !$loaiNhanVien || !$tinhTrangHonNhan || !$cha || !$me || !$voChong || !$con || !$bacLuong || !$phongCongTac || !$congViec) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
@@ -64,8 +67,8 @@ $rawQuery = "UPDATE nhanvien
                 DanToc = '$danToc',
                 ChucVu = '$chucVu',
                 PhongBan = '$phongBan',
-                NgayVaoDoan = '$ngayVaoDoan',
-                NgayVaoDang = '$ngayVaoDang',
+                NgayVaoDoan = $ngayVaoDoan,
+                NgayVaoDang = $ngayVaoDang,
                 LoaiNhanVien = '$loaiNhanVien',
                 TinhTrangHonNhan = '$tinhTrangHonNhan',
                 Cha = '$cha',

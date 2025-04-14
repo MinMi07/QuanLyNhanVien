@@ -13,6 +13,8 @@ if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
     echo json_encode(["success" => false, "message" => "Sai kiểu dữ liệu, yêu cầu JSON"]);
     exit;
 }
+$vaoDoan = $data['NgayVaoDoan'];
+$vaoDang = $data['NgayVaoDang'];
 
 // Lấy dữ liệu từ request POST
 $hoTen = $data['HoTen'] ?? null;
@@ -29,8 +31,8 @@ $tonGiao = $data['TonGiao'] ?? null;
 $danToc = $data['DanToc'] ?? null;
 $chucVu = $data['ChucVu'] ?? null;
 $phongBan = $data['PhongBan'] ?? null;
-$ngayVaoDoan = $data['NgayVaoDoan'] ?? null;
-$ngayVaoDang = $data['NgayVaoDang'] ?? null;
+$ngayVaoDoan = !empty($data['NgayVaoDoan']) ? "'$vaoDoan'" : 'NULL';
+$ngayVaoDang = !empty($data['NgayVaoDang']) ? "'$vaoDang'" : 'NULL';
 $loaiNhanVien = $data['LoaiNhanVien'] ?? null;
 $tinhTrangHonNhan = $data['HonNhan'] ?? null;
 $cha = $data['Cha'] ?? null;
@@ -42,14 +44,14 @@ $phongCongTac = $data['PhongCongTac'] ?? null;
 $congViec = $data['CongViec'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$hoTen || !$taiKhoan || !$ngaySinh || !$gioiTinh || !$trinhDo || !$ngoaiNgu || !$cmnd || !$diaChi || !$sdt || !$email || !$tonGiao || !$danToc || !$chucVu || !$phongBan || !$ngayVaoDoan || !$ngayVaoDang || !$loaiNhanVien || !$tinhTrangHonNhan || !$cha || !$me || !$voChong || !$con || !$bacLuong || !$phongCongTac || !$congViec) {
+if (!$hoTen || !$taiKhoan || !$ngaySinh || !$gioiTinh || !$trinhDo || !$ngoaiNgu || !$cmnd || !$diaChi || !$sdt || !$email || !$tonGiao || !$danToc || !$chucVu || !$phongBan || !$loaiNhanVien || !$tinhTrangHonNhan || !$cha || !$me || !$voChong || !$con || !$bacLuong || !$phongCongTac || !$congViec) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }
 
 // Tránh lỗi SQL Injection
 $rawQuery = "INSERT INTO NhanVien (HoTen, TaiKhoan, NgaySinh, GioiTinh, TrinhDo, NgoaiNgu, CMND, DiaChi, SDT, Email, TonGiao, DanToc, ChucVu, PhongBan, NgayVaoDoan, NgayVaoDang, LoaiNhanVien, TinhTrangHonNhan, Cha, Me, VoChong, Con, BacLuong, PhongCongTac, CongViec) 
-                        VALUES ('$hoTen','$taiKhoan','$ngaySinh','$gioiTinh','$trinhDo','$ngoaiNgu','$cmnd','$diaChi','$sdt','$email','$tonGiao','$danToc','$chucVu','$phongBan','$ngayVaoDoan','$ngayVaoDang','$loaiNhanVien','$tinhTrangHonNhan','$cha','$me','$voChong','$con','$bacLuong','$phongCongTac','$congViec')";
+                        VALUES ('$hoTen','$taiKhoan','$ngaySinh','$gioiTinh','$trinhDo','$ngoaiNgu','$cmnd','$diaChi','$sdt','$email','$tonGiao','$danToc','$chucVu','$phongBan', $ngayVaoDoan, $ngayVaoDang,'$loaiNhanVien','$tinhTrangHonNhan','$cha','$me','$voChong','$con','$bacLuong','$phongCongTac','$congViec')";
 
 try {
     $query = $sql->exe($rawQuery);

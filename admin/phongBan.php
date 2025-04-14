@@ -146,6 +146,7 @@ $sql = new SQL(); ?>
                     <div class="chucnangchinh">
                         <input type="button" value="Thêm" id="add_btn">
                         <input type="button" value="Sửa" id="update_btn">
+                        <input type="button" value="Xóa" id="delete_btn">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
                     <div class="timkiem"> <select name="luachontimkiem" class="luachon" id="sel_search">
@@ -369,6 +370,73 @@ $sql = new SQL(); ?>
             }
 
             search('timKiem_phongBan.php', sel_search.value, this.value);
+        }
+
+        // Xóa
+        document.getElementById('delete_btn').onclick = async function() {
+            var PhongBans = [];
+            get_ma(PhongBans, '', 'xóa');
+
+            if (PhongBans.length > 0) {
+                var a = '';
+                for (var i = 0; i < PhongBans.length; i++) {
+                    a += `
+                        <p style="text-align: left ;font-size: 17px; font-weight: 500; color: #5C7AEA">Xác nhận xóa cấu hình có mã là <span style="color: #FFB319; font-weight: 600; border-bottom: 1px solid #FFB319">${PhongBans[i]}</span></p>
+                    `;
+                }
+
+                document.getElementById('delete_infor').innerHTML = a;
+                document.getElementById('delete').style.display = 'block';
+                document.getElementById('delete_confirm').onclick = async function() {
+                    let data = {
+                        MaPhongBan: PhongBans[0]
+                    };
+
+                    try {
+                        let checkResponse = await fetch('./delete_phongBan.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        let responseText = await checkResponse.text();
+                        let checkResult = JSON.parse(responseText);
+
+                        if (checkResult.success) {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+                            }).showToast();
+
+                            setTimeout(() => {
+                                window.location.href = "phongBan.php";
+                            }, 1000);
+                        } else {
+                            Toastify({
+                                text: checkResult.message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                            }).showToast();
+                        }
+
+                    } catch (error) {
+                        Toastify({
+                            text: error.message,
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "linear-gradient(to right, #FF7043, #E64A19)"
+                        }).showToast();
+                    }
+                }
+            }
         }
     </script>
 </body>

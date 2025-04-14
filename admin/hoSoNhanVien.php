@@ -107,8 +107,8 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="DanToc">Dân tộc <span>*</span></label> <input type="text" id="DanToc"> </div>
                         <div class="add_pass"> <label for="ChucVu">Chức vụ <span>*</span></label> <input type="text" id="ChucVu"> </div>
                         <div class="add_pass"> <label for="PhongBan">Phòng ban <span>*</span></label> <input type="text" id="PhongBan"> </div>
-                        <div class="add_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span>*</span></label> <input type="date" id="NgayVaoDoan"> </div>
-                        <div class="add_pass"> <label for="NgayVaoDang">Ngày vào đảng<span>*</span></label> <input type="date" id="NgayVaoDang"> </div>
+                        <div class="add_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="date" id="NgayVaoDoan"> </div>
+                        <div class="add_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="date" id="NgayVaoDang"> </div>
                         <div class="add_pass"> <label for="LoaiNhanVien">Loại nhân viên <span>*</span></label> <input type="text" id="LoaiNhanVien"> </div>
                         <div class="add_pass"> <label for="HonNhan">Hôn nhân <span>*</span></label> <input type="text" id="HonNhan"> </div>
                         <div class="add_pass"> <label for="Cha">Cha <span>*</span></label> <input type="text" id="Cha"> </div>
@@ -165,8 +165,8 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="DanToc">Dân tộc <span>*</span></label> <input type="text" id="DanToc_update"> </div>
                         <div class="add_pass"> <label for="ChucVu">Chức vụ <span>*</span></label> <input type="text" id="ChucVu_update"> </div>
                         <div class="add_pass"> <label for="PhongBan">Phòng ban <span>*</span></label> <input type="text" id="PhongBan_update"> </div>
-                        <div class="add_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span>*</span></label> <input type="date" id="NgayVaoDoan_update"> </div>
-                        <div class="add_pass"> <label for="NgayVaoDang">Ngày vào đảng<span>*</span></label> <input type="date" id="NgayVaoDang_update"> </div>
+                        <div class="add_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="date" id="NgayVaoDoan_update"> </div>
+                        <div class="add_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="date" id="NgayVaoDang_update"> </div>
                         <div class="add_pass"> <label for="LoaiNhanVien">Loại nhân viên <span>*</span></label> <input type="text" id="LoaiNhanVien_update"> </div>
                         <div class="add_pass"> <label for="HonNhan">Hôn nhân <span>*</span></label> <input type="text" id="HonNhan_update"> </div>
                         <div class="add_pass"> <label for="Cha">Cha <span>*</span></label> <input type="text" id="Cha_update"> </div>
@@ -215,8 +215,8 @@ $sql = new SQL(); ?>
                         <div class="detail_pass"> <label for="DanToc">Dân tộc <span></span></label> <input type="text" id="DanToc_detail" disabled> </div>
                         <div class="detail_pass"> <label for="ChucVu">Chức vụ <span></span></label> <input type="text" id="ChucVu_detail" disabled> </div>
                         <div class="detail_pass"> <label for="PhongBan">Phòng ban <span></span></label> <input type="text" id="PhongBan_detail" disabled> </div>
-                        <div class="detail_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="date" id="NgayVaoDoan_detail" disabled> </div>
-                        <div class="detail_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="date" id="NgayVaoDang_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="NgayVaoDoan">Ngày vào đoàn <span></span></label> <input type="text" id="NgayVaoDoan_detail" disabled> </div>
+                        <div class="detail_pass"> <label for="NgayVaoDang">Ngày vào đảng<span></span></label> <input type="text" id="NgayVaoDang_detail" disabled> </div>
                         <div class="detail_pass"> <label for="LoaiNhanVien">Loại nhân viên <span></span></label> <input type="text" id="LoaiNhanVien_detail" disabled> </div>
                         <div class="detail_pass"> <label for="HonNhan">Hôn nhân <span></span></label> <input type="text" id="HonNhan_detail" disabled> </div>
                         <div class="detail_pass"> <label for="Cha">Cha <span></span></label> <input type="text" id="Cha_detail" disabled> </div>
@@ -382,8 +382,8 @@ $sql = new SQL(); ?>
             var DanToc = document.getElementById('DanToc');
             var ChucVu = document.getElementById('ChucVu');
             var PhongBan = document.getElementById('PhongBan');
-            var NgayVaoDoan = document.getElementById('NgayVaoDoan');
-            var NgayVaoDang = document.getElementById('NgayVaoDang');
+            var NgayVaoDoan = document.getElementById('NgayVaoDoan') ?? null;
+            var NgayVaoDang = document.getElementById('NgayVaoDang') ?? null;
             var LoaiNhanVien = document.getElementById('LoaiNhanVien');
             var HonNhan = document.getElementById('HonNhan');
             var Cha = document.getElementById('Cha');
@@ -409,8 +409,6 @@ $sql = new SQL(); ?>
                 DanToc.value == "" ||
                 ChucVu.value == "" ||
                 PhongBan.value == "" ||
-                NgayVaoDoan.value == "" ||
-                NgayVaoDang.value == "" ||
                 LoaiNhanVien.value == "" ||
                 HonNhan.value == "" ||
                 Cha.value == "" ||
@@ -533,8 +531,8 @@ $sql = new SQL(); ?>
             document.getElementById('DanToc_update').value = dataResult.data.DanToc;
             document.getElementById('ChucVu_update').value = dataResult.data.ChucVu;
             document.getElementById('PhongBan_update').value = dataResult.data.PhongBan;
-            document.getElementById('NgayVaoDoan_update').value = dataResult.data.NgayVaoDoan;
-            document.getElementById('NgayVaoDang_update').value = dataResult.data.NgayVaoDang;
+            document.getElementById('NgayVaoDoan_update').value = dataResult.data.NgayVaoDoan ?? null;
+            document.getElementById('NgayVaoDang_update').value = dataResult.data.NgayVaoDang ?? null;
             document.getElementById('LoaiNhanVien_update').value = dataResult.data.LoaiNhanVien;
             document.getElementById('HonNhan_update').value = dataResult.data.TinhTrangHonNhan;
             document.getElementById('Cha_update').value = dataResult.data.Cha;
@@ -630,8 +628,6 @@ $sql = new SQL(); ?>
                     DanToc.value == "" ||
                     ChucVu.value == "" ||
                     PhongBan.value == "" ||
-                    NgayVaoDoan.value == "" ||
-                    NgayVaoDang.value == "" ||
                     LoaiNhanVien.value == "" ||
                     HonNhan.value == "" ||
                     Cha.value == "" ||
@@ -751,7 +747,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã NV", "Họ Tên", "Ngày Sinh", "Giới Tính", "Chức Vụ", "Phòng Ban", "SDT", "Email", "Trình Độ", 
+                ["Mã NV", "Họ Tên", "Ngày Sinh", "Giới Tính", "Chức Vụ", "Phòng Ban", "SDT", "Email", "Trình Độ",
                     "Ngoại Ngữ", "CMND", "Địa Chỉ", "Tôn Giáo", "Dân Tộc", "Ngày Vào Đoàn", "Ngày Vào Đảng",
                     "Loại Nhân Viên", "Tình Trạng Hôn Nhân", "Cha", "Mẹ", "Vợ Chồng", "Con", "Bậc Lương", "Phòng Công Tác", "Công Việc"
                 ], // Tiêu đề
@@ -841,7 +837,7 @@ $sql = new SQL(); ?>
         // Xem chi tiết hồ sơ nhân viên
         document.getElementById('detail_btn').onclick = async function() {
             var maNhanViens = [];
-            get_ma(maNhanViens, '', 'chi tiết'); 
+            get_ma(maNhanViens, '', 'chi tiết');
             console.log(maNhanViens);
 
             let dataById = await fetch('./getDataById.php', {
@@ -871,8 +867,8 @@ $sql = new SQL(); ?>
             document.getElementById('DanToc_detail').value = dataResult.data.DanToc;
             document.getElementById('ChucVu_detail').value = dataResult.data.ChucVu;
             document.getElementById('PhongBan_detail').value = dataResult.data.PhongBan;
-            document.getElementById('NgayVaoDoan_detail').value = dataResult.data.NgayVaoDoan;
-            document.getElementById('NgayVaoDang_detail').value = dataResult.data.NgayVaoDang;
+            document.getElementById('NgayVaoDoan_detail').value = dataResult.data.NgayVaoDoan ?? '';
+            document.getElementById('NgayVaoDang_detail').value = dataResult.data.NgayVaoDang ?? '';
             document.getElementById('LoaiNhanVien_detail').value = dataResult.data.LoaiNhanVien;
             document.getElementById('HonNhan_detail').value = dataResult.data.TinhTrangHonNhan;
             document.getElementById('Cha_detail').value = dataResult.data.Cha;
