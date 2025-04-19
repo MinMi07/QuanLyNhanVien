@@ -70,7 +70,17 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="LoaiHopDong">Loại hợp đồng<span>*</span></label> <input type="text" id="LoaiHopDong"> </div>
                         <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau"> </div>
                         <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span>*</span></label> <input type="date" id="NgayHetHan"> </div>
-                        <div class="add_pass"> <label for="BacLuong">Bậc lương<span>*</span></label> <input type="text" id="BacLuong"> </div>
+                        <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label>
+                            <select name="BacLuong" id="BacLuong">
+                                <?php
+                                $maBacLuong = "SELECT MaBacLuong from bacluong ";
+                                $dataMaBacLuong = $sql->getdata($maBacLuong);
+                                while ($row = $dataMaBacLuong->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['MaBacLuong'] . "\">" . $row['MaBacLuong'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="add_pass"> <label for="HeSoLuong">Hệ số lương<span>*</span></label> <input type="text" id="HeSoLuong"> </div>
                         <div class="add_pass"> <label for="PhuCap">Phụ cấp<span>*</span></label> <input type="text" id="PhuCap"> </div>
                         <div class="add_pass"> <label for="BaoHiem">Bảo hiểm<span>*</span></label> <input type="text" id="BaoHiem"> </div>
@@ -103,7 +113,17 @@ $sql = new SQL(); ?>
                         <div class="add_pass"> <label for="LoaiHopDong">Loại hợp đồng<span>*</span></label> <input type="text" id="LoaiHopDong_update"> </div>
                         <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau_update"> </div>
                         <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span>*</span></label> <input type="date" id="NgayHetHan_update"> </div>
-                        <div class="add_pass"> <label for="BacLuong">Bậc lương<span>*</span></label> <input type="text" id="BacLuong_update"> </div>
+                        <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label>
+                            <select name="BacLuong" id="BacLuong_update">
+                                <?php
+                                $maBacLuong = "SELECT MaBacLuong from bacluong ";
+                                $dataMaBacLuong = $sql->getdata($maBacLuong);
+                                while ($row = $dataMaBacLuong->fetch_assoc()) {
+                                    echo "<option value=\"" . $row['MaBacLuong'] . "\">" . $row['MaBacLuong'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="add_pass"> <label for="HeSoLuong">Hệ số lương<span>*</span></label> <input type="text" id="HeSoLuong_update"> </div>
                         <div class="add_pass"> <label for="PhuCap">Phụ cấp<span>*</span></label> <input type="text" id="PhuCap_update"> </div>
                         <div class="add_pass"> <label for="BaoHiem">Bảo hiểm<span>*</span></label> <input type="text" id="BaoHiem_update"> </div>

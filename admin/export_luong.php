@@ -5,14 +5,41 @@ Nhân viên hợp đồng được trả lương theo thoả thuận -->
 require_once "./logIn/sql.php";
 $sql = new SQL();
 
+$isCustom = true; // tắt bật xuất bảng lương demo
+$monthCustom = 2; // Tháng cần xuất bảng lương
+
 // Lấy ngày hiện tại
 $today = date("Y-m-d");
 $curMonth = date("n");
 
+// Lấy thông tin chấm công
+$startTime = date("Y-m-01 00:00:00", strtotime("first day of last month"));
+$endTime = date("Y-m-t 23:59:59", strtotime("last day of last month"));
+
+$thangLuong = date("m", strtotime("first day of last month"));
+
+$startTimeDay = date("Y-m-d 00:00:00");
+$endTimeDay = date("Y-m-d 23:59:59");
+
+$createDate = date("Y-m-d H:i:s");
+$exportMonth = (date("n") - 1);
+
 // Xuất file lương nếu hôm nay là ngày đầu tiên của tháng
 $firstDay = "01";
-if (date("d") !== $firstDay) { 
-    exit();
+
+if (!$isCustom){
+    if (date("d") !== $firstDay) { 
+        exit();
+    }
+} else {
+    $curMonth = $monthCustom + 1;
+    $startTime = date("Y-$monthCustom-01 00:00:00", strtotime("first day of last month"));
+    $endTime = date("Y-$monthCustom-t 23:59:59", strtotime("last day of last month"));
+    $thangLuong = "0" . date($monthCustom, strtotime("first day of last month"));
+    $startTimeDay = date("Y-$curMonth-01 00:00:00");
+    $endTimeDay = date("Y-$curMonth-01 23:59:59");
+    $createDate = date("Y-$curMonth-01 00:00:01");
+    $exportMonth = $monthCustom;
 }
 
 $checkData = "SELECT * FROM luong WHERE MONTH(ThoiGianTao) = $curMonth";
@@ -33,7 +60,7 @@ if ($dataBacLuongs && $dataBacLuongs->num_rows > 0) {
 }
 
 // Lấy thông tin LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan
-$queryHopDong = "SELECT MaNhanVien , LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan, BacLuong FROM hopdong WHERE TrangThai = 1 ORDER BY ThoiGianTao ASC";
+$queryHopDong = "SELECT MaNhanVien , LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan, BacLuong FROM hopdong ORDER BY ThoiGianTao ASC";
 $dataHopDongs = $sql->getdata($queryHopDong);
 
 $hopDongs = [];
@@ -42,10 +69,6 @@ if ($dataHopDongs && $dataHopDongs->num_rows > 0) {
         $hopDongs[$row["MaNhanVien"]] = $row;
     }
 }
-
-// Lấy thông tin chấm công
-$startTime = date("Y-m-01 00:00:00", strtotime("first day of last month"));
-$endTime = date("Y-m-t 23:59:59", strtotime("last day of last month"));
 
 $queryChamCong = "SELECT MaNhanVien, count(MaChamCong) AS 'SoCong' FROM chamcong WHERE Loai = 1 AND ThoiGian >= '$startTime' AND ThoiGian <= '$endTime' GROUP BY MaNhanVien";
 
@@ -97,7 +120,6 @@ if ($dataTangCas && $dataTangCas->num_rows > 0) {
 }
 
 $luongs = [];
-$thangLuong = date("m", strtotime("first day of last month"));
 
 // Lương của nhân viên = Bậc lương x Hệ số x Số ngày công + Phụ cấp - Bảo hiểm. 
 // Nhân viên hợp đồng được trả lương theo thoả thuận
@@ -128,7 +150,7 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
 
     $luongs[] = [
         "MaNhanVien" => $maNhanVien,
-        "ThoiGianTao" => date("Y-m-d H:i:s"),
+        "ThoiGianTao" => $createDate,
         "SoTien" => $tongTien,
         "TheLoai" => "Chuyển tiền thành công",
         "MoTa" => "Lương tháng $thangLuong"
@@ -148,14 +170,11 @@ foreach ($luongs as $luong) {
     $sql->exe($queryInsert);
 }
 
-$startTimeDay = date("Y-m-d 00:00:00");
-$endTimeDay = date("Y-m-d 23:59:59");
-
 $query = "SELECT MaLuong,MaNhanVien,ThoiGianTao,SoTien,TheLoai,MoTa FROM luong WHERE ThoiGianTao >= '$startTimeDay' AND ThoiGianTao <= '$endTimeDay'";
 
 $result = $sql->getdata($query);
 if ($result && $result->num_rows > 0) {
-    $filename = "bangLuongThang_" . (date("n") - 1) . "Nam" . date("Y") . ".csv";
+    $filename = "bangLuongThang_" . $exportMonth . "Nam" . date("Y") . ".csv";
     $filepath = __DIR__ . "/exports/" . $filename;
 
     // Tạo thư mục nếu chưa có
@@ -186,5 +205,5 @@ if ($result && $result->num_rows > 0) {
     fclose($file);
     echo "✅ Xuất file thành công: $filename\n";
 } else {
-    echo "⚠️ Không có nhân viên nào đến tuổi nghỉ hưu.\n";
+    echo "⚠️ Có lỗi khi xuất lương.\n";
 }
