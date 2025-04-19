@@ -5,7 +5,8 @@ Nhân viên hợp đồng được trả lương theo thoả thuận -->
 require_once "./logIn/sql.php";
 $sql = new SQL();
 
-$isCustom = true; // tắt bật xuất bảng lương demo
+// API gen lương thủ công: http://localhost/QuanLyNhanVien/admin/export_luong.php
+$isCustom = false; // false - tắt/ true - bật: tắt bật xuất bảng lương demo
 $monthCustom = 2; // Tháng cần xuất bảng lương
 
 // Lấy ngày hiện tại
