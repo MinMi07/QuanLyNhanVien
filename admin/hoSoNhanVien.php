@@ -309,6 +309,7 @@ $sql = new SQL(); ?>
                             <option value="MaNhanVien">Mã nhân viên</option>
                             <option value="SinhNhatThang">Sinh nhật tháng</option>
                             <option value="TangLuongTheoKy">Tăng lương theo kỳ</option>
+                            <option value="NhanSuNghiHuu">Nhân sự đến tuổi nghỉ hưu</option>
                         </select> <input type="search" placeholder="Tìm kiếm" id="search"> </div>
                 </div>
                 <div class="content_content">
@@ -776,7 +777,7 @@ $sql = new SQL(); ?>
         document.getElementById('sel_search').onchange = function() {
             var sel_search = document.getElementById('sel_search');
 
-            if (this.value === 'TangLuongTheoKy') {
+            if (this.value === 'TangLuongTheoKy' || this.value === 'NhanSuNghiHuu') {
                 search('timKiem_hoSoNhanVien.php', sel_search.value, this.value);
             }
         }

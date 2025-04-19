@@ -5,6 +5,13 @@ $sql = new SQL();
 if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
 
     switch ($_GET['col']) {
+        case 'NhanSuNghiHuu':
+            $query = "SELECT * FROM nhanvien 
+            WHERE (GioiTinh LIKE 'Nam' AND DATE_ADD(NgaySinh, INTERVAL 61 YEAR) <= DATE_SUB(CURDATE(), INTERVAL 3 MONTH))
+                OR 
+                (GioiTinh LIKE 'Nữ' AND DATE_ADD(NgaySinh, INTERVAL 56 YEAR) <= DATE_SUB(CURDATE(), INTERVAL 8 MONTH))";
+                
+            break;
         case 'SinhNhatThang':
             $month = (int)$_GET['inf'];
             $query = "SELECT * FROM nhanvien WHERE MONTH(NgaySinh) = $month";
