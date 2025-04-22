@@ -31,20 +31,14 @@ $sql = new SQL(); ?>
         </div>
         <div class="menu_mid">
             <ul class="menu_main">
-                <li class="li1 test"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal i_to"></i>
-                        <p class="to">Home</p>
+                <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
+                        <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Mở rộng tính năng</p>
+                <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                        <p>Chấm công</p>
                     </a></li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p>Hồ sơ nhân viên</p>
-                    </a></li>
-                <li class="li1"><a href="./quanLyLuong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Quản lý lương</p>
-                    </a></li>
-                <li class="li1"><a href="./quanLyKhac.php" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
-                        <p>Quản lý khác</p>
+                <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
+                        <p>Lương</p>
                     </a></li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
@@ -170,6 +164,7 @@ $sql = new SQL(); ?>
             </div>
         </div>
     </section>
+    <script src="./Js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
         const bieuDoNhanVien = document.getElementById('bieuDoNhanVien').getContext('2d');
@@ -279,33 +274,6 @@ $sql = new SQL(); ?>
             }
         });
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", async function() {
-            await fetch("export_sinhNhat.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file export_sinhNhat.php:", error));
-
-            // Danh sách nhân viên được tăng lương theo kỳ
-            await fetch("export_nhanVienTangLuongTheoKy.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file export_nhanVienTangLuongTheoKy.php:", error));
-
-            // Danh sách nhân viên đến tuổi nghỉ hưu
-            await fetch("export_nhanVienNghiHuu.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file export_nhanVienNghiHuu.php:", error));
-
-            // Tính lương
-            await fetch("export_luong.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file expoexport_luongrt_sinhNhat.php:", error));
-        });
-    </script>
-
 </body>
 
 </html>

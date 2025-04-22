@@ -48,7 +48,7 @@ $sql = new SQL(); ?>
                         <p>Đăng xuất</p>
                     </a></li>
             </ul>
-        </div> <!-- <div class="menu_img"></div> -->
+        </div>
     </nav>
     <section>
         <header>
@@ -63,87 +63,221 @@ $sql = new SQL(); ?>
             <div class="menu">
                 <div class="infor_main infor_class"> <img src="Img/class.svg" alt="">
                     <div class="infor_content">
-                        <h1>Nhân Viên</h1>
+                        <h1>Số lượng nhân Viên</h1>
                         <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien")->fetch_assoc()['So'] ?? 0; ?> </p>
                     </div>
                 </div>
                 <div class="infor_main infor_teacher"> <img src="Img/teacher.svg" alt="">
                     <div class="infor_content">
-                        <h1>Phòng ban</h1>
-                        <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from phongban")->fetch_assoc()['So'] ?? 0; ?> </p>
+                        <h1>Tổng số tiền lương</h1>
+                        <p> <?php
+                            echo $sql->getdata("SELECT SUM(SoTien) as 'sum' from luong")->fetch_assoc()['sum'] ?? 0;
+                            ?> </p>
                     </div>
                 </div>
                 <div class="infor_main infor_student"> <img src="Img/student.svg" alt="">
                     <div class="infor_content">
-                        <h1>Công việc</h1>
+                        <h1>Số lượng công việc</h1>
                         <p> <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec")->fetch_assoc()['So'] ?? 0); ?> </p>
                     </div>
                 </div>
             </div>
             <div class="content">
                 <div class="content_home">
-                    <div class="content_tieude"> <a href="#">
+                    <div class="content_tieude">
+                        <a href="#">
                             <h1>Nhân viên</h1>
                         </a> <a href="">
                             <p>Số nhân viên: <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien")->fetch_assoc()['So'] ?? 0; ?></p>
-                        </a> </div>
-                    <div class="class_infor"> <a href="#">
-                            <div class="khoi khoia"> <b>Công chức</b>
-                                <div class="khoi_infor">
-                                    <h3>Công chức</h3>
-                                    <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien where LoaiNhanVien like '%công chức%'")->fetch_assoc()['So'] ?? 0 ?> </p>
-                                </div>
-                            </div>
-                        </a> <a href="#">
-                            <div class="khoi khoib"> <b>Hợp đồng</b>
-                                <div class="khoi_infor">
-                                    <h3>Hợp đồng</h3>
-                                    <p> <?php echo $sql->getdata("SELECT count(*) as 'So' from nhanvien where LoaiNhanVien like '%hợp đồng%'")->fetch_assoc()['So'] ?? 0 ?> </p>
-                                </div>
-                            </div>
-                        </a> </div>
+                        </a>
+                    </div>
+                    <div class="class_infor class_infor_2_column">
+                        <a href="#">
+                            <canvas id="bieuDoNhanVien"></canvas>
+                            <h3 class="label_chart">Biểu đồ nhân viên</h3>
+                        </a>
+                        <a href="#">
+                            <canvas id="bieuDoCongViec"></canvas>
+                            <h3 class="label_chart_bar">Danh sách công việc nhân viên </h3>
+                        </a>
+                    </div>
                 </div>
-                <div class="content_home">
-                    <div class="content_tieude"> <a href="#">
-                            <h1>Phòng </h1>
-                        </a> <a href="#">
-                            <p>Số phòng ban: <?php echo $sql->getdata("SELECT count(*) as 'So' from phongban")->fetch_assoc()['So'] ?? 0; ?> </p>
-                        </a> </div>
-                    <div class="class_infor"> <a href="#">
-                            <div class="khoi khoitunhien"> <b>A</b>
-                                <div class="khoi_infor">
-                                    <h3>Phòng ban A</h3>
-                                    <p><i class="fas fa-chalkboard-teacher gv_icon"></i> </p>
-                                </div>
-                            </div>
-                        </a> <a href="#">
-                            <div class="khoi khoixahoi"> <b>B</b>
-                                <div class="khoi_infor">
-                                    <h3>Phòng ban B</h3>
-                                    <p><i class="fas fa-chalkboard-teacher gv_icon"></i> </p>
-                                </div>
-                            </div>
-                        </a> </div>
-                </div>
-                <div class="content_home">
-                    <div class="content_tieude"> <a href="#">
-                            <h1>Công việc</h1>
-                        </a> <a href="">
-                            <p>Số công việc: <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec")->fetch_assoc()['So'] ?? 0); ?></p>
-                        </a> </div>
-                    <div class="class_infor"> <a href="#">
-                            <div class="khoi khoi6"> <b>QL</b>
-                                <div class="khoi_infor">
-                                    <h3>Quản lý</h3>
-                                    <p><i class="fas fa-users hs_icon"></i> <?php echo ($sql->getdata("SELECT count(*) as 'So' from phancongcongviec where TenCongViec like '%quản lý%'")->fetch_assoc()['So'] ?? 0); ?> </p>
-                                </div>
-                            </div>
-                        </a> </div>
+                <div class="content_home" style="display:block">
+                    <div class="content_tieude">
+                        <h1>Chấm công</h1>
+                    </div>
+                    <div class="content_content">
+                        <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
+                            <?php
+                            $month = date("n");
+                            $year = date("Y");
+                            $date = date("d");
+                            $query = "SELECT * from chamcong WHERE DAY(ThoiGian) = $date AND MONTH(ThoiGian) = $month AND YEAR(ThoiGian) = $year";
+
+                            $data_chamcong = $sql->getdata($query) ?? [];
+                            if (empty($data_chamcong) || empty($data_chamcong->fetch_assoc())) {
+                                echo "<div class=\"content_tieude\"><p>Chưa có dữ liệu chấm công ngày hôm nay</p></div>";
+                            } else echo "
+                                <tr class=\"bangtieude\">
+                                <th width=\"4.34%\">Mã chấm công</th>
+                                <th width=\"4.34%\">Mã nhân viên</th>
+                                <th width=\"4.34%\">Tên nhân viên</th>
+                                <th width=\"4.34%\">Thời gian</th>
+                                <th width=\"4.34%\">Thời gian về</th>
+                                <th width=\"4.34%\">Trạng thái</th>
+                                <th width=\"4.34%\">Loại</th>
+                            </tr>";
+                            ?>
+                        </table>
+                        <div class="">
+                            <table id="table_class" class="bangnd" border="1" cellspacing="0" width="100%">
+                                <?php
+                                $month = date("n");
+                                $year = date("Y");
+                                $date = date("d");
+
+                                $query = "SELECT * from chamcong WHERE DAY(ThoiGian) = $date AND MONTH(ThoiGian) = $month AND YEAR(ThoiGian) = $year";
+
+                                $data_chamcong = $sql->getdata($query) ?? [];
+                                while ($chamCong = $data_chamcong->fetch_assoc()) {
+                                    $maNhanVien = $chamCong['MaNhanVien'];
+                                    $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
+
+                                    $loai = "Công thương";
+                                    if ($chamCong['Loai'] == 1) {
+                                        $loai = "Công thương";
+                                    }
+
+                                    if ($chamCong['Loai'] == 2) {
+                                        $loai = "Tăng ca";
+                                    }
+
+                                    echo " <tr class=\"class noidungbang\"> 
+                                <td align=\"center\" width=\"4.34%\" >" . $chamCong['MaChamCong'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $chamCong['MaNhanVien'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $tenNhanVien . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $chamCong['ThoiGian'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . $chamCong['ThoiGianVe'] . "</td> 
+                                <td align=\"center\" width=\"4.34%\">" . ($chamCong['TrangThai'] ? "Chấm công đúng giờ" : "Chấm công muộn") . "</td>
+                                <td align=\"center\" width=\"4.34%\">" . $loai . "</td>
+                                </tr> ";
+                                } ?> </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <script src="./Js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        const bieuDoNhanVien = document.getElementById('bieuDoNhanVien').getContext('2d');
+        new Chart(bieuDoNhanVien, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Nhân viên thử việc',
+                    'Nhân viên chính thức'
+                ],
+                datasets: [{
+                    label: 'Số nhân viên',
+                    data: [
+                        <?php
+                        $loaiNhanVien = 'Hợp đồng';
+                        echo $sql->getdata("SELECT count(*) as 'So' from nhanvien where LoaiNhanVien like '$loaiNhanVien'")->fetch_assoc()['So'] ?? 0;
+                        ?>,
+                        <?php
+                        $loaiNhanVien = 'Hợp đồng';
+                        echo $sql->getdata("SELECT count(*) as 'So' from nhanvien where LoaiNhanVien not like '$loaiNhanVien'")->fetch_assoc()['So'] ?? 0;
+                        ?>
+                    ],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        });
+
+        <?php
+
+        $dataNhanViens = $sql->getdata("SELECT MaNhanVien, TaiKhoan from nhanvien");
+        $nhanViens = [];
+        if ($dataNhanViens && $dataNhanViens->num_rows > 0) {
+            while ($row = $dataNhanViens->fetch_assoc()) {
+                $nhanViens[$row["MaNhanVien"]] = $row["TaiKhoan"];
+            }
+        }
+
+        $dataCongViecs = $sql->getdata("SELECT MaNhanVien, count(MaCongViec) as SoCongViec from phancongcongviec group by MaNhanVien");
+
+        $congViecs = [];
+        if ($dataCongViecs && $dataCongViecs->num_rows > 0) {
+            while ($row = $dataCongViecs->fetch_assoc()) {
+                $taiKhoan = $nhanViens[$row["MaNhanVien"]] ?? '';
+                $congViecs[$taiKhoan] = (int)$row["SoCongViec"]; // ép kiểu cho chắc
+            }
+        }
+
+        // Tách key và value sang 2 biến riêng
+        $labels = array_keys($congViecs);
+        $values = array_values($congViecs);
+        ?>
+
+        const bieuDoCongViec = document.getElementById('bieuDoCongViec').getContext('2d');
+
+        const labels = <?= json_encode($labels) ?>;
+        const dataValues = <?= json_encode($values) ?>;
+
+        // ✅ Hàm tạo màu ngẫu nhiên dạng rgba
+        function getRandomColor(opacity = 1) {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        }
+
+        // ✅ Tạo mảng màu tương ứng với từng cột
+        const backgroundColors = dataValues.map(() => getRandomColor(0.5));
+        const borderColors = backgroundColors.map(color => color.replace('0.5', '1'));
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Số lượng công việc',
+                data: dataValues,
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(bieuDoCongViec, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0 // chỉ hiện số nguyên
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

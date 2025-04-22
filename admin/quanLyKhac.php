@@ -10,6 +10,7 @@ $sql = new SQL(); ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     <link rel="stylesheet" href="./css/style.css">
     <title>Quản lý</title>
 </head>
@@ -31,20 +32,26 @@ $sql = new SQL(); ?>
         </div>
         <div class="menu_mid">
             <ul class="menu_main">
-                <li class="li1 test"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal i_to"></i>
-                        <p class="to">Home</p>
+                <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
+                        <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Mở rộng tính năng</p>
+                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                        <p>Bậc lương</p>
                     </a></li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p>Hồ sơ nhân viên</p>
+                <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
+                        <p>Hợp đồng</p>
                     </a></li>
-                <li class="li1"><a href="./quanLyLuong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Quản lý lương</p>
+                <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                        <p>Khen thưởng kỷ luật</p>
                     </a></li>
-                <li class="li1"><a href="./quanLyKhac.php" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
-                        <p>Quản lý khác</p>
+                <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
+                        <p>Phân công công việc</p>
+                    </a></li>
+                <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
+                        <p>Phòng ban</p>
+                    </a></li>
+                <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
+                        <p>Quá trình công tác</p>
                     </a></li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
@@ -170,6 +177,7 @@ $sql = new SQL(); ?>
             </div>
         </div>
     </section>
+    <script src="./Js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
         const bieuDoNhanVien = document.getElementById('bieuDoNhanVien').getContext('2d');
@@ -279,33 +287,6 @@ $sql = new SQL(); ?>
             }
         });
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", async function() {
-            await fetch("export_sinhNhat.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file export_sinhNhat.php:", error));
-
-            // Danh sách nhân viên được tăng lương theo kỳ
-            await fetch("export_nhanVienTangLuongTheoKy.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file export_nhanVienTangLuongTheoKy.php:", error));
-
-            // Danh sách nhân viên đến tuổi nghỉ hưu
-            await fetch("export_nhanVienNghiHuu.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file export_nhanVienNghiHuu.php:", error));
-
-            // Tính lương
-            await fetch("export_luong.php")
-                .then(response => response.text())
-                .then(data => console.log("Kết quả:", data))
-                .catch(error => console.error("Lỗi khi gọi file expoexport_luongrt_sinhNhat.php:", error));
-        });
-    </script>
-
 </body>
 
 </html>

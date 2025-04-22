@@ -256,29 +256,11 @@ $sql = new SQL(); ?>
                 <li class="li1 test"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal i_to"></i>
                         <p class="to">Hồ sơ nhân viên</p>
                     </a></li>
-                <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Chấm công</p>
+                <li class="li1"><a href="./quanLyLuong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                        <p>Quản lý lương</p>
                     </a></li>
-                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
-                        <p>Bậc lương</p>
-                    </a></li>
-                <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
-                        <p>Hợp đồng</p>
-                    </a></li>
-                <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
-                        <p>Khen thưởng kỷ luật</p>
-                    </a></li>
-                <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
-                        <p>Lương</p>
-                    </a></li>
-                <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
-                        <p>Phân công công việc</p>
-                    </a></li>
-                <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
-                        <p>Phòng ban</p>
-                    </a></li>
-                <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
-                        <p>Quá trình công tác</p>
+                <li class="li1"><a href="./quanLyKhac.php" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
+                        <p>Quản lý khác</p>
                     </a></li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
@@ -723,24 +705,39 @@ $sql = new SQL(); ?>
 
         // Chức năng xuất excel
         document.getElementById("excel_btn").addEventListener("click", function() {
-            // Lấy bảng
             var table = document.getElementById("table_class");
-            var tableData = XLSX.utils.sheet_to_json(XLSX.utils.table_to_sheet(table), {
-                header: 1
+            var rows = table.querySelectorAll("tr");
+            var tableData = [];
+
+            // Lấy dữ liệu từ bảng HTML
+            rows.forEach(row => {
+                let rowData = [];
+                let cells = row.querySelectorAll("th, td");
+                cells.forEach(cell => {
+                    rowData.push(cell.innerText.trim());
+                });
+                tableData.push(rowData);
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [2, 14, 15]; // Vị trí cột của Ngày Sinh, Ngày Vào Đoàn, Ngày Vào Đảng
+            let dateColumns = [2, 14, 15]; // Ngày Sinh, Ngày Vào Đoàn, Ngày Vào Đảng
 
-            // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
+            // Định dạng ngày thành yyyy-MM-dd HH:mm:ss nếu là số Excel
             tableData.forEach((row, rowIndex) => {
-                dateColumns.forEach(colIndex => {
-                    if (row[colIndex]) {
-                        let excelDate = parseFloat(row[colIndex]);
-                        if (!isNaN(excelDate)) { // Kiểm tra xem có phải số không
+                // Bỏ qua dòng tiêu đề
+                if (rowIndex === 0) return;
+
+                row.forEach((value, colIndex) => {
+                    if (dateColumns.includes(colIndex) && value) {
+                        let excelDate = parseFloat(value);
+                        if (!isNaN(excelDate)) {
                             let date = new Date((excelDate - 25569) * 86400000);
-                            row[colIndex] = date.toISOString().slice(0, 19).replace('T', ' '); // Định dạng yyyy-MM-dd HH:mm:ss
+                            row[colIndex] = date.toISOString().slice(0, 19).replace("T", " ");
+                        } else {
+                            row[colIndex] = value.toString(); // Chuỗi nếu không phải ngày
                         }
+                    } else if (value !== undefined && value !== null) {
+                        row[colIndex] = value.toString();
                     }
                 });
             });

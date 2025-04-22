@@ -93,17 +93,8 @@ $sql = new SQL(); ?>
         </div>
         <div class="menu_mid">
             <ul class="menu_main">
-                <li class="li1 "><a href="./admin.php" class="taga"><i class="fas fa-home i_normal "></i>
+                <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
-                    </a></li>
-                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Mở rộng tính năng</p>
-                    </a></li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p>Hồ sơ nhân viên</p>
-                    </a></li>
-                <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Chấm công</p>
                     </a></li>
                 <li class="li1 test"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal i_to"></i>
                         <p class="to">Bậc lương</p>
@@ -113,9 +104,6 @@ $sql = new SQL(); ?>
                     </a></li>
                 <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
                         <p>Khen thưởng kỷ luật</p>
-                    </a></li>
-                <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
-                        <p>Lương</p>
                     </a></li>
                 <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
                         <p>Phân công công việc</p>
@@ -150,10 +138,10 @@ $sql = new SQL(); ?>
                         <input type="button" value="Xóa" id="delete_btn">
                         <input type="button" value="Xuất Excel" id="excel_btn">
                     </div>
-                    <div class="timkiem"> 
+                    <div class="timkiem">
                         <select name="luachontimkiem" class="luachon" id="sel_search">
                             <option value="MaBacLuong">Bậc lương</option>
-                        </select> <input type="search" placeholder="Tìm kiếm" id="search"> 
+                        </select> <input type="search" placeholder="Tìm kiếm" id="search">
                     </div>
                 </div>
                 <div class="content_content">
@@ -344,10 +332,41 @@ $sql = new SQL(); ?>
 
         // Chức năng xuất excel
         document.getElementById("excel_btn").addEventListener("click", function() {
-            // Lấy bảng
             var table = document.getElementById("table_class");
-            var tableData = XLSX.utils.sheet_to_json(XLSX.utils.table_to_sheet(table), {
-                header: 1
+            var rows = table.querySelectorAll("tr");
+            var tableData = [];
+
+            // Lấy dữ liệu từ bảng HTML
+            rows.forEach(row => {
+                let rowData = [];
+                let cells = row.querySelectorAll("th, td");
+                cells.forEach(cell => {
+                    rowData.push(cell.innerText.trim());
+                });
+                tableData.push(rowData);
+            });
+
+            // Danh sách các cột cần định dạng ngày
+            let dateColumns = [];
+
+            // Định dạng ngày thành yyyy-MM-dd HH:mm:ss nếu là số Excel
+            tableData.forEach((row, rowIndex) => {
+                // Bỏ qua dòng tiêu đề
+                if (rowIndex === 0) return;
+
+                row.forEach((value, colIndex) => {
+                    if (dateColumns.includes(colIndex) && value) {
+                        let excelDate = parseFloat(value);
+                        if (!isNaN(excelDate)) {
+                            let date = new Date((excelDate - 25569) * 86400000);
+                            row[colIndex] = date.toISOString().slice(0, 19).replace("T", " ");
+                        } else {
+                            row[colIndex] = value.toString(); // Chuỗi nếu không phải ngày
+                        }
+                    } else if (value !== undefined && value !== null) {
+                        row[colIndex] = value.toString();
+                    }
+                });
             });
 
 

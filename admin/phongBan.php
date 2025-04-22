@@ -92,17 +92,8 @@ $sql = new SQL(); ?>
         </div>
         <div class="menu_mid">
             <ul class="menu_main">
-                <li class="li1 "><a href="./admin.php" class="taga"><i class="fas fa-home i_normal "></i>
+                <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
-                    </a></li>
-                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Mở rộng tính năng</p>
-                    </a></li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p>Hồ sơ nhân viên</p>
-                    </a></li>
-                <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Chấm công</p>
                     </a></li>
                 <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
                         <p>Bậc lương</p>
@@ -112,9 +103,6 @@ $sql = new SQL(); ?>
                     </a></li>
                 <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
                         <p>Khen thưởng kỷ luật</p>
-                    </a></li>
-                <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
-                        <p>Lương</p>
                     </a></li>
                 <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
                         <p>Phân công công việc</p>

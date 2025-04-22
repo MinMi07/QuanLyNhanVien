@@ -123,34 +123,22 @@ $sql = new SQL(); ?>
         </div>
         <div class="menu_mid">
             <ul class="menu_main">
-                <li class="li1 "><a href="./admin.php" class="taga"><i class="fas fa-home i_normal "></i>
+                <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
-                        <p>Mở rộng tính năng</p>
-                    </a></li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p">Hồ sơ nhân viên</p>
-                    </a></li>
-                <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Chấm công</p>
-                    </a></li>
-                <li class="li1"><a href="./MoTaChiTiet.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
                         <p>Bậc lương</p>
                     </a></li>
                 <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
-                        <p">Hợp đồng</p>
+                        <p>Hợp đồng</p>
                     </a></li>
-                <li class=" li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
                         <p>Khen thưởng kỷ luật</p>
-                    </a></li>
-                <li class=" li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
-                        <p>Lương</p>
                     </a></li>
                 <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
                         <p>Phân công công việc</p>
                     </a></li>
-                <li class=" li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
+                <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
                         <p>Phòng ban</p>
                     </a></li>
                 <li class="li1 test"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal i_to"></i>
@@ -204,7 +192,7 @@ $sql = new SQL(); ?>
                             while ($quatrinhcongtac = $data_quatrinhcongtac->fetch_assoc()) {
                                 $maNhanVien = $quatrinhcongtac['MaNhanVien'];
                                 $tenNhanVien =  $sql->getdata("SELECT HoTen from nhanvien WHERE MaNhanVien = $maNhanVien")->fetch_assoc()['HoTen'];
-                                
+
                                 echo " <tr class=\"class noidungbang\"> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaQuaTrinh'] . "</td> 
                                 <td align=\"center\" width=\"4.34%\">" . $quatrinhcongtac['MaNhanVien'] . "</td> 
@@ -421,7 +409,7 @@ $sql = new SQL(); ?>
             });
 
             // Danh sách các cột cần định dạng ngày
-            let dateColumns = [3,6]; // Vị trí cột của Thời gian
+            let dateColumns = [3, 6]; // Vị trí cột của Thời gian
 
             // Chuyển đổi kiểu dữ liệu ngày cho tất cả các dòng
             tableData.forEach((row, rowIndex) => {
