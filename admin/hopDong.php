@@ -69,7 +69,7 @@ $sql = new SQL(); ?>
                         </div>
                         <div class="add_pass"> <label for="LoaiHopDong">Loại hợp đồng<span>*</span></label> <input type="text" id="LoaiHopDong"> </div>
                         <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau"> </div>
-                        <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span>*</span></label> <input type="date" id="NgayHetHan"> </div>
+                        <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span></span></label> <input type="text" id="NgayHetHan"> </div>
                         <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label>
                             <select name="BacLuong" id="BacLuong">
                                 <?php
@@ -112,7 +112,7 @@ $sql = new SQL(); ?>
                         </div>
                         <div class="add_pass"> <label for="LoaiHopDong">Loại hợp đồng<span>*</span></label> <input type="text" id="LoaiHopDong_update"> </div>
                         <div class="add_pass"> <label for="NgayBatDau">Ngày bắt đầu<span>*</span></label> <input type="date" id="NgayBatDau_update"> </div>
-                        <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span>*</span></label> <input type="date" id="NgayHetHan_update"> </div>
+                        <div class="add_pass"> <label for="NgayHetHan">Ngày hết hạn<span></span></label> <input type="text" id="NgayHetHan_update"> </div>
                         <div class="add_pass"> <label for="BacLuong">Bậc lương <span>*</span></label>
                             <select name="BacLuong" id="BacLuong_update">
                                 <?php
@@ -154,24 +154,63 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
-                        <p>Bậc lương</p>
+                <li class="li1">
+                    <a href="#" class="taga">
+                        <i class="fas fa-vote-yea i_normal"></i>
+                        <p>Mở rộng tính năng</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Chấm công khuân mặt</p>
+                            </a></li>
+                        <li class="li1"><a href="./taiKhoan.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Tài khoản</p>
+                            </a></li>
+                        <li class="li1"><a href="./cauHinhThongSo.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Cấu hình thông số</p>
+                            </a></li>
+                    </ul>
+                </li>
+                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
+                        <p>Hồ sơ nhân viên</p>
                     </a></li>
-                <li class="li1 test"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal i_to"></i>
-                        <p class="to">Hợp đồng</p>
-                    </a></li>
-                <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
-                        <p>Khen thưởng kỷ luật</p>
-                    </a></li>
-                <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
-                        <p>Phân công công việc</p>
-                    </a></li>
-                <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
-                        <p>Phòng ban</p>
-                    </a></li>
-                <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
-                        <p>Quá trình công tác</p>
-                    </a></li>
+
+                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                        <p>Quản lý lương</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                                <p>Chấm công</p>
+                            </a></li>
+                        <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
+                                <p>Lương</p>
+                            </a></li>
+                    </ul>
+                </li>
+                <li class="li1 test"><a href="#" class="taga"><i class="fa-solid fa-list-check i_normal i_to"></i>
+                        <p class="to">Quản lý khác</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                                <p>Bậc lương</p>
+                            </a></li>
+                        <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal i_to"></i>
+                                <p class="to">Hợp đồng</p>
+                            </a></li>
+                        <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                                <p>Khen thưởng kỷ luật</p>
+                            </a></li>
+                        <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
+                                <p>Phân công công việc</p>
+                            </a></li>
+                        <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
+                                <p>Phòng ban</p>
+                            </a></li>
+                        <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
+                                <p>Quá trình công tác</p>
+                            </a></li>
+                    </ul>
+                </li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
                     </a></li>
@@ -261,7 +300,6 @@ $sql = new SQL(); ?>
                 MaNhanVien.value == '' ||
                 LoaiHopDong.value == '' ||
                 NgayBatDau.value == '' ||
-                NgayHetHan.value == '' ||
                 BacLuong.value == '' ||
                 HeSoLuong.value == '' ||
                 PhuCap.value == '' ||
@@ -356,7 +394,7 @@ $sql = new SQL(); ?>
             document.getElementById('MaNhanVien_update').value = dataResult.data.MaNhanVien;
             document.getElementById('LoaiHopDong_update').value = dataResult.data.LoaiHopDong;
             document.getElementById('NgayBatDau_update').value = moment(dataResult.data.NgayBatDau).format("YYYY-MM-DD");
-            document.getElementById('NgayHetHan_update').value = moment(dataResult.data.NgayHetHan).format("YYYY-MM-DD");
+            document.getElementById('NgayHetHan_update').value = dataResult.data.NgayHetHan;
             document.getElementById('BacLuong_update').value = dataResult.data.BacLuong;
             document.getElementById('HeSoLuong_update').value = dataResult.data.HeSoLuong;
             document.getElementById('PhuCap_update').value = dataResult.data.PhuCap;
@@ -389,7 +427,6 @@ $sql = new SQL(); ?>
                     MaNhanVien.value == '' ||
                     LoaiHopDong.value == '' ||
                     NgayBatDau.value == '' ||
-                    NgayHetHan.value == '' ||
                     BacLuong.value == '' ||
                     HeSoLuong.value == '' ||
                     PhuCap.value == '' ||

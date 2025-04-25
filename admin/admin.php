@@ -34,18 +34,64 @@ $sql = new SQL(); ?>
                 <li class="li1 test"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal i_to"></i>
                         <p class="to">Home</p>
                     </a></li>
-                <li class="li1"><a href="./moRongTinhNang.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                <li class="li1">
+                    <a href="#" class="taga">
+                        <i class="fas fa-vote-yea i_normal"></i>
                         <p>Mở rộng tính năng</p>
-                    </a></li>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Chấm công khuân mặt</p>
+                            </a></li>
+                        <li class="li1"><a href="./taiKhoan.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Tài khoản</p>
+                            </a></li>
+                        <li class="li1"><a href="./cauHinhThongSo.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Cấu hình thông số</p>
+                            </a></li>
+                    </ul>
+                </li>
+
                 <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
                         <p>Hồ sơ nhân viên</p>
                     </a></li>
-                <li class="li1"><a href="./quanLyLuong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+
+                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
                         <p>Quản lý lương</p>
-                    </a></li>
-                <li class="li1"><a href="./quanLyKhac.php" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                                <p>Chấm công</p>
+                            </a></li>
+                        <li class="li1"><a href="./luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
+                                <p>Lương</p>
+                            </a></li>
+                    </ul>
+                </li>
+                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
                         <p>Quản lý khác</p>
-                    </a></li>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                                <p>Bậc lương</p>
+                            </a></li>
+                        <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
+                                <p>Hợp đồng</p>
+                            </a></li>
+                        <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                                <p>Khen thưởng kỷ luật</p>
+                            </a></li>
+                        <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
+                                <p>Phân công công việc</p>
+                            </a></li>
+                        <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
+                                <p>Phòng ban</p>
+                            </a></li>
+                        <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
+                                <p>Quá trình công tác</p>
+                            </a></li>
+                    </ul>
+                </li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
                     </a></li>
@@ -177,7 +223,7 @@ $sql = new SQL(); ?>
             type: 'pie',
             data: {
                 labels: [
-                    'Nhân viên thử việc',
+                    'Nhân viên hợp đồng',
                     'Nhân viên chính thức'
                 ],
                 datasets: [{
@@ -198,6 +244,26 @@ $sql = new SQL(); ?>
                     ],
                     hoverOffset: 4
                 }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 16 // Tăng cỡ chữ legend
+                            }
+                        }
+                    },
+                    tooltip: {
+                        bodyFont: {
+                            size: 16 // Cỡ chữ nội dung tooltip
+                        },
+                        titleFont: {
+                            size: 16 // Cỡ chữ tiêu đề tooltip
+                        }
+                    }
+                }
             }
         });
 
@@ -258,21 +324,39 @@ $sql = new SQL(); ?>
             type: 'bar',
             data: data,
             options: {
-                responsive: true,
+                responsive: false,
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'top'
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14 // tăng cỡ chữ chú thích
+                            }
+                        }
                     },
                     tooltip: {
-                        enabled: true
+                        enabled: true,
+                        bodyFont: {
+                            size: 14 // tăng cỡ chữ tooltip
+                        }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            precision: 0 // chỉ hiện số nguyên
+                            precision: 0,
+                            font: {
+                                size: 14 // cỡ chữ trục y
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 14 // cỡ chữ trục x
+                            }
                         }
                     }
                 }

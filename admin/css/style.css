@@ -12,6 +12,10 @@ a {
     text-decoration: none;
 }
 
+li {
+    min-width: 150px;
+}
+
 body {
     min-width: 800px;
     height: 100vh;
@@ -531,13 +535,13 @@ header h1 {
 }
 
 #bieuDoNhanVien {
-        height: 400px !important;
-        width: 400px !important;
+        height: 250px !important;
+        width: 250px !important;
 }
 
 #bieuDoCongViec {
-    height: 400px !important;
-    width: 500px !important;
+    height: 250px !important;
+    width: 400px !important;
 }
 
 .label_chart {
@@ -1049,4 +1053,30 @@ canvas {
 
 .hidden_column {
     display: none;
+}
+
+.submenu {
+    display: none;
+    list-style: none;
+    padding-left: 20px;
+    position: relative;
+}
+
+.li1:hover .submenu {
+    background-color: #fafafc;
+    display: flex;
+    z-index: 10;
+    position: absolute;
+    transform: translate(80%, 45%);
+    flex-direction: column-reverse;
+    padding: 0 2px 0 2px;
+    border-radius: 4px;
+    box-shadow: 0 0px 10px #e0e0e0;
+}
+
+.submenu>li:hover>a {
+    font-size: 17px;
+    color: #4c4bfe;
+    font-weight: 600;
+    box-shadow: 0 0px 10px #e0e0e0;
 }

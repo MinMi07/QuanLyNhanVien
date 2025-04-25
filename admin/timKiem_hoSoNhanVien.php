@@ -21,6 +21,10 @@ if (isset($_GET['col']) && isset($_GET['inf']) && $_GET['inf'] != '') {
             // Truy vấn danh sách nhân viên có ngày tham gia công ty đúng 3 năm trước
             $query = "SELECT * FROM nhanvien WHERE NgayThamGia = '$threeYearsAgo'";
             break;
+        // case 'DangVien':
+        //     $month = (int)$_GET['inf'];
+        //     $query = "SELECT * FROM nhanvien WHERE NgayVaoDang != '' OR NgayVaoDang IS NOT NULL";
+        //     break;
         default:
             $query = "SELECT * from nhanvien where " . $_GET['col'] . " like '%" . $_GET['inf'] . "%'";
     }

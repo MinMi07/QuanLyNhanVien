@@ -27,7 +27,7 @@ $baoHiem = $data['BaoHiem'] ?? null;
 $luongThoaThuan = $data['LuongThoaThuan'] ?? null;
 
 // Kiểm tra dữ liệu hợp lệ
-if (!$maHopDong || !$maNhanVien || !$loaiHopDong || !$ngayBatDau || !$ngayHetHan || !$bacLuong || !$heSoLuong || !$phuCap || !$baoHiem || !$luongThoaThuan) {
+if (!$maHopDong || !$maNhanVien || !$loaiHopDong || !$ngayBatDau || !$bacLuong || !$heSoLuong || !$phuCap || !$baoHiem || !$luongThoaThuan) {
     echo json_encode(["success" => false, "message" => "Vui lòng nhập đầy đủ thông tin!"]);
     exit;
 }

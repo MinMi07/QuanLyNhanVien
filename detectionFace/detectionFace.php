@@ -41,18 +41,68 @@
         </div>
         <div class="menu_mid">
             <ul class="menu_main">
-                <li class="li1 "><a href="../admin/admin.php" class="taga"><i class="fas fa-home i_normal "></i>
+                <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1 test"><a href="./detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal i_to"></i>
-                        <p class="to">Chấm công khuân mặt</p>
+
+                <li class="li1 test">
+                    <a href="#" class="taga">
+                        <i class="fas fa-vote-yea i_normal i_to"></i>
+                        <p class="to">Mở rộng tính năng</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal i_to"></i>
+                                <p class="to">Chấm công khuân mặt</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/taiKhoan.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Tài khoản</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/cauHinhThongSo.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
+                                <p>Cấu hình thông số</p>
+                            </a></li>
+                    </ul>
+                </li>
+
+                <li class="li1"><a href="../admin/hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
+                        <p>Hồ sơ nhân viên</p>
                     </a></li>
-                <li class="li1"><a href="../admin/taiKhoan.php" class="taga"><i class="fa-solid fa-circle-user i_normal"></i>
-                        <p>Tài khoản</p>
-                    </a></li>
-                <li class="li1"><a href="../admin/cauHinhThongSo.php" class="taga"><i class="fa-solid fa-gear i_normal"></i>
-                        <p>Cấu hình thông số</p>
-                    </a></li>
+
+                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                        <p>Quản lý lương</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="../admin/chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                                <p>Chấm công</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/luong.php" class="taga"><i class="fa-solid fa-sack-dollar i_normal"></i>
+                                <p>Lương</p>
+                            </a></li>
+                    </ul>
+                </li>
+                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
+                        <p>Quản lý khác</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="../admin/bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                                <p>Bậc lương</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
+                                <p>Hợp đồng</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                                <p>Khen thưởng kỷ luật</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
+                                <p>Phân công công việc</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
+                                <p>Phòng ban</p>
+                            </a></li>
+                        <li class="li1"><a href="../admin/quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal"></i>
+                                <p>Quá trình công tác</p>
+                            </a></li>
+                    </ul>
+                </li>
                 <li class="li1"><a href="#" id="logout_btn" class="taga"><i class="fas fa-sign-out-alt i_normal"></i>
                         <p>Đăng xuất</p>
                     </a></li>
