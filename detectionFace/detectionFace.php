@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chấm công khuân mặt</title>
+    <title>Chấm công khuôn mặt</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -51,7 +51,7 @@
                     </a>
                     <ul class="submenu">
                         <li class="li1"><a href="../detectionFace/detectionFace.php" class="taga"><i class="fas fa-vote-yea i_normal i_to"></i>
-                                <p class="to">Chấm công khuân mặt</p>
+                                <p class="to">Chấm công khuôn mặt</p>
                             </a></li>
                         <li class="li1"><a href="../admin/taiKhoan.php" class="taga"><i class="fas fa-vote-yea i_normal"></i>
                                 <p>Tài khoản</p>
@@ -122,7 +122,7 @@
         <header>
             <div class="account"> </div>
             <div>
-                <h1>Chấm công khuân mặt</h1>
+                <h1>Chấm công khuôn mặt</h1>
             </div>
         </header>
         <div class="con">

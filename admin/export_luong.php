@@ -128,7 +128,7 @@ $luongs = [];
 // LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan
 
 // Công thức tính lương cho nhân viên hợp đồng
-// Lương thỏa thuận - số ngày ko chấm công - phạt đi muộn tăng ca + tăng ca
+// lương 1 ngày công theo mức thỏa thuận thỏa thuận * số ngày công - tổng lương của ngày ko chấm công - phạt đi muộn  + tăng ca
 
 // Lấy số ngày trong tháng
 $days = cal_days_in_month(CAL_GREGORIAN, $curMonth, $curYear); // Dùng lịch Gregorien
@@ -140,8 +140,9 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
         $phatChamCong = !empty($chamCongMuons[$maNhanVien] ?? 0) ? $chamCongMuons[$maNhanVien] * $phatChamCongMuon : 0;
         $tienTangCa = !empty($soGioTangCa[$maNhanVien] ?? 0) ? $soGioTangCa[$maNhanVien] * $luongTangCa : 0;
         $luongThoaThuan = $hopDong["LuongThoaThuan"] ?? 0;
+        $luongCua1Ngay = $luongThoaThuan/$days;
 
-        $tongTien = $luongThoaThuan - ($days - $soNgayCong) - $phatChamCong + $tienTangCa;
+        $tongTien = $luongCua1Ngay*$soNgayCong - ($days - $soNgayCong)*$luongCua1Ngay - $phatChamCong + $tienTangCa;
     } else {
         $bacLuong = $bacLuongs[$hopDong["BacLuong"] ?? 0] ? (int)$bacLuongs[$hopDong["BacLuong"]] : 1;
         $heSo = $hopDong["HeSoLuong"] ?? 1;
