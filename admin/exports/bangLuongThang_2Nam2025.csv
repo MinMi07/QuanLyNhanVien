@@ -1,3 +1,4 @@
-﻿"Mã Lương","Mã Nhân Viên","Thời Gian","Số Tiền","Thể Loại","Mô Tả"
-60,221000001,"2025-03-01 00:00:01",0,"Chuyển tiền thành công","Lương tháng 02"
-61,221000002,"2025-03-01 00:00:01",50000,"Chuyển tiền thành công","Lương tháng 02"
+﻿"Mã Lương","Mã Nhân Viên","Thời Gian","Số Tiền","Thể Loại","Mô Tả","Giờ Tăng Ca","Tiền Phạt","Bảo Hiểm"
+62,1,"2025-03-01 00:00:01",0,"Chuyển tiền thành công","Lương tháng 02",0,0,1
+63,2,"2025-03-01 00:00:01",0,"Chuyển tiền thành công","Lương tháng 02",0,0,80
+64,3,"2025-03-01 00:00:01",0,"Chuyển tiền thành công","Lương tháng 02",0,0,80

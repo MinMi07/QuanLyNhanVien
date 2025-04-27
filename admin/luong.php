@@ -183,6 +183,9 @@ $sql = new SQL(); ?>
                             <th width="4.34%">Số tiền</th>
                             <th width="4.34%">Thể loại</th>
                             <th width="4.34%">Mô tả</th>
+                            <th width="4.34%">Giờ tăng ca</th>
+                            <th width="4.34%">Tiền phạt</th>
+                            <th width="4.34%">Bảo hiểm</th>
                         </tr>
                     </table>
                     <div class="thongtinbang">
@@ -206,6 +209,9 @@ $sql = new SQL(); ?>
                                         <td align=\"center\" width=\"4.34%\">" . $luong['SoTien'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['TheLoai'] . "</td> 
                                         <td align=\"center\" width=\"4.34%\">" . $luong['MoTa'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $luong['GioTangCa'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $luong['TienPhat'] . "</td> 
+                                        <td align=\"center\" width=\"4.34%\">" . $luong['BaoHiem'] . "</td> 
                                     </tr>";
                             } ?> </table>
                     </div>

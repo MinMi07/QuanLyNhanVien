@@ -7,11 +7,12 @@ $sql = new SQL();
 
 // API gen lương thủ công: http://localhost/QuanLyNhanVien/admin/export_luong.php
 $isCustom = false; // false - tắt/ true - bật: tắt bật xuất bảng lương demo
-$monthCustom = 2; // Tháng cần xuất bảng lương
+$monthCustom = 3; // Tháng cần xuất bảng lương
 
 // Lấy ngày hiện tại
 $today = date("Y-m-d");
 $curMonth = date("n");
+$curYear = date("Y");
 
 // Lấy thông tin chấm công
 $startTime = date("Y-m-01 00:00:00", strtotime("first day of last month"));
@@ -126,10 +127,21 @@ $luongs = [];
 // Nhân viên hợp đồng được trả lương theo thoả thuận
 // LoaiHopDong, HeSoLuong, PhuCap, BaoHiem, LuongThoaThuan
 
+// Công thức tính lương cho nhân viên hợp đồng
+// Lương thỏa thuận - số ngày ko chấm công - phạt đi muộn tăng ca + tăng ca
+
+// Lấy số ngày trong tháng
+$days = cal_days_in_month(CAL_GREGORIAN, $curMonth, $curYear); // Dùng lịch Gregorien
+
 foreach ($hopDongs as $maNhanVien => $hopDong) {
     // Nhân viên hợp đồng
     if ($hopDong["LoaiHopDong"] == "Hợp đồng") {
-        $tongTien = $hopDong["LuongThoaThuan"] ?? 0;
+        $soNgayCong = !empty($ChamCongs[$maNhanVien]) ? $ChamCongs[$maNhanVien]["SoCong"] : 0;
+        $phatChamCong = !empty($chamCongMuons[$maNhanVien] ?? 0) ? $chamCongMuons[$maNhanVien] * $phatChamCongMuon : 0;
+        $tienTangCa = !empty($soGioTangCa[$maNhanVien] ?? 0) ? $soGioTangCa[$maNhanVien] * $luongTangCa : 0;
+        $luongThoaThuan = $hopDong["LuongThoaThuan"] ?? 0;
+
+        $tongTien = $luongThoaThuan - ($days - $soNgayCong) - $phatChamCong + $tienTangCa;
     } else {
         $bacLuong = $bacLuongs[$hopDong["BacLuong"] ?? 0] ? (int)$bacLuongs[$hopDong["BacLuong"]] : 1;
         $heSo = $hopDong["HeSoLuong"] ?? 1;
@@ -138,6 +150,7 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
         $baoHiem = $hopDong["BaoHiem"] ?? 0;
         $phatChamCong = !empty($chamCongMuons[$maNhanVien] ?? 0) ? $chamCongMuons[$maNhanVien]*$phatChamCongMuon : 0;
         $tienTangCa = !empty($soGioTangCa[$maNhanVien] ?? 0) ? $soGioTangCa[$maNhanVien]*$luongTangCa : 0;
+
         $tongTien = $bacLuong * $heSo * $soNgayCong + $phuCap - $baoHiem - $phatChamCong + $tienTangCa;
     }
 
@@ -154,7 +167,10 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
         "ThoiGianTao" => $createDate,
         "SoTien" => $tongTien,
         "TheLoai" => "Chuyển tiền thành công",
-        "MoTa" => "Lương tháng $thangLuong"
+        "MoTa" => "Lương tháng $thangLuong",
+        "GioTangCa" => $soGioTangCa[$maNhanVien] ?? 0,
+        "TienPhat" => $phatChamCong ?? 0,
+        "BaoHiem" => $hopDong["BaoHiem"] ?? 0,
     ];
 }
 
@@ -166,12 +182,15 @@ foreach ($luongs as $luong) {
     $dataSoTien = $luong["SoTien"];
     $dataTheLoai = $luong["TheLoai"];
     $dataMoTa = $luong["MoTa"];
+    $dataGioTangCa = $luong["GioTangCa"];
+    $dataTienPhat = $luong["TienPhat"];
+    $dataBaoHiem = $luong["BaoHiem"];
 
-    $queryInsert = "INSERT INTO luong (MaNhanVien, ThoiGianTao, SoTien, TheLoai, MoTa) VALUES ('$dataMaNhanVien','$dataThoiGianTao','$dataSoTien','$dataTheLoai','$dataMoTa')";
+    $queryInsert = "INSERT INTO luong (MaNhanVien, ThoiGianTao, SoTien, TheLoai, MoTa, GioTangCa, TienPhat, BaoHiem) VALUES ('$dataMaNhanVien','$dataThoiGianTao','$dataSoTien','$dataTheLoai','$dataMoTa','$dataGioTangCa','$dataTienPhat','$dataBaoHiem')";
     $sql->exe($queryInsert);
 }
 
-$query = "SELECT MaLuong,MaNhanVien,ThoiGianTao,SoTien,TheLoai,MoTa FROM luong WHERE ThoiGianTao >= '$startTimeDay' AND ThoiGianTao <= '$endTimeDay'";
+$query = "SELECT MaLuong,MaNhanVien,ThoiGianTao,SoTien,TheLoai,MoTa,GioTangCa,TienPhat,BaoHiem FROM luong WHERE ThoiGianTao >= '$startTimeDay' AND ThoiGianTao <= '$endTimeDay'";
 
 $result = $sql->getdata($query);
 if ($result && $result->num_rows > 0) {
@@ -190,7 +209,7 @@ if ($result && $result->num_rows > 0) {
     fwrite($file, "\xEF\xBB\xBF");
 
     // Ghi tiêu đề cột
-    fputcsv($file, ["Mã Lương", "Mã Nhân Viên", "Thời Gian", "Số Tiền", "Thể Loại", "Mô Tả"]);
+    fputcsv($file, ["Mã Lương", "Mã Nhân Viên", "Thời Gian", "Số Tiền", "Thể Loại", "Mô Tả", "Giờ Tăng Ca", "Tiền Phạt", "Bảo Hiểm"]);
     // Ghi dữ liệu
     while ($row = $result->fetch_assoc()) {
         fputcsv($file, [
@@ -199,7 +218,10 @@ if ($result && $result->num_rows > 0) {
             $row["ThoiGianTao"],
             $row["SoTien"],
             $row["TheLoai"],
-            $row["MoTa"]
+            $row["MoTa"],
+            $row["GioTangCa"],
+            $row["TienPhat"],
+            $row["BaoHiem"]
         ]);
     }
 

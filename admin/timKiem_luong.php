@@ -54,5 +54,8 @@ foreach ($luongs as $luong) {
                 <td align=\"center\" width=\"4.34%\">" . $luong['SoTien'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $luong['TheLoai'] . "</td> 
                 <td align=\"center\" width=\"4.34%\">" . $luong['MoTa'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $luong['GioTangCa'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $luong['TienPhat'] . "</td> 
+                <td align=\"center\" width=\"4.34%\">" . $luong['BaoHiem'] . "</td> 
             </tr>";
 }
