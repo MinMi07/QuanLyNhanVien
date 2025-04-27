@@ -216,7 +216,7 @@ $sql = new SQL(); ?>
             // Tạo Workbook và Sheet mới
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet([
-                ["Mã Lương", "Mã Nhân Viên", "Thời Gian", "Số Tiền", "Thể Loại", "Mô Tả"], // Tiêu đề
+                ["Mã Lương", "Mã Nhân Viên", "Thời Gian", "Số Tiền", "Thể Loại", "Mô Tả", "Giờ Tăng Ca", "Tiền phạt", "Bảo Hiểm"], // Tiêu đề
                 ...tableData
             ]);
 
