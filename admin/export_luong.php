@@ -140,7 +140,7 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
         $phatChamCong = !empty($chamCongMuons[$maNhanVien] ?? 0) ? $chamCongMuons[$maNhanVien] * $phatChamCongMuon : 0;
         $tienTangCa = !empty($soGioTangCa[$maNhanVien] ?? 0) ? $soGioTangCa[$maNhanVien] * $luongTangCa : 0;
         $luongThoaThuan = $hopDong["LuongThoaThuan"] ?? 0;
-        $luongCua1Ngay = $luongThoaThuan/$days;
+        $luongCua1Ngay = $luongThoaThuan ? (int)$luongThoaThuan/$days : 0;
 
         $tongTien = $luongCua1Ngay*$soNgayCong - ($days - $soNgayCong)*$luongCua1Ngay - $phatChamCong + $tienTangCa;
     } else {
