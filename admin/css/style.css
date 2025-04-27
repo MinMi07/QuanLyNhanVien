@@ -46,6 +46,11 @@ nav {
     box-shadow: 0 0 8px rgb(207, 206, 207);
 }
 
+p {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 /* Logo Education */
 .menu_top {
     height: 65px;
@@ -1056,24 +1061,35 @@ canvas {
 }
 
 .submenu {
-    display: none;
     list-style: none;
     padding-left: 20px;
     position: relative;
+    max-height: 0;
+    /* Ban đầu co lại */
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.5s ease;
 }
 
-.li1:hover .submenu {
-    background-color: #fafafc;
+.li_dad {
+    min-height: 50px;
+    margin: 20px 0;
+}
+
+.li_dad>a {
+    height: 50px;
     display: flex;
-    z-index: 10;
-    position: absolute;
-    transform: translate(80%, 45%);
-    flex-direction: column-reverse;
-    padding: 0 2px 0 2px;
-    border-radius: 4px;
-    box-shadow: 0 0px 10px #e0e0e0;
+    align-items: center;
 }
 
+/* Hover vào .li_dad thì submenu mở ra từ từ */
+.li_dad:hover>.submenu {
+    max-height: 500px;
+    /* Đủ lớn để chứa nội dung submenu */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Style hover item trong submenu */
 .submenu>li:hover>a {
     font-size: 17px;
     color: #4c4bfe;

@@ -126,7 +126,7 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1">
+                <li class="li_dad">
                     <a href="#" class="taga">
                         <i class="fas fa-vote-yea i_normal"></i>
                         <p>Mở rộng tính năng</p>
@@ -143,12 +143,33 @@ $sql = new SQL(); ?>
                             </a></li>
                     </ul>
                 </li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p>Hồ sơ nhân viên</p>
-                    </a></li>
 
-                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
-                        <p>Quản lý lương</p>
+                <li class="li_dad">
+                    <a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal i_to"></i>
+                        <p class='to'>Thông tin nhân sự</p>
+                    </a>
+                    <ul class="submenu">
+                        <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
+                                <p>Hồ sơ nhân viên</p>
+                            </a></li>
+                        <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
+                                <p>Hợp đồng</p>
+                            </a></li>
+                        <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal i_to"></i>
+                                <p class='to'>Quá trình công tác</p>
+                            </a></li>
+                        <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
+                                <p>Phân công công việc</p>
+                            </a></li>
+                        <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
+                                <p>Khen thưởng kỷ luật</p>
+                            </a></li>
+                    </ul>
+                </li>
+
+                <li class="li_dad">
+                    <a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
+                        <p>Lương</p>
                     </a>
                     <ul class="submenu">
                         <li class="li1"><a href="./chamCong.php" class="taga"><i class="fa-solid fa-calendar-days i_normal"></i>
@@ -159,27 +180,17 @@ $sql = new SQL(); ?>
                             </a></li>
                     </ul>
                 </li>
-                <li class="li1 test"><a href="#" class="taga"><i class="fa-solid fa-list-check i_normal i_to"></i>
-                        <p class="to">Quản lý khác</p>
+
+                <li class="li_dad">
+                    <a href="#" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
+                        <p>Khác</p>
                     </a>
                     <ul class="submenu">
-                        <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
-                                <p>Bậc lương</p>
-                            </a></li>
-                        <li class="li1"><a href="./hopDong.php" class="taga"><i class="fa-solid fa-file-contract i_normal"></i>
-                                <p>Hợp đồng</p>
-                            </a></li>
-                        <li class="li1"><a href="./khenThuongKyLuat.php" class="taga"><i class="fa-solid fa-circle-exclamation i_normal"></i>
-                                <p>Khen thưởng kỷ luật</p>
-                            </a></li>
-                        <li class="li1"><a href="./phanCongCongViec.php" class="taga"><i class="fa-solid fa-briefcase i_normal"></i>
-                                <p>Phân công công việc</p>
-                            </a></li>
                         <li class="li1"><a href="./phongBan.php" class="taga"><i class="fa-solid fa-hospital i_normal"></i>
                                 <p>Phòng ban</p>
                             </a></li>
-                        <li class="li1"><a href="./quaTrinhCongTac.php" class="taga"><i class="fa-solid fa-timeline i_normal i_to"></i>
-                                <p class="to">Quá trình công tác</p>
+                        <li class="li1"><a href="./bacLuong.php" class="taga"><i class="fa-solid fa-money-bill-trend-up i_normal"></i>
+                                <p>Bậc lương</p>
                             </a></li>
                     </ul>
                 </li>

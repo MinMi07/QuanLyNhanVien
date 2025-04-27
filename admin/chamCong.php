@@ -106,7 +106,7 @@ $sql = new SQL(); ?>
                 <li class="li1"><a href="./admin.php" class="taga"><i class="fas fa-home i_normal"></i>
                         <p>Home</p>
                     </a></li>
-                <li class="li1">
+                <li class="li_dad">
                     <a href="#" class="taga">
                         <i class="fas fa-vote-yea i_normal"></i>
                         <p>Mở rộng tính năng</p>
@@ -123,11 +123,15 @@ $sql = new SQL(); ?>
                             </a></li>
                     </ul>
                 </li>
-                <li class="li1"><a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
-                        <p>Hồ sơ nhân viên</p>
-                    </a></li>
 
-                <li class="li1 test"><a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal i_to"></i>
+                <li class="li1">
+                    <a href="./hoSoNhanVien.php" class="taga"><i class="fa-solid fa-folder-open i_normal"></i>
+                        <p>Hồ sơ nhân viên</p>
+                    </a>
+                </li>
+
+                <li class="li_dad">
+                    <a href="#" class="taga"><i class="fa-solid fa-calendar-days i_normal i_to"></i>
                         <p class="to">Quản lý lương</p>
                     </a>
                     <ul class="submenu">
@@ -139,7 +143,9 @@ $sql = new SQL(); ?>
                             </a></li>
                     </ul>
                 </li>
-                <li class="li1"><a href="#" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
+
+                <li class="li_dad">
+                    <a href="#" class="taga"><i class="fa-solid fa-list-check i_normal"></i>
                         <p>Quản lý khác</p>
                     </a>
                     <ul class="submenu">
