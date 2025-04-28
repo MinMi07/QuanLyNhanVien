@@ -1096,3 +1096,7 @@ canvas {
     font-weight: 600;
     box-shadow: 0 0px 10px #e0e0e0;
 }
+
+.table_qua_trinh_cong_tac {
+    max-height: 76px;
+}

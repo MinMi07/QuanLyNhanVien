@@ -227,6 +227,26 @@ $sql = new SQL(); ?>
                         <div class="detail_pass"> <label for="PhongCongTac">Phòng công tác <span></span></label> <input type="text" id="PhongCongTac_detail" disabled> </div>
                         <div class="detail_pass"> <label for="CongViec">Công việc <span></span></label> <input type="text" id="CongViec_detail" disabled> </div>
                     </div>
+                    <div>
+                        <div class="detail_pass">
+                            <label for="" style="font-weight:750">Quá trình công tác <span></span></label>
+                            <div class="content_content">
+                                <table class="tenbang" id="myTable" cellspacing="0" width="100%" style="margin-bottom: 5px; width: calc(100%-15px);">
+                                    <tr class="bangtieude">
+                                        <th width="4.34%">Nơi công tác</th>
+                                        <th width="4.34%">Thời gian</th>
+                                        <th width="4.34%">Mô tả chi tiết</th>
+                                        <th width="4.34%">Thời gian kết thúc</th>
+                                    </tr>
+                                </table>
+                                <div class="thongtinbang table_qua_trinh_cong_tac">
+                                    <table id="table_qua_trinh_cong_tac" class="bangnd" border="1" cellspacing="0" width="100%">
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -941,6 +961,11 @@ $sql = new SQL(); ?>
             document.getElementById('MaNhanVien_detail').value = maNhanViens[0];
 
             const detail = document.getElementById("detail");
+
+
+            console.log(maNhanViens[0]);
+            searchQuaTrinhCongTac('timKiem_quaTrinhCongTacManHoSo.php', 'MaNhanVien', maNhanViens[0]);
+
             detail.style.display = "block";
         }
     </script>

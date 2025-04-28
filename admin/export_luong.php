@@ -153,7 +153,10 @@ foreach ($hopDongs as $maNhanVien => $hopDong) {
         $tienTangCa = !empty($soGioTangCa[$maNhanVien] ?? 0) ? $soGioTangCa[$maNhanVien]*$luongTangCa : 0;
 
         $tongTien = $bacLuong * $heSo * $soNgayCong + $phuCap - $baoHiem - $phatChamCong + $tienTangCa;
+
     }
+
+    $tongTien = $tongTien > 0 ? $tongTien : 0;
 
     // Không có dữ liệu ngày công
     if(

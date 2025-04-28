@@ -197,6 +197,22 @@ function search(search_php, search_column, search_infor) {
     request.send();
 }
 
+function searchQuaTrinhCongTac(search_php, search_column, search_infor) {
+    var request = new XMLHttpRequest();
+
+    request.open(
+        "get",
+        "" + search_php + "?col=" + search_column + "&inf=" + search_infor
+    );
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("table_qua_trinh_cong_tac").innerHTML = this.responseText;
+        }
+    };
+
+    request.send();
+}
+
 // Add
 function add(add_php, infor) {
     var request = new XMLHttpRequest();
